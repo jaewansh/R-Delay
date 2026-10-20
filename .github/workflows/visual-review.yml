@@ -1,0 +1,102 @@
+name: R-Delay visual document proof
+on:
+  push:
+    branches: [codex/rdelay-bootstrap]
+    paths: ['.github/workflows/visual-review.yml']
+permissions:
+  contents: read
+jobs:
+  proof:
+    if: ${{ github.ref == 'refs/heads/codex/rdelay-bootstrap' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ef000a8871629ec2643ddcb794f4c1d11f2b98e4
+      - name: Prepare document packaging tools
+        run: python -m pip install 'python-docx==1.2.0' 'PyMuPDF==1.26.5'
+      - name: Package native DOCX and exact rendered PDF pages
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          import hashlib, json
+          import fitz
+          from docx import Document
+          from docx.shared import Mm, Pt
+          root=Path.cwd()
+          work=root/'proof-package'
+          work.mkdir()
+          paths=[root/'deliverables/RDelay_참가신청서_v0.1.docx',root/'deliverables/RDelay_종합설계서_v0.1.docx']
+          # The artifact's ZIP root is an actual Office Open XML document package,
+          # not a ZIP that merely contains a DOCX. No binary relabeling shortcut.
+          for key,source in zip(['application','design'],paths):
+              target=work/key;target.mkdir()
+              with ZipFile(source) as z:
+                  for item in z.infolist():
+                      destination=(target/item.filename).resolve()
+                      assert destination.is_relative_to(target.resolve())
+                  z.extractall(target)
+              assert (target/'[Content_Types].xml').is_file()
+              assert (target/'_rels/.rels').is_file()
+              assert (target/'word/document.xml').is_file()
+              check=work/(key+'-check.docx')
+              with ZipFile(check,'w',ZIP_DEFLATED) as z:
+                  for p in target.rglob('*'):
+                      if p.is_file(): z.write(p,p.relative_to(target).as_posix())
+              rebuilt=Document(check)
+              assert len(rebuilt.tables)>0
+              print(key, 'valid DOCX root:',len(rebuilt.tables),'tables')
+          doc=Document();sec=doc.sections[0]
+          sec.page_width=Mm(210);sec.page_height=Mm(297)
+          sec.top_margin=sec.bottom_margin=Mm(8)
+          sec.left_margin=sec.right_margin=Mm(10)
+          sec.header_distance=sec.footer_distance=Mm(0)
+          doc.core_properties.title='R-Delay rendered-page visual proof (not submission)'
+          doc.core_properties.author='R-Delay'
+          style=doc.styles['Normal'];style.font.size=Pt(1)
+          style.paragraph_format.space_before=Pt(0);style.paragraph_format.space_after=Pt(0)
+          images=work/'images';images.mkdir()
+          index=[]
+          for label,file in [('application',root/'deliverables/RDelay_참가신청서_v0.1.pdf'),('design',root/'deliverables/RDelay_종합설계서_v0.1.pdf')]:
+              pdf=fitz.open(file)
+              for i,page in enumerate(pdf):
+                  if index:doc.add_page_break()
+                  p=images/(label+f'-{i+1:02d}.png')
+                  page.get_pixmap(matrix=fitz.Matrix(1.7,1.7),alpha=False).save(p)
+                  # Embed the real PDF raster, including real equations. No OCR.
+                  doc.add_picture(str(p),width=Mm(187))
+                  index.append({'proof_page':len(index)+1,'source':str(file.relative_to(root)),'source_page':i+1,'pdf_sha256':hashlib.sha256(file.read_bytes()).hexdigest(),'image_bytes':p.stat().st_size,'image_count':len(page.get_images()),'drawing_count':len(page.get_drawings())})
+          proof=work/'proof.docx';doc.save(proof)
+          package=work/'proof';package.mkdir()
+          with ZipFile(proof) as z:z.extractall(package)
+          (work/'index.json').write_text(json.dumps(index,ensure_ascii=False,indent=2),encoding='utf-8')
+          print('Embedded exact PDF pages:',len(index))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RDelay-native-application-OOXML
+          path: proof-package/application/
+          include-hidden-files: true
+          compression-level: 6
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RDelay-native-design-OOXML
+          path: proof-package/design/
+          include-hidden-files: true
+          compression-level: 6
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RDelay-rendered-proof-OOXML
+          path: proof-package/proof/
+          include-hidden-files: true
+          compression-level: 6
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RDelay-proof-index
+          path: proof-package/index.json
+          retention-days: 14
