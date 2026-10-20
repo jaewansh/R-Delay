@@ -1,0 +1,30 @@
+[
+  {
+    "variant": "original",
+    "text": "d I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n",
+    "math_seen": true,
+    "pages": 1,
+    "greek_symbol_count": 2
+  },
+  {
+    "variant": "whole_paragraph",
+    "text": "R-DELAY  /  수식 렌더 검사  /  v0.1\nd I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n1 차 제출·설계 문서  |  1\n",
+    "math_seen": true,
+    "pages": 1,
+    "greek_symbol_count": 2
+  },
+  {
+    "variant": "inline_math",
+    "text": "R-DELAY  /  수식 렌더 검사  /  v0.1\nd I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n1 차 제출·설계 문서  |  1\n",
+    "math_seen": true,
+    "pages": 1,
+    "greek_symbol_count": 2
+  },
+  {
+    "variant": "display_math",
+    "text": "R-DELAY  /  수식 렌더 검사  /  v0.1\nd I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n1 차 제출·설계 문서  |  1\n",
+    "math_seen": true,
+    "pages": 1,
+    "greek_symbol_count": 2
+  }
+]

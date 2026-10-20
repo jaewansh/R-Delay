@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-20T16:59:14.857103+00:00",
-  "source_commit": "738573dfe9a5591eafeaee4045eae0bd14bdf513",
+  "generated_at": "2026-10-20T17:05:23.498795+00:00",
+  "source_commit": "89186cb8e0e0d2a003b1992f2f28d32185129153",
   "application": {
     "file": "deliverables/RDelay_참가신청서_v0.1.pdf",
     "pages": 5,
@@ -21,7 +21,7 @@
       },
       {
         "page": 3,
-        "text_characters": 939,
+        "text_characters": 1088,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
@@ -97,70 +97,70 @@
       },
       {
         "page": 7,
-        "text_characters": 584,
+        "text_characters": 726,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 8,
-        "text_characters": 666,
+        "text_characters": 715,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 9,
-        "text_characters": 658,
+        "text_characters": 765,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 10,
-        "text_characters": 706,
+        "text_characters": 851,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 11,
-        "text_characters": 665,
+        "text_characters": 754,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 12,
-        "text_characters": 651,
+        "text_characters": 750,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 13,
-        "text_characters": 700,
+        "text_characters": 749,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 14,
-        "text_characters": 686,
+        "text_characters": 886,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 15,
-        "text_characters": 695,
+        "text_characters": 868,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 16,
-        "text_characters": 695,
+        "text_characters": 862,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
@@ -181,7 +181,7 @@
       },
       {
         "page": 19,
-        "text_characters": 747,
+        "text_characters": 772,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
@@ -249,28 +249,30 @@
   "files": [
     {
       "path": "deliverables/RDelay_v0.1_문서및생성원본.zip",
-      "bytes": 636398,
-      "sha256": "89532293fc3e6562cc6b14b7643c7be6e5203f82cd85a77aeef006021aec5674"
+      "bytes": 637500,
+      "sha256": "936b7cde7454897a46a5ab6828fff5f0df45518ac2734e4874f4cd0410d3c00e"
     },
     {
       "path": "deliverables/RDelay_종합설계서_v0.1.docx",
-      "bytes": 59256,
-      "sha256": "0c640278b1c3dd41af0a33ae95fe1b9e42dac7df1b9b6d358e259039e41249bb"
+      "bytes": 59258,
+      "sha256": "e112016c6c7349808ef78f2b12952568709fd40aa1cdab8ccaae225eb97428be"
     },
     {
       "path": "deliverables/RDelay_종합설계서_v0.1.pdf",
-      "bytes": 527965,
-      "sha256": "7d8adba09e21ec77034f84619f63838fc885485a7261ce978e9566f436e25bca"
+      "bytes": 580426,
+      "sha256": "9b47e050eb45bc17f18d9cb4bc821f9b1426d6f9b44d28bb64c4f52178e0baef"
     },
     {
       "path": "deliverables/RDelay_참가신청서_v0.1.docx",
-      "bytes": 45448,
-      "sha256": "4ab01d84a7ebba2d80ec4a37251fdd3fbe4e18da796f1dd956e5332a3f1ec019"
+      "bytes": 45471,
+      "sha256": "338fb1c89524e76892f03fb452f534cd7ed327df5f5c0e43b0b976a62ed882fd"
     },
     {
       "path": "deliverables/RDelay_참가신청서_v0.1.pdf",
-      "bytes": 256453,
-      "sha256": "a546e81046fb2e985add36a5d17cfb0b61769b45756103b264b33f9a522bae33"
+      "bytes": 275208,
+      "sha256": "eee80484c2857e12ac65b04347003839f84eaae75069badb51e6ccef130dc24e"
     }
-  ]
+  ],
+  "native_render_variant": "whole_paragraph",
+  "application_pdf_equation_glyphs_present": true
 }

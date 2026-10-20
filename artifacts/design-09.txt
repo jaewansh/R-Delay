@@ -4,8 +4,16 @@ R-DELAY  /  종합설계서  /  v0.1
  
 확률변동
 구체화할설계
-   (5)
-   (6)
+d zi=ϑ i(´zi−zi)d t+σid W i, βi (t )=´βi (t )e
+zi (t )
+(5)
+zi,k+1=´zi+(zi,k−´zi)e
+−ϑ i Δt+σi√
+1−e
+−2ϑ i Δt
+2ϑ i
+ξi,k
+(6)
 기호
 설명
 단위·조건

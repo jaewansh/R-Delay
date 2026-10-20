@@ -1,9 +1,29 @@
 # 실행환경 확인
 
-- timestamp_utc: 2026-10-20T16:59:14.857103+00:00
+- timestamp_utc: 2026-10-20T17:05:23.498795+00:00
 - branch: codex/rdelay-bootstrap
-- source_commit: 738573dfe9a5591eafeaee4045eae0bd14bdf513
+- source_commit: 89186cb8e0e0d2a003b1992f2f28d32185129153
 - git_status_before: ## codex/rdelay-bootstrap...origin/codex/rdelay-bootstrap
+?? artifacts/build_tmp/lo-profile-probe_display_math/
+?? artifacts/build_tmp/lo-profile-probe_inline_math/
+?? artifacts/build_tmp/lo-profile-probe_original/
+?? artifacts/build_tmp/lo-profile-probe_whole_paragraph/
+?? artifacts/build_tmp/native_probe.docx
+?? artifacts/build_tmp/native_probe.md
+?? artifacts/build_tmp/probe_display_math.docx
+?? artifacts/build_tmp/probe_display_math.pdf
+?? artifacts/build_tmp/probe_inline_math.docx
+?? artifacts/build_tmp/probe_inline_math.pdf
+?? artifacts/build_tmp/probe_original.docx
+?? artifacts/build_tmp/probe_original.pdf
+?? artifacts/build_tmp/probe_whole_paragraph.docx
+?? artifacts/build_tmp/probe_whole_paragraph.pdf
+?? artifacts/math_render_probe.json
+?? artifacts/rendered/probe_display_math.png
+?? artifacts/rendered/probe_inline_math.png
+?? artifacts/rendered/probe_original.png
+?? artifacts/rendered/probe_whole_paragraph.png
+?? scripts/__pycache__/
 - python: 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
 - platform: Linux-6.17.0-1022-azure-x86_64-with-glibc2.39
 - git: git version 2.55.0
