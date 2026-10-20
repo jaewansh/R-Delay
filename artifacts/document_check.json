@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-20T16:53:15.545477+00:00",
-  "source_commit": "9004ca120ec75bc93958f0159292cdbbe0fd5dda",
+  "generated_at": "2026-10-20T16:59:14.857103+00:00",
+  "source_commit": "738573dfe9a5591eafeaee4045eae0bd14bdf513",
   "application": {
     "file": "deliverables/RDelay_참가신청서_v0.1.pdf",
     "pages": 5,
@@ -248,24 +248,29 @@
   "automatic_pass": true,
   "files": [
     {
+      "path": "deliverables/RDelay_v0.1_문서및생성원본.zip",
+      "bytes": 636398,
+      "sha256": "89532293fc3e6562cc6b14b7643c7be6e5203f82cd85a77aeef006021aec5674"
+    },
+    {
       "path": "deliverables/RDelay_종합설계서_v0.1.docx",
       "bytes": 59256,
-      "sha256": "a9373339984b272eda5ce77140b36ebcc25f8addc48260ae86b8aecd63355181"
+      "sha256": "0c640278b1c3dd41af0a33ae95fe1b9e42dac7df1b9b6d358e259039e41249bb"
     },
     {
       "path": "deliverables/RDelay_종합설계서_v0.1.pdf",
       "bytes": 527965,
-      "sha256": "d535bc01f4de11084c589ce4c41222f21537e1181ef42095a7b8586eb988cb7a"
+      "sha256": "7d8adba09e21ec77034f84619f63838fc885485a7261ce978e9566f436e25bca"
     },
     {
       "path": "deliverables/RDelay_참가신청서_v0.1.docx",
       "bytes": 45448,
-      "sha256": "7f35bf28b46f4d0dc72c06a20cec7a98683b1b974166b9c209840258c87e2f27"
+      "sha256": "4ab01d84a7ebba2d80ec4a37251fdd3fbe4e18da796f1dd956e5332a3f1ec019"
     },
     {
       "path": "deliverables/RDelay_참가신청서_v0.1.pdf",
       "bytes": 256453,
-      "sha256": "d37f9c59e285026ce7f4ccde17c15918a71bbf09ebef90cde60d8523a87070c8"
+      "sha256": "a546e81046fb2e985add36a5d17cfb0b61769b45756103b264b33f9a522bae33"
     }
   ]
 }

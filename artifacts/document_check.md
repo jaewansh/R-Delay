@@ -1,6 +1,6 @@
 # 문서 검사 — 실제 실행 기록
 
-- 생성 입력 커밋: `9004ca120ec75bc93958f0159292cdbbe0fd5dda`
+- 생성 입력 커밋: `738573dfe9a5591eafeaee4045eae0bd14bdf513`
 - 신청서 PDF: 5쪽 (목표5=신청1+컨셉4)
 - 종합설계 PDF: 21쪽 (목표21)
 - 요약: 138자 / 지원동기: 150자 (공백 포함)
@@ -15,6 +15,7 @@
 
 ## 파일
 
+- `deliverables/RDelay_v0.1_문서및생성원본.zip` — 636,398 bytes
 - `deliverables/RDelay_종합설계서_v0.1.docx` — 59,256 bytes
 - `deliverables/RDelay_종합설계서_v0.1.pdf` — 527,965 bytes
 - `deliverables/RDelay_참가신청서_v0.1.docx` — 45,448 bytes
