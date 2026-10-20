@@ -1,0 +1,68 @@
+name: R-Delay native document exports
+on:
+  push:
+    branches: [codex/rdelay-bootstrap]
+    paths: ['.github/workflows/document-exports.yml']
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/rdelay-bootstrap
+      - name: Package valid OOXML and actual PDF-render proofs
+        run: |
+          python -m pip install 'python-docx==1.2.0' 'Pillow==11.3.0'
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          from docx import Document
+          from docx.shared import Mm, Pt
+          from PIL import Image
+          import json
+          base=Path('/tmp/rdelay-export');base.mkdir()
+          def unpack(path,target):
+              target.mkdir()
+              with ZipFile(path) as z:
+                  assert '[Content_Types].xml' in z.namelist()
+                  assert 'word/document.xml' in z.namelist()
+                  for n in z.namelist():
+                      p=Path(n)
+                      assert not p.is_absolute() and '..' not in p.parts
+                  z.extractall(target)
+              print('OOXML package:',path,'->',target)
+          unpack(Path('deliverables/RDelay_참가신청서_v0.1.docx'),base/'application')
+          source=Path('artifacts/rendered')
+          files=sorted(source.glob('*contact*.jpg'))
+          selected=['application-01.png','application-03.png','design-06.png','design-07.png','design-08.png','design-09.png','design-10.png','design-11.png','design-12.png','design-13.png']
+          files += [source/n for n in selected if (source/n).exists()]
+          d=Document();s=d.sections[0];s.page_width=Mm(210);s.page_height=Mm(297)
+          s.top_margin=s.bottom_margin=Mm(8);s.left_margin=s.right_margin=Mm(10)
+          d.styles['Normal'].paragraph_format.space_after=Pt(0)
+          d.styles['Normal'].paragraph_format.line_spacing=1
+          for i,p in enumerate(files):
+              if i:d.add_page_break()
+              q=d.add_paragraph(p.name+' — actual rendered PDF pixels');q.runs[0].font.size=Pt(8)
+              with Image.open(p) as im:w,h=im.size
+              width=min(186,268*w/h)
+              d.add_picture(str(p),width=Mm(width))
+          proof=base/'PDF_render_proof.docx';d.save(proof)
+          unpack(proof,base/'proof')
+          print('PROOF_PAGE_MANIFEST',json.dumps([p.name for p in files]))
+          print('No service code, PDFs, Word text, or model results modified. No fonts exported.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RDelay-native-Word-OPC-v0.1
+          path: /tmp/rdelay-export/application/
+          include-hidden-files: true
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RDelay-PDF-render-proof-OPC-v0.1
+          path: /tmp/rdelay-export/proof/
+          include-hidden-files: true
+          retention-days: 14
