@@ -152,7 +152,7 @@ def equation(d,key,number=None):
         EQCACHE[key]=copy.deepcopy(matches[0])
     p=d.add_paragraph();p.alignment=WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.space_before=Pt(4);p.paragraph_format.space_after=Pt(6)
-    p._p.append(copy.deepcopy(EQCACHE[key]))
+    p._p.append(copy.deepcopy(EQCACHE[key].find(qn("m:oMath"))))
     if number:
         r=p.add_run('   ('+str(number)+')');r.font.size=Pt(8)
     return p
@@ -451,7 +451,7 @@ def main():
     # Map requested section starts to pages; spillover is a failed layout test, not a hidden page count change.
     markers=['참가 신청서','해커톤 제안 작품 컨셉 기획안','2. 제안 작품 컨셉 상세 기획안','나-2. 멀티도메인 기술 융합 방안','다. 최종성과물 개발 전략 및 계획']
     with fitz.open(apppdf) as f:
-        checks['application_section_pages']={m:[i+1 for i,p in enumerate(f) if m in p.get_text()] for m in markers}
+        checks['application_section_pages']={m:[i+1 for i,p in enumerate(f) if re.sub(r'\s+', '', m) in re.sub(r'\s+', '', p.get_text())] for m in markers}
     checks['automatic_pass']=app_info['pages']==5 and design_info['pages']==21 and equations>=3 and not omissions and not raw_tex and all(not p['outside_page_spans'] for report_info in (app_info,design_info) for p in report_info['page_checks'])
     checks['files']=[{'path':str(p.relative_to(ROOT)),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(OUT.iterdir()) if p.is_file()]
     (ART/'document_check.json').write_text(json.dumps(checks,ensure_ascii=False,indent=2),encoding='utf-8')
