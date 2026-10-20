@@ -1,31 +1,20 @@
 # 실행환경 확인
 
-- timestamp_utc: 2026-10-20T17:05:23.498795+00:00
+- timestamp_utc: 2026-10-20T17:10:03.163821+00:00
 - branch: codex/rdelay-bootstrap
-- source_commit: 89186cb8e0e0d2a003b1992f2f28d32185129153
+- source_commit: 4e1c94b00daba3bc8d537d49840562e89a7b4e36
 - git_status_before: ## codex/rdelay-bootstrap...origin/codex/rdelay-bootstrap
-?? artifacts/build_tmp/lo-profile-probe_display_math/
-?? artifacts/build_tmp/lo-profile-probe_inline_math/
-?? artifacts/build_tmp/lo-profile-probe_original/
-?? artifacts/build_tmp/lo-profile-probe_whole_paragraph/
-?? artifacts/build_tmp/native_probe.docx
-?? artifacts/build_tmp/native_probe.md
-?? artifacts/build_tmp/probe_display_math.docx
-?? artifacts/build_tmp/probe_display_math.pdf
-?? artifacts/build_tmp/probe_inline_math.docx
-?? artifacts/build_tmp/probe_inline_math.pdf
-?? artifacts/build_tmp/probe_original.docx
-?? artifacts/build_tmp/probe_original.pdf
-?? artifacts/build_tmp/probe_whole_paragraph.docx
-?? artifacts/build_tmp/probe_whole_paragraph.pdf
-?? artifacts/math_render_probe.json
-?? artifacts/rendered/probe_display_math.png
-?? artifacts/rendered/probe_inline_math.png
-?? artifacts/rendered/probe_original.png
-?? artifacts/rendered/probe_whole_paragraph.png
+ M artifacts/build_tmp/R_native.docx
+ M artifacts/build_tmp/R_native.md
+ M artifacts/build_tmp/SIS_native.docx
+ M artifacts/math_render_probe.json
+?? artifacts/build_tmp/lo-profile-native_final_probe/
+?? artifacts/build_tmp/native_final_probe.docx
+?? artifacts/build_tmp/native_final_probe.pdf
+?? artifacts/rendered/native_final_probe.png
 ?? scripts/__pycache__/
 - python: 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
-- platform: Linux-6.17.0-1022-azure-x86_64-with-glibc2.39
+- platform: Linux-7.0.0-1017-azure-x86_64-with-glibc2.39
 - git: git version 2.55.0
 - pandoc: pandoc 3.1.3
 - libreoffice: LibreOffice 24.2.7.2 420(Build:2)

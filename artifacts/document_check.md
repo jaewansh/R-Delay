@@ -1,30 +1,29 @@
 # 문서 검사 — 실제 실행 기록
 
-- 생성 입력 커밋: `89186cb8e0e0d2a003b1992f2f28d32185129153`
-- 신청서 PDF: 5쪽 (목표5=신청1+컨셉4)
-- 종합설계 PDF: 21쪽 (목표21)
-- 요약: 138자 / 지원동기: 150자 (공백 포함)
-- 키워드: 5개
-- Word 네이티브 OMML 수식: 3개
+- 생성 입력 커밋: `4e1c94b00daba3bc8d537d49840562e89a7b4e36`
+- 신청서 PDF: 5쪽 (신청1+컨셉4)
+- 종합설계 PDF: 21쪽
+- 요약 138자 / 지원동기 150자 (공백 포함)
+- 키워드 5개 / 신청서 OMML 수식 3개
+- 종합설계서 네이티브 수식 26개
 - 팀정보 공란 오류: []
 - 본문 LaTeX 소스 노출: False
-- 페이지 전체 렌더링: 완료
-- 자동 범위검사: True
-- 육안검수: 아직 미실행. 자동 검사 통과를 육안검수로 기록하지 않음.
-- 모델 수치시험·웹/API 실행·현장 성능: 미실행
+- 전체 페이지 PNG 렌더링: 완료
+- 쪽수·공란·수식 기호/번호·경계 자동 검사: True
+- 육안검수: 미실행. 로컬 초기화 및 원격 이미지 조회 실패. 자동 검사와 구분함.
+- 수리모델 수치시험·웹/API 실행·배포·현장 성능: 미실행
 
 ## 파일
 
-- `deliverables/RDelay_v0.1_문서및생성원본.zip` — 637,500 bytes
-- `deliverables/RDelay_종합설계서_v0.1.docx` — 59,258 bytes
-- `deliverables/RDelay_종합설계서_v0.1.pdf` — 580,426 bytes
-- `deliverables/RDelay_참가신청서_v0.1.docx` — 45,471 bytes
-- `deliverables/RDelay_참가신청서_v0.1.pdf` — 275,208 bytes
+- `deliverables/RDelay_종합설계서_v0.1.docx` — 59,256 bytes
+- `deliverables/RDelay_종합설계서_v0.1.pdf` — 580,489 bytes
+- `deliverables/RDelay_참가신청서_v0.1.docx` — 45,500 bytes
+- `deliverables/RDelay_참가신청서_v0.1.pdf` — 275,367 bytes
 
-렌더 이미지: artifacts/rendered/. 상세 문자·경계·공란·쪽수: document_check.json. 공식 HWP 원본의 픽셀 단위 복제나 서명·증빙 완료를 의미하지 않는다.
-
-## 수식 실표시 추가 검사
-- LibreOffice Math 구성요소를 설치한 변환환경에서 OMML 원본·삽입 방식 4종을 검사했다.
-- 채택한 수식 구조: whole_paragraph
-- 신청서 PDF 3쪽의 β·γ·합 기호 텍스트 존재: True
-- 이는 자동 추출 검사이며 육안검수 완료를 뜻하지 않는다.
+## 수식과 재현
+- LibreOffice Math를 설치하고 Pandoc 네이티브 OMML 문단을 보존했다. PDF에서 β·γ·합 기호 및 모든 수식 번호를 검사했다.
+- R_d=rho(K), K=diag(beta(1-x)) C Gamma^-1로 동등하게 표현하여 괄호 호환성을 높였다.
+- 실제 실행 원본: scripts/build_native_documents.py 및 scripts/build_documents.py.
+- 실행: python scripts/build_native_documents.py ; python scripts/audit_rendering.py
+- 원본 PNG는 artifacts/rendered/. 문서 검사는 모델의 현실 적합성 검증이 아니다.
+- Word의 다른 환경 재페이지화, 서명·증빙·자격·최신 공지는 별도 확인. 공식 HWP 픽셀 복제본이 아니다.
