@@ -5,6 +5,9 @@ on:
     paths: ['.github/workflows/repair-equations.yml']
 permissions:
   contents: write
+concurrency:
+  group: rdelay-equation-repair
+  cancel-in-progress: true
 jobs:
   repair:
     if: ${{ github.ref == 'refs/heads/codex/rdelay-bootstrap' }}
@@ -15,12 +18,12 @@ jobs:
         with:
           ref: codex/rdelay-bootstrap
           fetch-depth: 0
-      - name: Install document tooling
+      - name: Install Writer AND Math plus document tooling
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends libreoffice-writer pandoc fonts-nanum fonts-dejavu-core fonts-crosextra-carlito poppler-utils
+          sudo apt-get install -y --no-install-recommends libreoffice-writer libreoffice-math pandoc fonts-nanum fonts-dejavu-core fonts-texgyre fonts-crosextra-carlito poppler-utils
           python -m pip install 'python-docx==1.2.0' 'PyMuPDF==1.26.5' 'Pillow==11.3.0' 'lxml==6.0.2'
-      - name: Compare Office Math insertion layouts on actual PDF output
+      - name: Compare Office Math layouts on actual PDF output
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -39,14 +42,13 @@ jobs:
           results=[]
           for mode in ['nested','inline','paragraph','pandoc']:
               dest=work/(mode+'.docx')
-              if mode=='pandoc': dest.write_bytes(raw.read_bytes())
+              if mode=='pandoc':dest.write_bytes(raw.read_bytes())
               else:
                   d=Document()
                   if mode=='paragraph':d._element.body.insert(0,copy.deepcopy(sourcep))
                   else:
                       p=d.add_paragraph()
-                      if mode=='nested':p._p.append(copy.deepcopy(mathpara))
-                      else:p._p.append(copy.deepcopy(mathpara.find(qn('m:oMath'))))
+                      p._p.append(copy.deepcopy(mathpara if mode=='nested' else mathpara.find(qn('m:oMath'))))
                   d.save(dest)
               subprocess.run(['libreoffice','-env:UserInstallation=file:///tmp/rdelay-math-'+mode,'--headless','--convert-to','pdf','--outdir',str(work),str(dest)],check=True,capture_output=True)
               pdf=fitz.open(work/(mode+'.pdf'));page=pdf[0]
@@ -57,45 +59,50 @@ jobs:
               results.append({'mode':mode,'text':text,'ink_pixels':ink,'drawings':len(page.get_drawings()),'render_present':good})
           print(json.dumps(results,ensure_ascii=False,indent=2))
           (work/'probe_results.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
-          preferred=next((x['mode'] for x in results if x['mode'] in ['inline','paragraph'] and x['render_present']),None)
-          if preferred is None:raise RuntimeError('No verified Office Math export method; do not deliver blank formulas')
-          script=Path('scripts/build_documents.py')
-          text=script.read_text()
+          preferred=next((x['mode'] for x in results if x['mode']=='inline' and x['render_present']),None)
+          if preferred is None:raise RuntimeError('No verified inline Office Math export; do not deliver blank formulas')
+          script=Path('scripts/build_documents.py');text=script.read_text()
           old='p._p.append(copy.deepcopy(EQCACHE[key]))'
-          if text.count(old)!=1:raise RuntimeError('Expected equation insertion code changed; refuse broad patch')
-          if preferred=='inline':
-              new='p._p.append(copy.deepcopy(EQCACHE[key].find(qn("m:oMath"))))'
-          else:
-              new='math_paragraph = copy.deepcopy(EQCACHE[key].getparent())\n    p._p.addnext(math_paragraph)'
-              raise RuntimeError('Paragraph-only export requires explicit source-parent preservation; no blind patch')
-          script.write_text(text.replace(old,new))
-          (work/'selected_method.txt').write_text(preferred)
+          new='p._p.append(copy.deepcopy(EQCACHE[key].find(qn("m:oMath"))))'
+          if old in text:
+              assert text.count(old)==1
+              text=text.replace(old,new)
+          elif new not in text:raise RuntimeError('Equation code changed; refuse broad replacement')
+          # Normalize whitespace for section placement: PDF Korean text can contain separated spaces.
+          oldmap="checks['application_section_pages']={m:[i+1 for i,p in enumerate(f) if m in p.get_text()] for m in markers}"
+          newmap="checks['application_section_pages']={m:[i+1 for i,p in enumerate(f) if re.sub(r'\\s+', '', m) in re.sub(r'\\s+', '', p.get_text())] for m in markers}"
+          text=text.replace(oldmap,newmap)
+          script.write_text(text)
+          workflow=Path('.github/workflows/documents.yml');wf=workflow.read_text()
+          if 'libreoffice-math' not in wf:wf=wf.replace('libreoffice-writer','libreoffice-writer libreoffice-math')
+          workflow.write_text(wf)
+          (work/'selected_method.txt').write_text('inline native OMML; LibreOffice Writer + Math installed')
           PY
-      - name: Generate and inspect final actual documents
+      - name: Generate and inspect actual documents
         run: |
           python scripts/build_documents.py
           python - <<'PY'
           import fitz,json,unicodedata,re
           from pathlib import Path
-          root=Path('.')
-          check=json.loads((root/'artifacts/document_check.json').read_text())
-          p=fitz.open('deliverables/RDelay_참가신청서_v0.1.pdf')[2]
-          text=unicodedata.normalize('NFKC',p.get_text())
+          check=json.loads(Path('artifacts/document_check.json').read_text())
+          pdf=fitz.open('deliverables/RDelay_참가신청서_v0.1.pdf');p=pdf[2]
+          text=unicodedata.normalize('NFKC',p.get_text());flat=re.sub(r'\s+','',text)
           greek=sum(text.count(x) for x in ['β','γ','κ','ρ'])
-          formula_text_present=greek>=7 and ('dI' in re.sub(r'\s+','',text) or len(p.get_drawings())>30)
-          audit={'application_equation_page':3,'greek_character_count':greek,'formula_text_present':formula_text_present,'page3_text':text,'application_pages':check['application']['pages'],'design_pages':check['design']['pages'],'visual_review':'not yet performed; native equation appearance checked with independent PDF text/raster probe'}
-          (root/'artifacts/equation_repair/final_check.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2))
+          present=greek>=7 and ('dI' in flat or len(p.get_drawings())>30)
+          audit={'application_equation_page':3,'greek_character_count':greek,'formula_text_present':present,'page3_text':text,'application_pages':check['application']['pages'],'design_pages':check['design']['pages'],'visual_review':'not yet performed; independent formula raster/text checks executed'}
+          Path('artifacts/equation_repair/final_check.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2))
           print(json.dumps(audit,ensure_ascii=False,indent=2))
-          assert check['automatic_pass'], 'Document layout checks failed after visible equations were restored'
-          assert formula_text_present, 'Native equations did not render in final application'
+          assert check['automatic_pass'],'Layout checks failed after visible equations were restored'
+          assert present,'Native equations did not render in final application'
+          assert all(v for v in check['application_section_pages'].values()),'A required section did not map to a page'
           PY
-      - name: Commit repairs and regenerated documents only on work branch
+      - name: Commit repairs and regenerated outputs only on work branch
         run: |
           test "$(git branch --show-current)" = codex/rdelay-bootstrap
           git config user.name 'R-Delay document builder'
           git config user.email 'rdelay-builder@users.noreply.github.com'
-          git add scripts/build_documents.py deliverables artifacts docs/implementation_status.md
-          git commit -m 'fix: restore visible native equations in rendered Word/PDF and record actual checks [skip ci]'
+          git add scripts/build_documents.py .github/workflows/documents.yml deliverables artifacts docs/implementation_status.md
+          git commit -m 'fix: restore visible native equations with Writer+Math; regenerate checked DOCX/PDF [skip ci]'
           git push origin HEAD:codex/rdelay-bootstrap
       - uses: actions/upload-artifact@v4
         if: always()
