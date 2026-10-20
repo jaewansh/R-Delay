@@ -1,0 +1,109 @@
+name: R-Delay native equation repair
+on:
+  push:
+    branches: [codex/rdelay-bootstrap]
+    paths: ['.github/workflows/repair-equations.yml']
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: ${{ github.ref == 'refs/heads/codex/rdelay-bootstrap' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/rdelay-bootstrap
+          fetch-depth: 0
+      - name: Install document tooling
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libreoffice-writer pandoc fonts-nanum fonts-dejavu-core fonts-crosextra-carlito poppler-utils
+          python -m pip install 'python-docx==1.2.0' 'PyMuPDF==1.26.5' 'Pillow==11.3.0' 'lxml==6.0.2'
+      - name: Compare Office Math insertion layouts on actual PDF output
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from docx import Document
+          from docx.oxml.ns import qn
+          import copy,subprocess,json,unicodedata
+          import fitz
+          work=Path('artifacts/equation_repair');work.mkdir(parents=True,exist_ok=True)
+          formula=r'\frac{dI_i}{dt}=\beta_i(t)\left(1-\frac{I_i}{N_i}\right)\sum_j C_{ij}(t)I_j-\gamma_i(t)I_i'
+          md=work/'native.md';md.write_text('$$\n'+formula+'\n$$\n')
+          raw=work/'pandoc.docx'
+          subprocess.run(['pandoc',str(md),'-o',str(raw)],check=True)
+          source=Document(raw)
+          mathpara=source._element.xpath('.//m:oMathPara')[0]
+          sourcep=mathpara.getparent()
+          results=[]
+          for mode in ['nested','inline','paragraph','pandoc']:
+              dest=work/(mode+'.docx')
+              if mode=='pandoc': dest.write_bytes(raw.read_bytes())
+              else:
+                  d=Document()
+                  if mode=='paragraph':d._element.body.insert(0,copy.deepcopy(sourcep))
+                  else:
+                      p=d.add_paragraph()
+                      if mode=='nested':p._p.append(copy.deepcopy(mathpara))
+                      else:p._p.append(copy.deepcopy(mathpara.find(qn('m:oMath'))))
+                  d.save(dest)
+              subprocess.run(['libreoffice','-env:UserInstallation=file:///tmp/rdelay-math-'+mode,'--headless','--convert-to','pdf','--outdir',str(work),str(dest)],check=True,capture_output=True)
+              pdf=fitz.open(work/(mode+'.pdf'));page=pdf[0]
+              text=unicodedata.normalize('NFKC',page.get_text())
+              pix=page.get_pixmap(colorspace=fitz.csGRAY)
+              ink=sum(v<160 for v in pix.samples)
+              good=ink>100 and (len(text.strip())>15 or len(page.get_drawings())>20)
+              results.append({'mode':mode,'text':text,'ink_pixels':ink,'drawings':len(page.get_drawings()),'render_present':good})
+          print(json.dumps(results,ensure_ascii=False,indent=2))
+          (work/'probe_results.json').write_text(json.dumps(results,ensure_ascii=False,indent=2))
+          preferred=next((x['mode'] for x in results if x['mode'] in ['inline','paragraph'] and x['render_present']),None)
+          if preferred is None:raise RuntimeError('No verified Office Math export method; do not deliver blank formulas')
+          script=Path('scripts/build_documents.py')
+          text=script.read_text()
+          old='p._p.append(copy.deepcopy(EQCACHE[key]))'
+          if text.count(old)!=1:raise RuntimeError('Expected equation insertion code changed; refuse broad patch')
+          if preferred=='inline':
+              new='p._p.append(copy.deepcopy(EQCACHE[key].find(qn("m:oMath"))))'
+          else:
+              new='math_paragraph = copy.deepcopy(EQCACHE[key].getparent())\n    p._p.addnext(math_paragraph)'
+              raise RuntimeError('Paragraph-only export requires explicit source-parent preservation; no blind patch')
+          script.write_text(text.replace(old,new))
+          (work/'selected_method.txt').write_text(preferred)
+          PY
+      - name: Generate and inspect final actual documents
+        run: |
+          python scripts/build_documents.py
+          python - <<'PY'
+          import fitz,json,unicodedata,re
+          from pathlib import Path
+          root=Path('.')
+          check=json.loads((root/'artifacts/document_check.json').read_text())
+          p=fitz.open('deliverables/RDelay_참가신청서_v0.1.pdf')[2]
+          text=unicodedata.normalize('NFKC',p.get_text())
+          greek=sum(text.count(x) for x in ['β','γ','κ','ρ'])
+          formula_text_present=greek>=7 and ('dI' in re.sub(r'\s+','',text) or len(p.get_drawings())>30)
+          audit={'application_equation_page':3,'greek_character_count':greek,'formula_text_present':formula_text_present,'page3_text':text,'application_pages':check['application']['pages'],'design_pages':check['design']['pages'],'visual_review':'not yet performed; native equation appearance checked with independent PDF text/raster probe'}
+          (root/'artifacts/equation_repair/final_check.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2))
+          print(json.dumps(audit,ensure_ascii=False,indent=2))
+          assert check['automatic_pass'], 'Document layout checks failed after visible equations were restored'
+          assert formula_text_present, 'Native equations did not render in final application'
+          PY
+      - name: Commit repairs and regenerated documents only on work branch
+        run: |
+          test "$(git branch --show-current)" = codex/rdelay-bootstrap
+          git config user.name 'R-Delay document builder'
+          git config user.email 'rdelay-builder@users.noreply.github.com'
+          git add scripts/build_documents.py deliverables artifacts docs/implementation_status.md
+          git commit -m 'fix: restore visible native equations in rendered Word/PDF and record actual checks [skip ci]'
+          git push origin HEAD:codex/rdelay-bootstrap
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: RDelay-equation-repair-review
+          path: |
+            artifacts/equation_repair/
+            artifacts/document_check.md
+            deliverables/RDelay_참가신청서_v0.1.docx
+            deliverables/RDelay_종합설계서_v0.1.pdf
+          retention-days: 14
