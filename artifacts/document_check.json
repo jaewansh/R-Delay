@@ -1,0 +1,271 @@
+{
+  "generated_at": "2026-10-20T16:53:15.545477+00:00",
+  "source_commit": "9004ca120ec75bc93958f0159292cdbbe0fd5dda",
+  "application": {
+    "file": "deliverables/RDelay_참가신청서_v0.1.pdf",
+    "pages": 5,
+    "page_checks": [
+      {
+        "page": 1,
+        "text_characters": 1054,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 2,
+        "text_characters": 979,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 3,
+        "text_characters": 939,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 4,
+        "text_characters": 968,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 5,
+        "text_characters": 1250,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      }
+    ],
+    "rendered_pages": [
+      "artifacts/rendered/application-01.png",
+      "artifacts/rendered/application-02.png",
+      "artifacts/rendered/application-03.png",
+      "artifacts/rendered/application-04.png",
+      "artifacts/rendered/application-05.png"
+    ]
+  },
+  "design": {
+    "file": "deliverables/RDelay_종합설계서_v0.1.pdf",
+    "pages": 21,
+    "page_checks": [
+      {
+        "page": 1,
+        "text_characters": 499,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 2,
+        "text_characters": 620,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 3,
+        "text_characters": 740,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 4,
+        "text_characters": 835,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 5,
+        "text_characters": 648,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 6,
+        "text_characters": 611,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 7,
+        "text_characters": 584,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 8,
+        "text_characters": 666,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 9,
+        "text_characters": 658,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 10,
+        "text_characters": 706,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 11,
+        "text_characters": 665,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 12,
+        "text_characters": 651,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 13,
+        "text_characters": 700,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 14,
+        "text_characters": 686,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 15,
+        "text_characters": 695,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 16,
+        "text_characters": 695,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 17,
+        "text_characters": 839,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 18,
+        "text_characters": 844,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 19,
+        "text_characters": 747,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 20,
+        "text_characters": 765,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 21,
+        "text_characters": 1056,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      }
+    ],
+    "rendered_pages": [
+      "artifacts/rendered/design-01.png",
+      "artifacts/rendered/design-02.png",
+      "artifacts/rendered/design-03.png",
+      "artifacts/rendered/design-04.png",
+      "artifacts/rendered/design-05.png",
+      "artifacts/rendered/design-06.png",
+      "artifacts/rendered/design-07.png",
+      "artifacts/rendered/design-08.png",
+      "artifacts/rendered/design-09.png",
+      "artifacts/rendered/design-10.png",
+      "artifacts/rendered/design-11.png",
+      "artifacts/rendered/design-12.png",
+      "artifacts/rendered/design-13.png",
+      "artifacts/rendered/design-14.png",
+      "artifacts/rendered/design-15.png",
+      "artifacts/rendered/design-16.png",
+      "artifacts/rendered/design-17.png",
+      "artifacts/rendered/design-18.png",
+      "artifacts/rendered/design-19.png",
+      "artifacts/rendered/design-20.png",
+      "artifacts/rendered/design-21.png"
+    ]
+  },
+  "summary_characters_including_spaces": 138,
+  "motivation_characters_including_spaces": 150,
+  "keyword_count": 5,
+  "native_omml_count": 3,
+  "team_blank_errors": [],
+  "raw_latex_in_visible_docx_text": false,
+  "visual_review": "not yet performed by assistant; actual per-page renders generated",
+  "model_tests": "not run",
+  "web_deployment": "not performed",
+  "application_target_pages": 5,
+  "design_target_pages": 21,
+  "application_section_pages": {
+    "참가 신청서": [
+      1
+    ],
+    "해커톤 제안 작품 컨셉 기획안": [],
+    "2. 제안 작품 컨셉 상세 기획안": [],
+    "나-2. 멀티도메인 기술 융합 방안": [],
+    "다. 최종성과물 개발 전략 및 계획": []
+  },
+  "automatic_pass": true,
+  "files": [
+    {
+      "path": "deliverables/RDelay_종합설계서_v0.1.docx",
+      "bytes": 59256,
+      "sha256": "a9373339984b272eda5ce77140b36ebcc25f8addc48260ae86b8aecd63355181"
+    },
+    {
+      "path": "deliverables/RDelay_종합설계서_v0.1.pdf",
+      "bytes": 527965,
+      "sha256": "d535bc01f4de11084c589ce4c41222f21537e1181ef42095a7b8586eb988cb7a"
+    },
+    {
+      "path": "deliverables/RDelay_참가신청서_v0.1.docx",
+      "bytes": 45448,
+      "sha256": "7f35bf28b46f4d0dc72c06a20cec7a98683b1b974166b9c209840258c87e2f27"
+    },
+    {
+      "path": "deliverables/RDelay_참가신청서_v0.1.pdf",
+      "bytes": 256453,
+      "sha256": "d37f9c59e285026ce7f4ccde17c15918a71bbf09ebef90cde60d8523a87070c8"
+    }
+  ]
+}
