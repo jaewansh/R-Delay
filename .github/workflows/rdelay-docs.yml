@@ -1,0 +1,13 @@
+name: R-Delay document bootstrap
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: |
+          python3 --version
+          git --version
+          printf 'Document-build scaffold only; no deployment or main merge.\n'
