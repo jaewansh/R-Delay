@@ -1,0 +1,283 @@
+{
+  "generated_at": "2026-10-21T17:08:44.162460+00:00",
+  "source_commit": "85671b528095197ca165bfdb28b9ccd8f78db11f",
+  "stable_code_commit": "4791514f711a0eab07a7b64c2773b85658737674",
+  "summary_characters": 137,
+  "motivation_characters": 150,
+  "keywords": 5,
+  "editable_sis_equations": 3,
+  "privacy_errors": [],
+  "sis_pdf_symbols_present": true,
+  "application_pages": 5,
+  "report_pages": 26,
+  "application": {
+    "file": "deliverables/final_20261022/RDelay_최종기획서_참가신청서_v0.3.pdf",
+    "pages": 5,
+    "page_checks": [
+      {
+        "page": 1,
+        "text_characters": 1065,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 2,
+        "text_characters": 986,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 3,
+        "text_characters": 1109,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 4,
+        "text_characters": 1004,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 5,
+        "text_characters": 1339,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      }
+    ],
+    "rendered_pages": [
+      "artifacts/final_delivery/rendered/application_final-01.png",
+      "artifacts/final_delivery/rendered/application_final-02.png",
+      "artifacts/final_delivery/rendered/application_final-03.png",
+      "artifacts/final_delivery/rendered/application_final-04.png",
+      "artifacts/final_delivery/rendered/application_final-05.png"
+    ]
+  },
+  "report": {
+    "file": "deliverables/final_20261022/RDelay_종합기획서_수리모델설명_v0.3.pdf",
+    "pages": 26,
+    "page_checks": [
+      {
+        "page": 1,
+        "text_characters": 593,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 2,
+        "text_characters": 714,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 3,
+        "text_characters": 780,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 4,
+        "text_characters": 850,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 5,
+        "text_characters": 663,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 6,
+        "text_characters": 626,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 7,
+        "text_characters": 747,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 8,
+        "text_characters": 732,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 9,
+        "text_characters": 822,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 10,
+        "text_characters": 891,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 11,
+        "text_characters": 805,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 12,
+        "text_characters": 769,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 13,
+        "text_characters": 766,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 14,
+        "text_characters": 909,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 15,
+        "text_characters": 891,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 16,
+        "text_characters": 910,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 17,
+        "text_characters": 888,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 18,
+        "text_characters": 931,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 19,
+        "text_characters": 789,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 20,
+        "text_characters": 780,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 21,
+        "text_characters": 1071,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 22,
+        "text_characters": 676,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 23,
+        "text_characters": 705,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 24,
+        "text_characters": 718,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 25,
+        "text_characters": 719,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
+        "page": 26,
+        "text_characters": 1160,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      }
+    ],
+    "rendered_pages": [
+      "artifacts/final_delivery/rendered/comprehensive_final-01.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-02.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-03.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-04.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-05.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-06.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-07.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-08.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-09.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-10.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-11.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-12.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-13.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-14.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-15.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-16.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-17.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-18.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-19.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-20.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-21.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-22.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-23.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-24.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-25.png",
+      "artifacts/final_delivery/rendered/comprehensive_final-26.png"
+    ]
+  },
+  "visual_review": "not performed; all page renders generated",
+  "word_native_render_review": "not performed; LibreOffice used",
+  "local_skills": "Both /home/oai/skills docx and pdfs reads failed before container initialization; remote workflow cannot access them",
+  "public_deployment": "not performed",
+  "pages_pyodide": "not implemented",
+  "automatic_pass": true
+}

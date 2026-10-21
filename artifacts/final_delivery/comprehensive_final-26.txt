@@ -1,0 +1,29 @@
+R-DELAY / 종합 기획·수리모델 설명서 / 문서 v0.3
+25  
+ 
+코드사용법·
+ 
+배포상태·
+ 
+ 
+최종전달조건
+전체 코드는 RDelay_전체코드_v0.2_20261022.zip 의 R-Delay 폴더에 있다. 웹·API·엔진·검사·생성 스크립트·
+기록과 이전 문서를 보존한 저장소 스냅샷이다. 본 전달본의 기획서/PDF 는 별도 문서 v0.3 을 사용한다.
+실행: Python 3.12 환경에서 아래 명령을 순서대로 실행한다.
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-service.txt
+python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+브라우저: http://127.0.0.1:8000. Windows PowerShell 활성화는 .venv\Scripts\Activate.ps1. HTML 더블클릭만으로 
+Python API 가 실행되지는 않는다.
+GitHub Pages + Pyodide 전환은 합의한 검토 방향이며 아직 구현·검사되지 않았다. Render 는 필수가 아니고, 
+별도 배포 준비 코드도 실제 공개 서버를 생성한 상태는 아니다. 이번 전달 작업에서는 서버를 만들거나 결제·배포
+하지 않는다.
+별도 ZIP RDelay_배포준비코드_미배포.zip 은 PR #2 브랜치의 전체 소스 스냅샷이다. 기본 구현 코드와 혼합하지 
+않았으며, 실제 서비스 URL 은 없다. GitHub Pages 호환 엔진으로 잘못 표시하지 않는다.
+전체 문서는 PDF 로 변환하고 모든 페이지를 이미지로 생성하며 수식·개인정보 공란·쪽수·경계를 자동검사한다. 
+이 대화에서 전 페이지 이미지를 직접 보는 육안검수와 Microsoft Word 자체 검수는 미완료로 남긴다. 학적·서명
+·증빙과 최신 공지를 확인한 뒤 실제 제출한다.
+[C1] https://github.com/jaewansh/R-Delay/tree/4791514f711a0eab07a7b64c2773b85658737674
+[C2] 배포 준비: https://github.com/jaewansh/R-Delay/tree/1d1d61f68d4fdeb3e2fa48b9b34965e4b013f623
+통합 전달본 · 개인정보 직접 기입  |  26

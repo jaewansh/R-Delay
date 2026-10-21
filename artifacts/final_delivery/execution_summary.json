@@ -1,0 +1,88 @@
+{
+  "generated_at": "2026-10-21T17:08:44.162460+00:00",
+  "delivery_source_commit": "85671b528095197ca165bfdb28b9ccd8f78db11f",
+  "stable_code_commit": "4791514f711a0eab07a7b64c2773b85658737674",
+  "pytest": {
+    "tests": 40,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "started_at": "2026-10-21T17:08:34.852886+00:00",
+    "mocked_api": false,
+    "csp_bypassed": false,
+    "external_network_during_ui": [],
+    "checks": [
+      {
+        "name": "browser called the actual Python API",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "native SIS equation and generated SVG visible",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "three actual dispatch candidates rendered",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "response ID matches rendered result",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "JSON export exactly matches the real response",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "new observation changes posterior",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "shutdown changes predicted readiness",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "unconfirmed reservation excluded",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "invalid observation removes stale recommendation",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "mobile has no document-wide horizontal overflow",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "name": "no uncaught JavaScript exceptions",
+        "passed": true,
+        "detail": []
+      },
+      {
+        "name": "UI uses no external network/CDN",
+        "passed": true,
+        "detail": null
+      }
+    ],
+    "human_visual_review": "not performed",
+    "browser_version": "136.0.7103.25",
+    "passed": true,
+    "completed_at": "2026-10-21T17:08:42.931975+00:00",
+    "source_commit": "4791514f711a0eab07a7b64c2773b85658737674"
+  },
+  "field_validation": "not performed",
+  "public_deployment": "not performed",
+  "pyodide_execution": "not implemented",
+  "human_visual_review": "not performed in this chat runtime"
+}
