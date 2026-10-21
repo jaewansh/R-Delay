@@ -9,7 +9,7 @@
 
 [실행 코드 ZIP](deliverables/RDelay_runtime_v0.2.zip) · [실행 검증 기록](artifacts/runtime/validation_summary.md) · [신청서 Word](deliverables/RDelay_참가신청서_v0.1.docx) · [종합설계 PDF](deliverables/RDelay_종합설계서_v0.1.pdf) · [구현 계약·한계](docs/runtime_contract.md)
 
-작업 브랜치: **`codex/rdelay-bootstrap`**. 기본 `main`에 자동 병합하지 않았습니다. 기본 저장소 첫 화면에서는 아직 이 결과가 보이지 않을 수 있습니다. [PR #1](https://github.com/jaewansh/R-Delay/pull/1)에서 검토할 수 있습니다.
+**기본 브랜치 `main`에 반영 완료:** 2026-10-21 사용자의 명시적 승인에 따라 [PR #1](https://github.com/jaewansh/R-Delay/pull/1)을 병합했습니다. 이제 저장소 기본 화면에서 서비스 코드·문서·실제 시연 자료를 확인할 수 있습니다. 작업 브랜치 `codex/rdelay-bootstrap`과 기존 커밋 이력은 보존했습니다. 자동 병합 설정이나 공개 웹사이트 배포는 하지 않았습니다.
 
 ---
 
@@ -38,7 +38,7 @@
 Python 3.12 환경을 권장합니다. 첫 설치에는 패키지 다운로드가 필요합니다. 설치 후에는 외부 항만 서버·지도·CDN 없이 동일 컴퓨터에서 계산합니다.
 
 ```bash
-git clone --branch codex/rdelay-bootstrap --single-branch https://github.com/jaewansh/R-Delay.git
+git clone --branch main --single-branch https://github.com/jaewansh/R-Delay.git
 cd R-Delay
 python3 -m venv .venv
 source .venv/bin/activate
