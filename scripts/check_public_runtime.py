@@ -38,8 +38,8 @@ def check(name, condition):
 
 try:
     if not args.url:
-        process = subprocess.Popen([sys.executable, "-m", "uvicorn", "api.public:app",
-            "--host", "127.0.0.1", "--port", "8766", "--workers", "1", "--no-access-log"], cwd=ROOT)
+        process = subprocess.Popen([sys.executable, "scripts/start_public.py"],
+            cwd=ROOT, env={**os.environ, "PORT": "8766"})
     for attempt in range(60):
         try:
             with urllib.request.urlopen(base + "/health", timeout=10) as response:
@@ -60,6 +60,7 @@ try:
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto(base, wait_until="networkidle", timeout=120000)
         expect(page.get_by_text("공개용 합성 데모", exact=True)).to_be_visible()
+        page.get_by_text("계산 재현 설정", exact=True).click()
         page.locator("#particles").select_option("64")
         with page.expect_response(lambda r: r.url.endswith("/api/v1/runs") and r.request.method == "POST", timeout=120000) as awaited:
             page.locator("#run-button").click()
