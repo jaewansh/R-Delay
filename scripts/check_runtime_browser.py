@@ -1,4 +1,8 @@
-"""Run the live local service in Chromium; never mock API answers or draw fake UI."""
+"""Run the live local service in Chromium; never mock API answers or draw fake UI.
+
+Use real response/DOM waits instead of wait_for_function's eval-based polling.
+The application's strict Content-Security-Policy remains enabled.
+"""
 from __future__ import annotations
 import json
 import os
@@ -18,7 +22,8 @@ IMAGES=ROOT/"image/runtime"
 OUT.mkdir(parents=True,exist_ok=True);IMAGES.mkdir(parents=True,exist_ok=True)
 URL="http://127.0.0.1:8765"
 proof={"started_at":datetime.now(timezone.utc).isoformat(),"mocked_api":False,
-       "external_network_during_ui":[],"checks":[],"human_visual_review":"not performed"}
+       "csp_bypassed":False,"external_network_during_ui":[],"checks":[],
+       "human_visual_review":"not performed"}
 log=(OUT/"server.log").open("w",encoding="utf-8")
 process=subprocess.Popen([sys.executable,"-m","uvicorn","api.main:app","--host","127.0.0.1","--port","8765"],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT)
 
@@ -44,12 +49,17 @@ try:
         page.on("pageerror",lambda e:errors.append(str(e)))
         page.on("request",lambda r:proof["external_network_during_ui"].append(r.url) if not r.url.startswith(URL) else None)
         page.goto(URL,wait_until="networkidle")
-        page.wait_for_function("window.__rdelayReady === true")
+        page.locator("#server-status").filter(has_text="Python 엔진 연결").wait_for(state="visible")
 
         def execute():
-            page.locator("#run-button").click()
-            page.wait_for_function("window.__rdelayResult !== null && window.__rdelayResult !== undefined",timeout=120000)
-            return page.evaluate("window.__rdelayResult")
+            with page.expect_response(lambda response:response.url==URL+"/api/v1/runs" and response.request.method=="POST",timeout=120000) as info:
+                page.locator("#run-button").click()
+            response=info.value
+            if response.status!=201:
+                raise RuntimeError("API calculation failed: "+response.text())
+            result=response.json()
+            page.locator('#results[data-run-id="'+result["run_id"]+'"]').wait_for(state="visible",timeout=30000)
+            return result
 
         base=execute()
         record("browser called the actual Python API",bool(base.get("source_commit")) and base["model_version"]=="0.2.0")
@@ -57,6 +67,7 @@ try:
         record("three actual dispatch candidates rendered",page.locator("#candidate-body tr").count()==3)
         record("response ID matches rendered result",page.locator("#results").get_attribute("data-run-id")==base["run_id"])
         page.screenshot(path=str(IMAGES/"dashboard.png"),full_page=True)
+        page.locator(".topbar").scroll_into_view_if_needed()
         page.screenshot(path=str(IMAGES/"step-01.png"))
         (OUT/"sample_run.json").write_text(json.dumps(base,ensure_ascii=False,indent=2),encoding="utf-8")
         with page.expect_download() as info:
@@ -70,14 +81,14 @@ try:
         changed=execute()
         record("new observation changes posterior",changed["filter"]["posterior_mean"][1]>base["filter"]["posterior_mean"][1])
         page.screenshot(path=str(IMAGES/"posterior.png"),full_page=True)
-        page.evaluate("window.scrollTo(0,0)")
+        page.locator(".topbar").scroll_into_view_if_needed()
         page.screenshot(path=str(IMAGES/"step-02.png"))
 
         page.locator('[data-preset="closure"]').click()
         closed=execute()
         record("shutdown changes predicted readiness",closed["events"]["ready_quantiles_h"]!=base["events"]["ready_quantiles_h"])
         page.screenshot(path=str(IMAGES/"closure.png"),full_page=True)
-        page.evaluate("window.scrollTo(0,0)")
+        page.locator(".topbar").scroll_into_view_if_needed()
         page.screenshot(path=str(IMAGES/"step-03.png"))
 
         page.locator('[data-preset="restricted"]').click()
@@ -88,13 +99,13 @@ try:
         page.locator("#sample").fill("20")
         page.locator("#run-button").click()
         page.locator("#error").wait_for(state="visible",timeout=30000)
-        record("invalid observation removes stale recommendation",not page.locator("#results").is_visible() and page.evaluate("window.__rdelayResult === null"))
+        record("invalid observation removes stale recommendation",not page.locator("#results").is_visible())
 
         page.locator('[data-preset="base"]').click()
         page.set_viewport_size({"width":390,"height":844})
         mobile=execute()
         page.screenshot(path=str(IMAGES/"mobile.png"),full_page=True)
-        record("mobile has no document-wide horizontal overflow",page.evaluate("document.documentElement.scrollWidth <= window.innerWidth + 1"))
+        record("mobile has no document-wide horizontal overflow",page.evaluate("() => document.documentElement.scrollWidth <= window.innerWidth + 1"))
         record("no uncaught JavaScript exceptions",not errors,errors)
         record("UI uses no external network/CDN",not proof["external_network_during_ui"])
         video=page.video
