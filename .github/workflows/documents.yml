@@ -1,0 +1,74 @@
+name: R-Delay document bootstrap
+on:
+  workflow_dispatch:
+  push:
+    branches: [codex/rdelay-bootstrap]
+    paths:
+      - 'scripts/build_documents.py'
+      - 'scripts/build_native_documents.py'
+      - 'scripts/audit_rendering.py'
+      - 'docs/content.json'
+permissions:
+  contents: write
+concurrency:
+  group: rdelay-document-bootstrap
+  cancel-in-progress: false
+jobs:
+  documents:
+    if: ${{ github.ref == 'refs/heads/codex/rdelay-bootstrap' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/rdelay-bootstrap
+          fetch-depth: 0
+      - name: Inspect repository before any work
+        run: |
+          git status --short --branch
+          git log -1 --oneline
+          find . -maxdepth 2 -type f -not -path './.git/*' | sort
+      - name: Prepare document-only runtime
+        if: ${{ hashFiles('scripts/build_documents.py') != '' }}
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libreoffice-writer libreoffice-math pandoc fonts-nanum fonts-dejavu-core fonts-texgyre fonts-crosextra-carlito poppler-utils
+          python -m pip install 'python-docx==1.2.0' 'PyMuPDF==1.26.5' 'Pillow==11.3.0' 'lxml==6.0.2'
+      - name: Build and render documents; not the service
+        if: ${{ hashFiles('scripts/build_documents.py') != '' }}
+        run: |
+          python scripts/build_native_documents.py
+          python scripts/audit_rendering.py
+      - name: Commit generated files to the same branch only
+        if: ${{ hashFiles('scripts/build_documents.py') != '' }}
+        run: |
+          test "$(git branch --show-current)" = 'codex/rdelay-bootstrap'
+          git config user.name 'R-Delay document builder'
+          git config user.email 'rdelay-builder@users.noreply.github.com'
+          git add deliverables artifacts docs/implementation_status.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'docs: generate v0.1 Word, design PDF, and measured document checks [skip ci]'
+            git push origin HEAD:codex/rdelay-bootstrap
+          fi
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && hashFiles('deliverables/RDelay_참가신청서_v0.1.docx') != '' }}
+        with:
+          name: RDelay-application-v0.1
+          path: deliverables/RDelay_참가신청서_v0.1.docx
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && hashFiles('deliverables/RDelay_종합설계서_v0.1.pdf') != '' }}
+        with:
+          name: RDelay-design-v0.1
+          path: deliverables/RDelay_종합설계서_v0.1.pdf
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && hashFiles('artifacts/document_check.md') != '' }}
+        with:
+          name: RDelay-document-review-v0.1
+          path: |
+            artifacts/
+            docs/
+            scripts/
+            AGENTS.md
+          retention-days: 14

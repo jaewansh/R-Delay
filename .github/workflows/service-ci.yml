@@ -1,0 +1,79 @@
+name: R-Delay executable service verification
+on:
+  push:
+    branches: [codex/rdelay-bootstrap]
+    paths:
+      - 'engine/**'
+      - 'api/**'
+      - 'web/**'
+      - 'tests/**'
+      - 'requirements-service.txt'
+      - 'requirements-test.txt'
+      - 'scripts/check_runtime_browser.py'
+      - 'scripts/package_runtime.py'
+      - '.github/workflows/service-ci.yml'
+permissions:
+  contents: write
+concurrency:
+  group: rdelay-service-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  verify:
+    if: ${{ github.ref == 'refs/heads/codex/rdelay-bootstrap' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+      RDELAY_SOURCE_COMMIT: ${{ github.sha }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Confirm preserved v0.1 Word and PDF bytes
+        run: |
+          test "$(git rev-parse 'HEAD:deliverables/RDelay_참가신청서_v0.1.docx')" = '9489e768c049ab0091957c9e9528b6f94be857bd'
+          test "$(git rev-parse 'HEAD:deliverables/RDelay_종합설계서_v0.1.pdf')" = 'd7a24debd0ebfebceea3a9d175d6549e3a85ddd0'
+      - name: Install pinned service and browser test dependencies
+        run: |
+          python --version
+          python -m pip install -r requirements-test.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-nanum
+          python -m playwright install --with-deps chromium
+      - name: Check JavaScript and run real mathematical/API tests
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/runtime
+          node --check web/app.js
+          python -m pytest tests -q --junitxml=artifacts/runtime/pytest.xml 2>&1 | tee artifacts/runtime/pytest.log
+      - name: Run actual local service in Chromium and capture evidence
+        run: python scripts/check_runtime_browser.py
+      - name: Build reproducible source and evidence archive
+        run: python scripts/package_runtime.py
+      - name: Commit runtime evidence on approved work branch only
+        run: |
+          set -euo pipefail
+          REMOTE_HEAD=$(git ls-remote origin refs/heads/codex/rdelay-bootstrap | cut -f1)
+          if [ "$REMOTE_HEAD" != "$GITHUB_SHA" ]; then
+            echo "Branch advanced; do not overwrite concurrent work. Evidence remains as workflow artifact."
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add engine api web tests requirements-service.txt requirements-test.txt artifacts/runtime image/runtime data/synthetic deliverables/RDelay_runtime_v0.2.zip
+          if ! git diff --cached --quiet; then
+            git commit -m 'test: record executed service tests, actual browser demonstration and runtime package'
+            git push origin HEAD:codex/rdelay-bootstrap
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: RDelay-service-v02-execution-evidence
+          path: |
+            artifacts/runtime/
+            image/runtime/
+            deliverables/RDelay_runtime_v0.2.zip
+          retention-days: 14

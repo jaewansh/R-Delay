@@ -1,0 +1,30 @@
+[
+  {
+    "mode": "nested",
+    "text": "d I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n",
+    "ink_pixels": 402,
+    "drawings": 2,
+    "render_present": true
+  },
+  {
+    "mode": "inline",
+    "text": "d I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n",
+    "ink_pixels": 412,
+    "drawings": 2,
+    "render_present": true
+  },
+  {
+    "mode": "paragraph",
+    "text": "d I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n",
+    "ink_pixels": 412,
+    "drawings": 2,
+    "render_present": true
+  },
+  {
+    "mode": "pandoc",
+    "text": "d I i\nd t =βi (t )(1−I i\nN i)∑\nj\nCi j (t ) I j−γi (t ) I i\n",
+    "ink_pixels": 402,
+    "drawings": 2,
+    "render_present": true
+  }
+]

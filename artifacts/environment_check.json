@@ -1,0 +1,24 @@
+{
+  "timestamp_utc": "2026-10-20T17:11:48.204348+00:00",
+  "branch": "codex/rdelay-bootstrap",
+  "source_commit": "fa4bc6f6900bae14409e684a14b1f5b3b009b34a",
+  "git_status_before": "## codex/rdelay-bootstrap...origin/codex/rdelay-bootstrap\n M scripts/build_documents.py\n?? artifacts/equation_repair/",
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "git": "git version 2.55.0",
+  "pandoc": "pandoc 3.1.3",
+  "libreoffice": "LibreOffice 24.2.7.2 420(Build:2)",
+  "render_engine": "PyMuPDF 1.26.5",
+  "font": "NanumGothic.ttf: \"NanumGothic\" \"Regular\"",
+  "skills": {
+    "docx": {
+      "present": false
+    },
+    "pdfs": {
+      "present": false
+    }
+  },
+  "local_chat_runtime": "container/Python initialization failed before commands; remote workflow used",
+  "service_tests": "not run",
+  "file_write_read_delete_probe": "pass"
+}

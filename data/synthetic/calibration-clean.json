@@ -1,0 +1,31 @@
+{
+  "data_type": "synthetic",
+  "mode": "clean",
+  "observations": [
+    {
+      "time_h": 0.0,
+      "sea_fraction": 0.5,
+      "land_fraction": 0.0
+    },
+    {
+      "time_h": 0.5,
+      "sea_fraction": 0.5,
+      "land_fraction": 0.06671461960412385
+    },
+    {
+      "time_h": 1.0,
+      "sea_fraction": 0.5,
+      "land_fraction": 0.11797634228697342
+    },
+    {
+      "time_h": 1.5,
+      "sea_fraction": 0.5,
+      "land_fraction": 0.15616226685012133
+    },
+    {
+      "time_h": 2.0,
+      "sea_fraction": 0.5,
+      "land_fraction": 0.18395593088332984
+    }
+  ]
+}

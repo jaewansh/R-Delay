@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SIS 지연전파, 관측 갱신, 선석 대기와 배차 후보를 연결하는 합성 시연">
+<title>R-Delay | 연쇄지연 의사결정</title>
+<link rel="stylesheet" href="/static/styles.css">
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/"><span class="logo">R<span>·</span>D</span><span>R-Delay<small>모델 기반 운송 의사결정</small></span></a>
+<div class="topright"><span class="pill">SYNTHETIC DEMO</span><span id="server-status">엔진 연결 확인 중</span></div></header>
+<main>
+<div class="intro"><div><p class="eyebrow">MARITIME → GROUND / TWO-DOMAIN MODEL</p><h1>지연의 전파를 계산하고,<br>가능한 대응을 비교합니다.</h1><p class="lead">관측에서 계수를 정하고, SIS·확률변동·선석 대기를 거쳐<br class="desktop"> 원래 마감 아래 실행 가능한 배차안을 살펴보세요.</p></div>
+<div class="route"><div><small>해상</small><strong>부산신항</strong><span>선석 대기 · 화물 준비</span></div><span class="route-arrow">→</span><div><small>육상</small><strong>양산권 수령지</strong><span>인수 · 반출 · 도로 이동</span></div></div></div>
+<div class="notice"><strong>실측 서비스가 아닌 합성 시제품 v0.2입니다.</strong> 아래 값은 시연용 가정입니다. 실제 항만 예측력·고객 절감 실적은 검증하지 않았으며 배차·예약을 자동 변경하지 않습니다.</div>
+<nav class="tabs" aria-label="분석 영역"><a href="#model">01 수리모델</a><a href="#filter">02 관측 갱신</a><a href="#queue">03 선석·화물</a><a href="#decision">04 배차 판단</a></nav>
+<div class="workspace">
+<aside class="panel inputs">
+<div class="sectiontitle"><h2>시나리오 설정</h2><span class="chip">가상 사례 B</span></div>
+<p class="small">2026-10-21 가상 날짜 · 판단 10:00<br>대상 선박 도착 11:00 · 원래 마감 <strong>16:00</strong></p>
+<div class="preset-buttons"><button type="button" data-preset="base">기본 조건</button><button type="button" data-preset="congestion">관측 지연 증가</button><button type="button" data-preset="closure">선석 중단</button><button type="button" data-preset="restricted">실행조건 미확인</button></div>
+<form id="scenario-form">
+<label>해상→육상 연결 배율 κ<input id="kappa" type="number" min="0" max="3" step="0.1" value="1" required></label>
+<label>로그-OU 변동 크기 σ<input id="sigma" type="number" min="0" max="0.8" step="0.05" value="0.25" required></label>
+<label>선석 운영 중단시간 (10:00부터, 시간)<input id="closure" type="number" min="0" max="14" step="0.5" value="0" required></label>
+<label>허용 마감 실패확률 (%)<input id="risk" type="number" min="0" max="100" step="1" value="20" required></label>
+<p class="small">허용기준 변경은 민감도 실험입니다. 원래 수령지 마감은 바뀌지 않습니다.</p>
+<div class="divider"></div>
+<label>과거 관측의 회복률 추정<select id="calibration"><option value="clean">오차 없는 합성 관측</option><option value="noise_a">지정 관측오차 A</option><option value="noise_b">지정 관측오차 B</option></select></label>
+<label class="check"><input id="use-observation" type="checkbox" checked>10:00 관측으로 입자 갱신</label>
+<label>관측 종류<select id="kind"><option value="snapshot">현재 지연 표본 · 베타-이항</option><option value="incident">08~10시 신규 지연 사건 · 음이항</option></select></label>
+<div class="twofields"><label>육상 지연 건수<input id="count" type="number" min="0" max="500" step="1" value="8" required></label><label>표본 수 (현재 지연)<input id="sample" type="number" min="1" max="500" step="1" value="20" required></label></div>
+<details><summary>계산 재현 설정</summary><label>입자 수<select id="particles"><option>64</option><option>128</option><option selected>256</option><option>512</option></select></label><label>난수 시드<input id="seed" type="number" min="0" max="4294967295" step="1" value="20261021" required></label></details>
+<button id="run-button" type="submit" class="primary">시뮬레이션 실행 <span>→</span></button>
+<p id="run-status" class="small" role="status" aria-live="polite">설정을 확인한 뒤 실행하세요.</p>
+</form>
+<div id="error" role="alert" hidden></div>
+<p class="small">전파·회복률은 일정 작업 단위에 적용합니다. 대기열의 선박 수와 같은 변수로 취급하지 않습니다.</p>
+</aside>
+<div class="results-column">
+<section class="empty panel" id="empty-state"><span class="empty-icon">∂</span><h2>실제 Python 엔진과 연결됩니다</h2><p>왼쪽에서 실행하면 수리모델의 예측, 관측 갱신, 선석 대기와 배차 결과를 이곳에 표시합니다.<br>미리 적어 둔 결과값으로 대체하지 않습니다.</p></section>
+<div id="results" hidden>
+<div class="kpi-grid" id="kpis"></div>
+<section class="panel" id="model"><div class="sectiontitle"><div><p class="eyebrow">01 / DIFFERENTIAL EQUATION</p><h2>해상에서 육상으로 이어지는 지연</h2></div><span class="chip">SIS + 로그-OU</span></div>
+<div class="equation"><math display="block"><mfrac><mrow><mi>d</mi><msub><mi>I</mi><mi>i</mi></msub></mrow><mrow><mi>d</mi><mi>t</mi></mrow></mfrac><mo>=</mo><msub><mi>β</mi><mi>i</mi></msub><mo>(</mo><mn>1</mn><mo>−</mo><mfrac><msub><mi>I</mi><mi>i</mi></msub><msub><mi>N</mi><mi>i</mi></msub></mfrac><mo>)</mo><munder><mo>∑</mo><mi>j</mi></munder><msub><mi>C</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msub><mi>I</mi><mi>j</mi></msub><mo>−</mo><msub><mi>γ</mi><mi>i</mi></msub><msub><mi>I</mi><mi>i</mi></msub></math></div>
+<div class="legend"><span><i class="sea"></i>해상 지연 평균</span><span><i class="land"></i>육상 지연 평균</span><span>음영: 입자 10~90% 분위수 · 현장 신뢰구간 아님</span></div>
+<div id="state-chart" class="chart"></div><p id="model-note" class="small"></p>
+<details><summary>R<sub>d</sub>와 회복률 추정의 근거</summary><div id="calibration-details"></div><p class="small">R<sub>d</sub>는 입자별 행렬의 스펙트럼 반지름을 계산한 전파 지표입니다. 화물의 마감 실패확률이 아니며, 값 하나로 납기 안전을 판정하지 않습니다. 현재 추정은 상수 회복률 하나의 조건부 복원이며 외생변수 머신러닝은 아직 없습니다.</p></details></section>
+<section class="panel" id="filter"><div class="sectiontitle"><div><p class="eyebrow">02 / OBSERVATION UPDATE</p><h2>새 관측이 예측을 바꾸는 과정</h2></div><span class="chip">입자필터</span></div><div id="filter-content"></div><p class="small">관측 후 요약은 재표본추출 전 가중 분포입니다. 과거 곡선을 미래 관측으로 다시 그려 실시간 예측처럼 표시하지 않습니다.</p></section>
+<section class="panel" id="queue"><div class="sectiontitle"><div><p class="eyebrow">03 / BERTH → SHIPMENT</p><h2>선석 대기에서 화물 준비까지</h2></div><span class="chip">전진방정식 + 대상 선박</span></div><div class="event-flow"><span>선박 도착</span><b>→</b><span>선석·작업</span><b>→</b><span>화물 준비</span><b>→</b><span>인수·반출</span><b>→</b><span>도로·수령</span></div><div id="queue-chart" class="chart"></div><div id="queue-content"></div><p class="small">10:00 시스템 내 선박 2척을 알고 있다는 가정에서 출발합니다. 선입선출·동질 지수 서비스 선석 2개, 대상 선박 11:00 단일 삽입의 축소모형입니다. 준비시각에 반영한 선석 대기를 다시 더하지 않습니다.</p></section>
+<section class="panel" id="decision"><div class="sectiontitle"><div><p class="eyebrow">04 / FEASIBLE DECISIONS</p><h2>원래 마감 아래 배차 후보 비교</h2></div><span class="chip">16:00 도착 마감 고정</span></div><div id="decision-banner"></div><div class="table-scroll"><table><thead><tr><th>배차 후보</th><th>마감 실패위험</th><th>평균 준비 대기</th><th>표본 비교비용</th><th>판정</th></tr></thead><tbody id="candidate-body"></tbody></table></div><div id="warnings"></div><p class="small">비교비용 = 변경비용 + 준비대기 30,000원/시간 + 마감실패 600,000원/건. 모두 가정이며 기본운임·실제 부담자·절감 실적을 뜻하지 않습니다. 기간 밖 준비·대기열 넘침은 경고하고 총 비용을 확정하지 않습니다.</p></section>
+<section class="panel" id="trace"><div class="sectiontitle"><h2>계산 기록과 입력 근거</h2><button id="download-button" type="button">결과 JSON 저장</button></div><div id="trace-content" class="small"></div><details><summary>이번 구현의 제한</summary><p>합성자료 전용, 2거점 SIS, 10:00 단일 관측 갱신, 고정된 판단시각·마감, 직접 확인한 초기 선박 수를 전제로 합니다. 관측이 다른 시각에 도착하는 재처리와 외생변수 기반 계수 학습은 아직 구현되지 않았습니다. 온라인 공개 배포·고객 실증·실제 예약 변경은 수행하지 않습니다.</p></details></section>
+</div></div></div>
+<footer><strong>R-Delay v0.2</strong> · 실제 계산이 연결된 합성 시제품<br>Python 엔진을 같은 컴퓨터에서 실행합니다. 모든 사용자 화면 자원은 로컬이며 외부 지도·CDN·항만 API를 호출하지 않습니다.</footer>
+</main></body></html>

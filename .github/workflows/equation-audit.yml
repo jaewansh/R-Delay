@@ -1,0 +1,43 @@
+name: R-Delay equation render audit
+on:
+  push:
+    branches: [codex/rdelay-bootstrap]
+    paths: ['.github/workflows/equation-audit.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ef000a8871629ec2643ddcb794f4c1d11f2b98e4
+      - run: python -m pip install 'PyMuPDF==1.26.5' 'python-docx==1.2.0'
+      - name: Inspect native package and rendered equations without OCR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import fitz,json,os,urllib.request,io,zipfile
+          from pathlib import Path
+          from docx import Document
+          p=fitz.open('deliverables/RDelay_참가신청서_v0.1.pdf')[2]
+          print('PAGE3 OBJECTS',json.dumps({'images':[{'bbox':list(x['bbox']),'width':x['width'],'height':x['height']} for x in p.get_image_info()], 'drawings':len(p.get_drawings()),'fonts':p.get_fonts(full=True)},ensure_ascii=False))
+          labels=[]
+          for token in ['(1)','(2)','(3)']:
+              for box in p.search_for(token):
+                  clip=fitz.Rect(50,max(50,box.y0-38),max(55,box.x0-8),box.y1+3)
+                  if clip.width<10:clip=fitz.Rect(50,box.y0-40,540,box.y1-5)
+                  pix=p.get_pixmap(matrix=fitz.Matrix(1,1),clip=clip,colorspace=fitz.csGRAY)
+                  labels.append({'label':token,'bbox':list(box),'inspection_bbox':list(clip),'dark_pixels':sum(v<150 for v in pix.samples),'drawing_bboxes':[list(d['rect']) for d in p.get_drawings() if d['rect'].intersects(clip)]})
+          print('EQUATION_REGION_CHECK',json.dumps(labels,ensure_ascii=False))
+          for aid in [12283352956,12283592412]:
+              req=urllib.request.Request(f'https://api.github.com/repos/jaewansh/R-Delay/actions/artifacts/{aid}/zip',headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+              raw=urllib.request.urlopen(req).read()
+              z=zipfile.ZipFile(io.BytesIO(raw))
+              names=z.namelist()
+              d=Document(io.BytesIO(raw))
+              print('OOXML_ROUNDTRIP',aid, 'bytes',len(raw),'required_parts',all(n in names for n in ['[Content_Types].xml','_rels/.rels','word/document.xml']),'tables',len(d.tables),'pictures',len(d.inline_shapes))
+          PY

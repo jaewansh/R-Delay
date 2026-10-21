@@ -1,0 +1,73 @@
+{
+  "started_at": "2026-10-21T05:49:17.470620+00:00",
+  "mocked_api": false,
+  "csp_bypassed": false,
+  "external_network_during_ui": [],
+  "checks": [
+    {
+      "name": "browser called the actual Python API",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "native SIS equation and generated SVG visible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "three actual dispatch candidates rendered",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "response ID matches rendered result",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "JSON export exactly matches the real response",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "new observation changes posterior",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "shutdown changes predicted readiness",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "unconfirmed reservation excluded",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid observation removes stale recommendation",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "mobile has no document-wide horizontal overflow",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "no uncaught JavaScript exceptions",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "UI uses no external network/CDN",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "human_visual_review": "not performed",
+  "browser_version": "136.0.7103.25",
+  "passed": true,
+  "completed_at": "2026-10-21T05:49:23.821543+00:00",
+  "source_commit": "ea397d3267d88763baba9430409352f662d62693"
+}

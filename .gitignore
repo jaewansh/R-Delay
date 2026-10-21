@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+node_modules/
+.DS_Store
+data/private/
+private/
+*재학증명*
+*휴학증명*
+artifacts/runtime/video/
+artifacts/runtime/downloaded_run.json
+artifacts/runtime/server.log

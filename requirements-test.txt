@@ -1,0 +1,5 @@
+-r requirements-service.txt
+pytest==8.3.5
+httpx==0.28.1
+playwright==1.52.0
+Pillow==11.2.1
