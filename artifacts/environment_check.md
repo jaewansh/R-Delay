@@ -1,13 +1,16 @@
 # 실행환경 확인
 
-- timestamp_utc: 2026-10-20T17:11:48.204348+00:00
+- timestamp_utc: 2026-10-21T05:34:37.491751+00:00
 - branch: codex/rdelay-bootstrap
-- source_commit: fa4bc6f6900bae14409e684a14b1f5b3b009b34a
+- source_commit: b25b4715b75c341746d35e476504027c669b2ae4
 - git_status_before: ## codex/rdelay-bootstrap...origin/codex/rdelay-bootstrap
- M scripts/build_documents.py
-?? artifacts/equation_repair/
+ M artifacts/build_tmp/R_native.docx
+ M artifacts/build_tmp/SIS_native.docx
+ M artifacts/build_tmp/native_final_probe.docx
+ M artifacts/build_tmp/native_final_probe.pdf
+?? scripts/__pycache__/
 - python: 3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]
-- platform: Linux-6.17.0-1022-azure-x86_64-with-glibc2.39
+- platform: Linux-7.0.0-1017-azure-x86_64-with-glibc2.39
 - git: git version 2.55.0
 - pandoc: pandoc 3.1.3
 - libreoffice: LibreOffice 24.2.7.2 420(Build:2)

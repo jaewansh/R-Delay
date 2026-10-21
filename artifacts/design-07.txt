@@ -7,8 +7,10 @@ d I i
 d t =βi (t )(1−I i
 N i)∑
 j
-Ci j (t ) I j−γi (t ) I i   (1)
-C (t )=I d+κ τ 0 M (t ),Si=N i−I i, xi=I i/N i   (2)
+Ci j (t ) I j−γi (t ) I i
+(1)
+C (t )=I d+κ τ 0 M (t ),Si=N i−I i, xi=I i/N i
+(2)
 기호
 의미
 단위·조건
@@ -49,7 +51,8 @@ j
 Ci j
 N j
 N i
-x j−γi xi   (3)
+x j−γi xi
+(3)
 비율 방정식에서는 N /N
 ⱼ
 ᵢ가 사라지지 않는다. 첫 구현은 같은 크기의 비교 가능한 작업집단으로 제한할 수 있지만, 

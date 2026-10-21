@@ -3,8 +3,10 @@ R-DELAY  /  종합설계서  /  v0.1
  
  
 시간가변선석대기열
-˙πn=a (t ) πn−1+μ (t )min (n+1,m) πn+1−[a (t )+μ (t )min (n,m)) πn   (12)
-μ (t )=μ0 (t )exp[−ηB xP (t ))oB (t )   (13)
+˙πn=a (t ) πn−1+μ (t )min (n+1,m) πn+1−[a (t )+μ (t )min (n,m)) πn
+(12)
+μ (t )=μ0 (t )exp[−ηB xP (t ))oB (t )
+(13)
 기호
 의미
 단위·가정

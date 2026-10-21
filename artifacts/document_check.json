@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-20T17:11:48.204348+00:00",
-  "source_commit": "fa4bc6f6900bae14409e684a14b1f5b3b009b34a",
+  "generated_at": "2026-10-21T05:34:37.491751+00:00",
+  "source_commit": "b25b4715b75c341746d35e476504027c669b2ae4",
   "application": {
     "file": "deliverables/RDelay_참가신청서_v0.1.pdf",
     "pages": 5,
@@ -21,7 +21,7 @@
       },
       {
         "page": 3,
-        "text_characters": 1094,
+        "text_characters": 1104,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
@@ -97,70 +97,70 @@
       },
       {
         "page": 7,
-        "text_characters": 732,
+        "text_characters": 726,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 8,
-        "text_characters": 717,
+        "text_characters": 731,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 9,
-        "text_characters": 769,
+        "text_characters": 765,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 10,
-        "text_characters": 857,
+        "text_characters": 851,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 11,
-        "text_characters": 760,
-        "outside_page_spans": [],
-        "replacement_characters": 0,
-        "has_korean": true
-      },
-      {
-        "page": 12,
         "text_characters": 754,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
+        "page": 12,
+        "text_characters": 750,
+        "outside_page_spans": [],
+        "replacement_characters": 0,
+        "has_korean": true
+      },
+      {
         "page": 13,
-        "text_characters": 751,
+        "text_characters": 749,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 14,
-        "text_characters": 894,
+        "text_characters": 886,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 15,
-        "text_characters": 876,
+        "text_characters": 868,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
       },
       {
         "page": 16,
-        "text_characters": 869,
+        "text_characters": 862,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
@@ -181,7 +181,7 @@
       },
       {
         "page": 19,
-        "text_characters": 774,
+        "text_characters": 772,
         "outside_page_spans": [],
         "replacement_characters": 0,
         "has_korean": true
@@ -231,7 +231,7 @@
   "native_omml_count": 3,
   "team_blank_errors": [],
   "raw_latex_in_visible_docx_text": false,
-  "visual_review": "not yet performed by assistant; actual per-page renders generated",
+  "visual_review": "NOT PERFORMED: all pages rasterized; local runtime and remote image retrieval failed. Automatic checks are not human visual review.",
   "model_tests": "not run",
   "web_deployment": "not performed",
   "application_target_pages": 5,
@@ -261,29 +261,96 @@
   "automatic_pass": true,
   "files": [
     {
-      "path": "deliverables/RDelay_v0.1_문서및생성원본.zip",
-      "bytes": 709967,
-      "sha256": "5a4ac79ccd9eb9da25a40c9d204cb5f1662de7fc8a0ba1ce1824cb1654658b24"
-    },
-    {
       "path": "deliverables/RDelay_종합설계서_v0.1.docx",
-      "bytes": 59215,
-      "sha256": "3fc7726d1f8dcaec41989bd33b7afc80349b3dc1a21d54e8ca69259cba0a8a52"
+      "bytes": 59256,
+      "sha256": "169985dcee02f6475125c08d1cc39294ad608f930ed72df158d6eac0586163fd"
     },
     {
       "path": "deliverables/RDelay_종합설계서_v0.1.pdf",
-      "bytes": 576731,
-      "sha256": "a380c62d928ac6a87885e809a53a4dd460564826b5e8898500c5f1eceb50a168"
+      "bytes": 580489,
+      "sha256": "f757fb42b52e33edeb8302501b288202820985452832c1606393ada3ffe78eae"
     },
     {
       "path": "deliverables/RDelay_참가신청서_v0.1.docx",
-      "bytes": 45396,
-      "sha256": "a99b3acee260de08cafbb172a5810278e2cc152edf5be96c641dcd0daf8fa3aa"
+      "bytes": 45500,
+      "sha256": "bca9d2c174be8dcd7cbdd40febee34fba7a7bd81cdc3917533bfe8a56788f55a"
     },
     {
       "path": "deliverables/RDelay_참가신청서_v0.1.pdf",
-      "bytes": 274741,
-      "sha256": "fcee1fd9001f1bd56d585341ca8916daa5a42cdd2fcfc3023bbc4789521f1525"
+      "bytes": 275367,
+      "sha256": "c4114856f7d23b55484d7dfba17c9d853df2deff8824672ba12b7ef096fd5dd6"
+    }
+  ],
+  "rendered_equation_checks": [
+    {
+      "path": "deliverables/RDelay_참가신청서_v0.1.pdf",
+      "native_math_count": 3,
+      "expected": 3,
+      "number_labels": [
+        1,
+        2,
+        3
+      ],
+      "all_numbers_found": true,
+      "sis_glyphs_present": true,
+      "fonts": [
+        "BAAAAA+NanumGothic",
+        "CAAAAA+NanumGothicBold",
+        "EAAAAA+DejaVuSans",
+        "FAAAAA+NanumGothic",
+        "GAAAAA+Carlito-Regular",
+        "HAAAAA+LiberationSerif-Italic",
+        "IAAAAA+OpenSymbol",
+        "JAAAAA+LiberationSerif",
+        "NotoColorEmoji"
+      ]
+    },
+    {
+      "path": "deliverables/RDelay_종합설계서_v0.1.pdf",
+      "native_math_count": 26,
+      "expected": 26,
+      "number_labels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "all_numbers_found": true,
+      "sis_glyphs_present": true,
+      "fonts": [
+        "BAAAAA+NanumGothic",
+        "CAAAAA+NanumGothicBold",
+        "DAAAAA+Carlito-Regular",
+        "EAAAAA+DejaVuSans",
+        "FAAAAA+NanumGothic",
+        "GAAAAA+LiberationSerif-Italic",
+        "HAAAAA+OpenSymbol",
+        "IAAAAA+LiberationSerif",
+        "JAAAAA+DejaVuSerif-Italic",
+        "KAAAAA+NanumGothic"
+      ]
     }
   ]
 }

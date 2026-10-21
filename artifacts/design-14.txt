@@ -12,15 +12,19 @@ Rq
 +τ t r an s f er ,q
 (s)
 , Dq
-(s)}   (15)
+(s)}
+(15)
 v L (t )=1−ηL xL (t )
 h0
 ,QL (t )=∫
 0
 t
-v L (u)d u   (16)
-sq (a)=max {Rq,bq (a)},QL(Gq (a))−QL(sq (a))=1   (17)
-Aq (a)=Gq (a)+uq (a),W t r uc k ,q (a)=max {Rq−bq (a),0}   (18)
+v L (u)d u
+(16)
+sq (a)=max {Rq,bq (a)},QL(Gq (a))−QL(sq (a))=1
+(17)
+Aq (a)=Gq (a)+uq (a),W t r uc k ,q (a)=max {Rq−bq (a),0}
+(18)
 기호
 뜻·단위·조건
 R_q, G_ship, D_q
