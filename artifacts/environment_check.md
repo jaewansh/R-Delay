@@ -1,8 +1,8 @@
 # 실행환경 확인
 
-- timestamp_utc: 2026-10-21T05:37:38.190949+00:00
+- timestamp_utc: 2026-10-21T05:43:01.211999+00:00
 - branch: codex/rdelay-bootstrap
-- source_commit: ef382213ab62f790f24c168c95c2c43f2d7fdcf6
+- source_commit: 8633b0d89bdb3d79e7c6358f6f6ec25eed1c4a44
 - git_status_before: ## codex/rdelay-bootstrap...origin/codex/rdelay-bootstrap
  M artifacts/build_tmp/R_native.docx
  M artifacts/build_tmp/SIS_native.docx

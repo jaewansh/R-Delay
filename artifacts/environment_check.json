@@ -1,7 +1,7 @@
 {
-  "timestamp_utc": "2026-10-21T05:37:38.190949+00:00",
+  "timestamp_utc": "2026-10-21T05:43:01.211999+00:00",
   "branch": "codex/rdelay-bootstrap",
-  "source_commit": "ef382213ab62f790f24c168c95c2c43f2d7fdcf6",
+  "source_commit": "8633b0d89bdb3d79e7c6358f6f6ec25eed1c4a44",
   "git_status_before": "## codex/rdelay-bootstrap...origin/codex/rdelay-bootstrap\n M artifacts/build_tmp/R_native.docx\n M artifacts/build_tmp/SIS_native.docx\n M artifacts/build_tmp/native_final_probe.docx\n M artifacts/build_tmp/native_final_probe.pdf",
   "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
   "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
