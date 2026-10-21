@@ -1,0 +1,23 @@
+# Public deployment configuration. Creating this file does NOT deploy a service.
+# No paid database, disk, worker, or automatic upgrade is requested.
+services:
+  - type: web
+    name: rdelay-demo
+    runtime: python
+    plan: free
+    region: singapore
+    repo: https://github.com/jaewansh/R-Delay
+    branch: codex/render-public-deploy
+    autoDeployTrigger: off
+    buildCommand: python -m pip install -r requirements-service.txt
+    startCommand: python scripts/start_public.py
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: WEB_CONCURRENCY
+        value: "1"

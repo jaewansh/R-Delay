@@ -1,0 +1,44 @@
+name: Public deployment preflight (does not deploy)
+on:
+  push:
+    branches: [codex/render-public-deploy]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+      RDELAY_SOURCE_COMMIT: ${{ github.sha }}
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test and browser tools
+        run: |
+          python -m pip install -r requirements-test.txt
+          python -m playwright install --with-deps chromium
+      - name: Run original and public guard tests
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/public_deploy
+          python --version | tee artifacts/public_deploy/python.txt
+          node --check web/app.js
+          python -m pytest tests -q --junitxml=artifacts/public_deploy/pytest.xml 2>&1 | tee artifacts/public_deploy/pytest.log
+          test "$(git rev-parse 'HEAD:deliverables/RDelay_참가신청서_v0.1.docx')" = '9489e768c049ab0091957c9e9528b6f94be857bd'
+          test "$(git rev-parse 'HEAD:deliverables/RDelay_종합설계서_v0.1.pdf')" = 'd7a24debd0ebfebceea3a9d175d6549e3a85ddd0'
+      - name: Actual public-entrypoint browser check on local loopback
+        run: python scripts/check_public_runtime.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: RDelay-public-deployment-preflight
+          path: artifacts/public_deploy/
+          retention-days: 14
