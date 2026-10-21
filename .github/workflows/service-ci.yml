@@ -32,6 +32,10 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 1
+      - name: Confirm preserved v0.1 Word and PDF bytes
+        run: |
+          test "$(git rev-parse 'HEAD:deliverables/RDelay_참가신청서_v0.1.docx')" = '9489e768c049ab0091957c9e9528b6f94be857bd'
+          test "$(git rev-parse 'HEAD:deliverables/RDelay_종합설계서_v0.1.pdf')" = 'd7a24debd0ebfebceea3a9d175d6549e3a85ddd0'
       - name: Install pinned service and browser test dependencies
         run: |
           python --version
