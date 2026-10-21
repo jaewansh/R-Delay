@@ -1,0 +1,76 @@
+name: R-Delay final document and source delivery
+on:
+  push:
+    branches: [codex/rdelay-final-delivery]
+    paths:
+      - 'scripts/build_final_delivery.py'
+      - '.github/workflows/final-delivery.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: rdelay-final-delivery
+  cancel-in-progress: false
+jobs:
+  deliver:
+    if: github.ref == 'refs/heads/codex/rdelay-final-delivery'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: ${{ github.workspace }}
+      RDELAY_SOURCE_COMMIT: 4791514f711a0eab07a7b64c2773b85658737674
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/rdelay-final-delivery
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect selected branch and preserve original service
+        run: |
+          test "$(git branch --show-current)" = 'codex/rdelay-final-delivery'
+          git status --short --branch
+          git log -1 --oneline
+          git diff --exit-code 4791514f711a0eab07a7b64c2773b85658737674 HEAD -- engine api web tests requirements-service.txt
+          mkdir -p artifacts/final_delivery
+      - name: Prepare runtime and document tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libreoffice-writer libreoffice-math pandoc fonts-nanum fonts-dejavu-core fonts-texgyre fonts-crosextra-carlito poppler-utils
+          python -m pip install -r requirements-test.txt 'python-docx==1.2.0' 'PyMuPDF==1.26.5' 'lxml==6.0.2'
+          python -m playwright install --with-deps chromium
+          python --version > artifacts/final_delivery/environment.txt
+          libreoffice --version >> artifacts/final_delivery/environment.txt
+          pandoc --version >> artifacts/final_delivery/environment.txt
+          git --version >> artifacts/final_delivery/environment.txt
+      - name: Re-execute real model and API tests
+        run: |
+          set -o pipefail
+          python -m pytest tests -q --junitxml=artifacts/final_delivery/pytest.xml 2>&1 | tee artifacts/final_delivery/pytest.log
+      - name: Re-execute actual browser checks
+        run: python scripts/check_runtime_browser.py
+      - name: Generate updated Word PDF and source archives
+        run: python scripts/build_final_delivery.py
+      - name: Commit only new delivery artifacts to the delivery branch
+        run: |
+          test "$(git branch --show-current)" = 'codex/rdelay-final-delivery'
+          git config user.name 'R-Delay delivery builder'
+          git config user.email 'rdelay-builder@users.noreply.github.com'
+          git add deliverables/final_20261022 artifacts/final_delivery
+          if ! git diff --cached --quiet; then
+            git commit -m 'deliver: code-aligned proposal v0.3 PDF and complete source snapshots [skip ci]'
+            git push origin HEAD:codex/rdelay-final-delivery
+          fi
+          git log -1 --oneline
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: RDelay-final-delivery
+          path: |
+            deliverables/final_20261022/
+            artifacts/final_delivery/
+          retention-days: 14
+          if-no-files-found: warn
