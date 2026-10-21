@@ -4,6 +4,7 @@ on:
     branches: [codex/rdelay-final-delivery]
     paths:
       - 'scripts/build_final_delivery.py'
+      - 'scripts/finalize_delivery.py'
       - '.github/workflows/final-delivery.yml'
   workflow_dispatch:
 permissions:
@@ -53,7 +54,7 @@ jobs:
       - name: Re-execute actual browser checks
         run: python scripts/check_runtime_browser.py
       - name: Generate updated Word PDF and source archives
-        run: python scripts/build_final_delivery.py
+        run: python scripts/finalize_delivery.py
       - name: Commit only new delivery artifacts to the delivery branch
         run: |
           test "$(git branch --show-current)" = 'codex/rdelay-final-delivery'
