@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-21T17:08:44.162460+00:00",
-  "delivery_source_commit": "85671b528095197ca165bfdb28b9ccd8f78db11f",
+  "generated_at": "2026-10-21T17:11:56.636959+00:00",
+  "delivery_source_commit": "d6f1649129078cd39fd6dd4f830564537ac7bdea",
   "stable_code_commit": "4791514f711a0eab07a7b64c2773b85658737674",
   "pytest": {
     "tests": 40,
@@ -9,7 +9,7 @@
     "skipped": 0
   },
   "browser": {
-    "started_at": "2026-10-21T17:08:34.852886+00:00",
+    "started_at": "2026-10-21T17:11:49.175637+00:00",
     "mocked_api": false,
     "csp_bypassed": false,
     "external_network_during_ui": [],
@@ -78,7 +78,7 @@
     "human_visual_review": "not performed",
     "browser_version": "136.0.7103.25",
     "passed": true,
-    "completed_at": "2026-10-21T17:08:42.931975+00:00",
+    "completed_at": "2026-10-21T17:11:56.406107+00:00",
     "source_commit": "4791514f711a0eab07a7b64c2773b85658737674"
   },
   "field_validation": "not performed",

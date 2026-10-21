@@ -1,8 +1,8 @@
 # 최종 전달 문서 검사
 
 {
-  "generated_at": "2026-10-21T17:08:44.162460+00:00",
-  "source_commit": "85671b528095197ca165bfdb28b9ccd8f78db11f",
+  "generated_at": "2026-10-21T17:11:56.636959+00:00",
+  "source_commit": "d6f1649129078cd39fd6dd4f830564537ac7bdea",
   "stable_code_commit": "4791514f711a0eab07a7b64c2773b85658737674",
   "summary_characters": 137,
   "motivation_characters": 150,

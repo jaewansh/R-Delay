@@ -1,40 +1,45 @@
 {
-  "generated_at": "2026-10-21T17:08:44.162460+00:00",
+  "generated_at": "2026-10-21T17:11:56.636959+00:00",
   "document_version": "0.3",
   "service_version": "0.2.0",
-  "delivery_source_commit": "85671b528095197ca165bfdb28b9ccd8f78db11f",
+  "delivery_source_commit": "d6f1649129078cd39fd6dd4f830564537ac7bdea",
   "stable_code_commit": "4791514f711a0eab07a7b64c2773b85658737674",
   "deployment_preparation_commit": "1d1d61f68d4fdeb3e2fa48b9b34965e4b013f623",
   "files": [
     {
       "path": "deliverables/final_20261022/RDelay_배포준비코드_미배포.zip",
       "bytes": 11633102,
-      "sha256": "ff0ba4b2a240a14105489d8e1e8d9fcb2b249e006aba9f2021804131b7a0b077"
+      "sha256": "c8dcf3f14f3d5772e9ca1d71dc120cdc9622dd82c850cf1f5af56db9fe75f3cf"
     },
     {
       "path": "deliverables/final_20261022/RDelay_전체코드_v0.2_20261022.zip",
-      "bytes": 11637013,
-      "sha256": "415c5bebf5790acea54c7da1406355c378885340e8ceaa7e3987bb1398ae1d36"
+      "bytes": 11638617,
+      "sha256": "c41346341cb77f720dc4a89c2c8b1d2180ba2f9733776d0b46b48600e89cf52d"
     },
     {
       "path": "deliverables/final_20261022/RDelay_종합기획서_수리모델설명_v0.3.docx",
-      "bytes": 64210,
-      "sha256": "48ca1538c520bd6ef248737c234b4fab62789c1df894b4b7599320d01a22b298"
+      "bytes": 64237,
+      "sha256": "f5d7433109a5613b195b23b4e79fa327e8dff4edacf1d522e592151ea560261f"
     },
     {
       "path": "deliverables/final_20261022/RDelay_종합기획서_수리모델설명_v0.3.pdf",
-      "bytes": 718798,
-      "sha256": "7a2c9ca2c0aae0d717583c81b388134259e61088704c597ba35b777a26ab3ffd"
+      "bytes": 719017,
+      "sha256": "4115c97c41a3d11eba32fedf6a0d4dbc2a6f390e4f2972cdce01183fbe6c9a62"
     },
     {
       "path": "deliverables/final_20261022/RDelay_최종기획서_참가신청서_v0.3.docx",
       "bytes": 45605,
-      "sha256": "8cf73357741a9485fd8a9ae2f5f46d48aefba8f634b3955d1aad5412812a012b"
+      "sha256": "26fe577ad2eccb72a8e07a9e8b32d5c175fb4d4f10d76a65823d0d9a3c21bcd1"
     },
     {
       "path": "deliverables/final_20261022/RDelay_최종기획서_참가신청서_v0.3.pdf",
       "bytes": 284984,
-      "sha256": "ab084ec57f45a89eff3e15c637b2c0a246881157486551d621d8b6cddd018014"
+      "sha256": "e008aa51b266cf5cdd0fbd27b6e2ec6268d79a6c355874d043fc1940661e9437"
+    },
+    {
+      "path": "deliverables/final_20261022/먼저읽기_전달범위.md",
+      "bytes": 614,
+      "sha256": "69c375bc1309e3b70f67fd21695fa4a519642ee57290220041b2c624d1b78774"
     }
   ]
 }
