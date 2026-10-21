@@ -1,11 +1,13 @@
 name: R-Delay document bootstrap
 on:
+  workflow_dispatch:
   push:
     branches: [codex/rdelay-bootstrap]
     paths:
-      - 'scripts/**'
+      - 'scripts/build_documents.py'
+      - 'scripts/build_native_documents.py'
+      - 'scripts/audit_rendering.py'
       - 'docs/content.json'
-      - '.github/workflows/documents.yml'
 permissions:
   contents: write
 concurrency:
