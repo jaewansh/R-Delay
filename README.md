@@ -1,162 +1,183 @@
-# R-Delay
-### 감염병 확산 수리모델 기반 해상·육상 지연 예측·대응 웹서비스
+# R-Delay — 지연이 번지기 전에, 오늘 화물을 지킵니다
+## 2026 동남권 멀티도메인 모빌리티 비즈니스 해커톤 출품작
+#### 개인부문 · 해상–육상–항공 연쇄지연 조기경보와 배차 결정
 
-**2026 동남권 멀티도메인 모빌리티 비즈니스 해커톤 · 개인부문 참가 준비 프로젝트**
+![R-Delay](./image/cover.jpg)
 
-> 수식 설명만 보여주는 화면이 아닙니다. 브라우저의 입력을 실제 Python 계산 엔진에 전달하고, **계수 추정 → SIS·로그-OU → 관측 갱신 → 선석 대기 → 화물 준비·반출 → 배차 위험·비용**을 계산하는 합성 시제품입니다.
->
-> **v0.2 범위:** 2거점, 10:00 관측 1회, 합성자료 전용 로컬 웹서비스. 실제 항만 예측력·고객 구매·절감 효과는 미검증입니다. 외생변수 머신러닝·일반 관측 스트리밍·공개 배포는 아직 없습니다. 검사 통과 여부는 아래 **실제 실행 기록**에서 확인하세요. 테스트 소스 존재만으로 통과를 주장하지 않습니다.
-
-[실행 코드 ZIP](deliverables/RDelay_runtime_v0.2.zip) · [실행 검증 기록](artifacts/runtime/validation_summary.md) · [신청서 Word](deliverables/RDelay_참가신청서_v0.1.docx) · [종합설계 PDF](deliverables/RDelay_종합설계서_v0.1.pdf) · [구현 계약·한계](docs/runtime_contract.md)
-
-**기본 브랜치 `main`에 반영 완료:** 2026-10-21 사용자의 명시적 승인에 따라 [PR #1](https://github.com/jaewansh/R-Delay/pull/1)을 병합했습니다. 이제 저장소 기본 화면에서 서비스 코드·문서·실제 시연 자료를 확인할 수 있습니다. 작업 브랜치 `codex/rdelay-bootstrap`과 기존 커밋 이력은 보존했습니다. 자동 병합 설정이나 공개 웹사이트 배포는 하지 않았습니다.
+---
+### 개발 기간
+- 기획·예선: 2026.10 (참가신청서·종합설계서, 합성 시제품)
+- 본선판 v2.0: 2026.10 – 2026.11 (배차 담당자 화면·브리핑 4종·기사님 화면, 본선 시연용)
 
 ---
 
-## 1. 문제와 프로젝트
+## 프로젝트 개요
 
-해상 지연이 육상 일정에 전파될 때, 운송 조율 담당자가 **원래 수령 마감과 실제 변경조건을 함께 보며** 배차 유지·변경을 검토하는 서비스를 지향합니다. 부산신항→양산권 수입컨테이너를 초기 업무 시나리오로 설정했습니다. 해당 구간의 실제 연결자료나 고객을 확보했다는 의미는 아닙니다.
+R-Delay는 부산신항에서 시작된 지연이 게이트·도로를 거쳐 항공 반입까지 번지는 과정을 **감염병 확산 모형**으로 계산하는 배차 결정 도구입니다.
+중소 운송사 배차 담당자가 오전 10시에 한 화면에서 **지연이 번지는지(번짐 지수 R<sub>d</sub>) → 왜 그런지 → 내 화물 중 무엇이 위험한지 → 몇 시에 출발해야 하는지**를 보고, 화주·기사·사내·항만에 보낼 안내문까지 바로 만듭니다.
 
-이번 실행 사례 B는 **가상 08:00 시작 / 10:00 판단 / 대상 선박 11:00 도착 / 원래 수령지 마감16:00**입니다. 과거 대화의 다섯 상태·13:15 예제와 다른 합성 시나리오입니다. 후보를 비교하는 동안 원래16:00 마감을 바꾸지 않습니다.
+**웹 데모 → https://jaewansh.github.io/R-Delay/** — 설치·가입 없이 PC·휴대폰 브라우저에서 바로 실행됩니다. 계산 엔진(Python)도 브라우저 안에서 돌아가고, 한 번 열면 인터넷이 끊겨도 열립니다.
 
-## 2. 실제 실행 화면과 시연
+| 배차 담당자 | 기사님 | 분석 화면 | 수리모형 |
+|:---:|:---:|:---:|:---:|
+| [배차판·브리핑](https://jaewansh.github.io/R-Delay/?s=terminal_failure&c=ulsan_export) | [기사님 화면](https://jaewansh.github.io/R-Delay/driver.html?s=terminal_failure&c=ulsan_export&a=1) | [분석·근거](https://jaewansh.github.io/R-Delay/analysis.html?s=terminal_failure) | [작동 원리·검증](https://jaewansh.github.io/R-Delay/method.html) |
 
-아래 PNG·GIF·WebM은 `scripts/check_runtime_browser.py`가 **실제 로컬 API와 Chromium**을 실행해 저장하는 자료입니다. API 답변을 모킹하거나 목업 이미지를 만들지 않습니다. 생성 여부와 통과 기록은 [browser_check.json](artifacts/runtime/browser_check.json)을 기준으로 합니다. 이미지를 직접 눈으로 검토한 여부는 별도 기록입니다.
+> 합성 데이터 개념검증(TRL 3)입니다. 화면의 수치는 공개 보도로 확인한 사건 유형을 본뜬 가상 자료로 계산했으며, 특정 터미널·기업의 자료나 판정이 아닙니다(터미널 이름은 ‘가상 자동화 터미널 A’).
 
-![실제 웹 화면](image/runtime/dashboard.png)
+---
 
-### 기본 조건 → 관측 지연 증가 → 선석 운영 중단
+## 전체 개발 구조
 
-![실제 브라우저 프레임의 시나리오 비교](image/runtime/demo.gif)
+![전체 개발 구조](./image/architecture.png)
 
-[브라우저 녹화 WebM](image/runtime/demo.webm) · [관측 갱신 화면](image/runtime/posterior.png) · [운영 중단 화면](image/runtime/closure.png) · [모바일 폭 화면](image/runtime/mobile.png)
+## 시연 영상
 
-**공개 웹사이트 URL은 아직 없습니다.** 저장소 업로드·로컬 서버 실행·공개 배포는 서로 다른 작업입니다. 노트북에서는 아래 명령으로 웹사이트를 실행합니다.
+![시연 영상](./image/demo.gif)
 
-## 3. 빠른 실행
+---
 
-Python 3.12 환경을 권장합니다. 첫 설치에는 패키지 다운로드가 필요합니다. 설치 후에는 외부 항만 서버·지도·CDN 없이 동일 컴퓨터에서 계산합니다.
+## 핵심 기능
 
-```bash
-git clone --branch main --single-branch https://github.com/jaewansh/R-Delay.git
-cd R-Delay
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-service.txt
-python -m uvicorn api.main:app --host 127.0.0.1 --port 8000
-```
+![주요 기능 1 — 오늘 화물 배차판](./image/feature_1_board.jpg)
+![주요 기능 2 — 출발 시각 바꾸기 · 근거 보기](./image/feature_2_depart.jpg)
+![주요 기능 3 — 상황별 브리핑 4종](./image/feature_3_briefing.jpg)
+![주요 기능 4 — 기사님 링크](./image/feature_4_driver.jpg)
+![주요 기능 5 — 상황별 장면 · 검증 공개](./image/feature_5_scenario.jpg)
 
-Windows에서는 가상환경 활성화 명령을 `.venv\Scripts\Activate.ps1`로 바꿉니다. 브라우저에서 **http://127.0.0.1:8000**에 접속합니다. HTML 파일을 더블클릭하는 방식은 Python 엔진을 실행하지 못합니다.
+---
 
-실행 후 `시뮬레이션 실행`을 누르면 실제 계산이 돌아옵니다. 관측 건수·연결 배율·확률변동·선석 중단시간을 바꾸고 다시 실행하세요. 원래 마감은 고정입니다. 새 입력이나 계산 오류가 있으면 이전 추천을 숨깁니다.
+## 기술 스택
 
-### 선택: 로컬 컨테이너
+| 분야 | 기술 |
+|------|------|
+| Web App | HTML · CSS · JavaScript(빌드 없음), PWA(서비스 워커 오프라인 캐시·홈 화면 설치), SVG 차트 |
+| Math Engine | Python — 물동량 보정 다층 SIS, 번짐 지수 R<sub>d</sub>, 입자필터·평활(음이항+베타-이항), 시간가변 선석 대기열(전진방정식), 기회제약 배차 |
+| In-browser Runtime | Pyodide 0.27.2 · NumPy, Web Worker에서 실행(입력값 외부 전송 없음) |
+| AI Module | 릿지 회귀 f<sub>ω</sub> — 풍속·파고·주말·장비 상태 → 전파율 사전평균(보조 모듈) |
+| Briefing | 화주 안내 · 기사 지시 · 사내 보고 · 항만 협의 자동 작성, 복사·공유·인쇄·저장 |
+| Data Kit | Python — PORT-MIS 관제정보 수집, ‘선박 대기 12시간 초과’ 라벨, 자료 점검표 |
+| Test | pytest 46개(엔진), Node test 38개(화면 문구·브리핑 규칙), 합성 세계 60개 × 5개 장면 검증, 화면 파일 버전 점검, 데이터 키트 자체 시험 20개 |
+| Deploy | GitHub Pages (`/docs`), GitHub Actions (CI) |
 
-```bash
-docker compose up --build
-```
+---
 
-컨테이너 설정은 포함했지만 실행 검증 여부는 [검증 기록](artifacts/runtime/validation_summary.json)을 확인하세요. 호스트 포트는127.0.0.1에만 연결합니다. Docker 이미지를 외부에 게시하거나 유료 서버를 만들지 않았습니다.
+## 주요 구현 코드
 
-## 4. 실제 소스 구조
+![번짐 지수 — 물동량 보정 다층 SIS](./image/code_1_sis.png)
+![입자필터 · 학습형 전파율](./image/code_2_filter.png)
+![기회제약 배차 — 놓칠 확률 상한](./image/code_3_dispatch.png)
 
-```text
-engine/
-  sis.py                 원안 SIS, 집단 크기 비율, 입자별 R_d
-  filtering.py           로그-OU, 베타-이항·음이항, 가중치·ESS·재표본추출
-  queueing.py            시간가변 선석 전진방정식·흡수 넘침·대상 선박
-  calibration.py         관측 적분에 의한 상수 회복률 추정·합성 평가
-  simulation.py          사건 연결·고정 마감·비용·실행조건의 전체 계산
-api/
-  schemas.py             입력·시각·자료상태·계산 크기 제한
-  main.py                계산 API와 로컬 웹, 결과 JSON 저장
-web/
-  index.html             운영 화면과 실제 수리모델 식
-  styles.css             데스크톱·모바일 레이아웃
-  app.js                 입력·API 호출·결과 시각화 (모델 재구현 없음)
-tests/                    수리모델·제약·API·직접 검산
-scripts/                  실제 브라우저 검사·증거 패키징 / 기존 문서 생성
-artifacts/runtime/        실행한 pytest·Chromium 검사·예시 결과
-image/runtime/            실제 화면 PNG·시연 GIF·브라우저 녹화
-├ deliverables/           Word·PDF v0.1, 서비스 소스 ZIP v0.2
-├ docs/                   설계·출처·구현 계약·상태
-└ .github/workflows/      문서 검사 / 서비스 CI 분리
-```
+---
 
-[수리모델 원본](engine/) · [API](api/) · [웹](web/) · [테스트](tests/) · [실제 브라우저 검사](scripts/check_runtime_browser.py)
+## 향후 구현 계획
 
-## 5. 전체 계산 구조
+![향후 구현 — 공개 데이터로 실자료 백테스트](./image/roadmap_data.png)
 
-```mermaid
-flowchart TB
-  INPUT["웹: 합성 운송건 · 관측 · 시나리오"] --> API["FastAPI / 입력 검증"]
-  CAL["과거 합성 관측 / 상수 회복률 추정"] --> SIS["SIS + 로그-OU / 입자별 예측"]
-  API --> SIS
-  SIS --> PF["10:00 관측 갱신 / 가중치 · ESS"]
-  PF --> FORECAST["조건부 미래 SIS 경로"]
-  FORECAST --> BERTH["선석 전진방정식 / 넘침 관리"]
-  BERTH --> TAG["대상 선박 1회 삽입 / 대기 · 작업"]
-  TAG --> READY["화물 준비 / 이송 · 문서 조건"]
-  FORECAST --> LAND["육상 처리 진척"]
-  READY --> LAND
-  LAND --> ARRIVAL["도로 이동 / 원래 마감 비교"]
-  ARRIVAL --> DECISION["위험 · 비용 · 차량 · 예약 · 승인 · 시한"]
-  DECISION --> WEB["추천 / 추천 없음 / 확인 필요 / 미완결"]
-  WEB --> JSON["입력 · 커밋 · 시드 · 계산 근거 JSON"]
-```
+---
 
-실제 소스에 대응하는 로컬 실행 구조입니다. 공개 배포 구성도가 아닙니다.
+## 실행 방법
 
-## 6. 핵심 미분방정식
-
-$$
-\frac{dI_i}{dt}=\beta_i(t)\left(1-\frac{I_i}{N_i}\right)\sum_j C_{ij}(t)I_j-\gamma_i(t)I_i.
-$$
-
-$$
-C(t)=\mathrm{Id}+\kappa\tau_0M(t),\qquad R_d(t)=\rho\left[\operatorname{diag}\left(\beta_i(t)(1-I_i/N_i)\right)C(t)\Gamma(t)^{-1}\right].
-$$
-
-시간은h, I/N은같은 의미의 작업 수/비율, beta/gamma/M은h^-1, C의 행은 받는 거점·열은 보내는 거점입니다. **R_d는 개별 화물의 실패확률이 아닙니다.** SIS 상태는 선석 대기열의 선박 수와도 다릅니다.
-
-로그-OU는 평균회귀하는 로그 상태에서 양의 beta를 만듭니다. 필터는 신규 사건 수에 음이항, 현재 표본 지연 수에 베타-이항을 사용합니다. 관측 종류에 맞는 가능도를 계산하고, 원래 모델의 설명과 새 관측 연결 가정을 구분합니다.
-
-**추가 가정:** SIS 해상 지연은 선석 서비스 위험률에, 육상 지연은 반출 처리속도에 연결됩니다. 대상 선박 작업 이후 이송·문서 조건으로 준비시각을 정합니다. 선석 대기는 여기 한 번만 반영합니다. 자세한 조건과 한계는 [runtime_contract.md](docs/runtime_contract.md)에 있습니다.
-
-## 7. 핵심 기능과 검증
-
-| 기능 | 실제 코드 | 확인 방법 |
-|---|---|---|
-| SIS 지연전파 | `engine/sis.py` | 해석해·상태 범위·다른 집단 크기 검사 |
-| 로그-OU 확률변동 | `engine/filtering.py` | 전이 평균·분산·무잡음·고정 시드 검사 |
-| 관측 갱신 | `engine/filtering.py` | 두 입자 직접 계산·불가능 관측·ESS |
-| 선석 대기 | `engine/queueing.py` | 순수 도착 Poisson 대조·확률 보존·넘침 |
-| 화물·육상 연결 | `engine/simulation.py` | 사건 순서·중복 대기 방지·기간 밖 표본 |
-| 계수 추정 | `engine/calibration.py` | 상수 회복률 복원·잡음 민감도; 머신러닝 전체 아님 |
-| 배차 의사결정 | `engine/simulation.py` | 고정 마감·시간 경계·미확인 후보 제외 |
-| 웹/API | `api/`, `web/` | 실제 Chromium 입력·갱신·저장·오류·모바일 검사 |
+<details>
+<summary><b>웹 앱</b> (설치·빌드 없음)</summary>
 
 ```bash
-python -m pip install -r requirements-test.txt
-python -m pytest tests -q
-python -m playwright install chromium
-PYTHONPATH=. python scripts/check_runtime_browser.py
+python3 -m http.server -d docs 8000      # http://localhost:8000 에서 열기
 ```
 
-Linux에 브라우저 시스템 의존성이 없으면 `python -m playwright install --with-deps chromium`으로 준비합니다. 검사 기록은 [validation_summary.md](artifacts/runtime/validation_summary.md)와 [browser_check.json](artifacts/runtime/browser_check.json)에 있습니다. 문서 생성 워크플로 성공을 서비스 검사 통과로 바꾸어 표시하지 않습니다.
+- 장면과 화물은 주소로 고릅니다: `?s=<장면>&c=<화물>` (예: `?s=terminal_failure&c=ulsan_export`)
+  - 장면: `base` · `terminal_failure` · `typhoon_diversion` · `holiday_surge` · `epidemic` · `h2_trucks`
+  - 화물: `import_factory` · `ulsan_parts` · `sea_air` · `ulsan_export`
+- 기사님 화면: `driver.html?s=terminal_failure&c=ulsan_export&a=1` (`a=1`은 시간 변경을 적용한 화면)
+- 화면 파일(css·js)을 고치면 `docs/sw.js`의 `V`와 모든 `?v=` 값을 함께 올린 뒤 `node scripts/check-assets.mjs --write`를 실행합니다(오프라인 캐시가 옛 파일과 섞이지 않게).
+- 올리는 방법과 GitHub Pages 설정은 [GUIDE_GITHUB.md](GUIDE_GITHUB.md)에 있습니다.
 
-## 8. 구현 범위와 아직 남은 일
+</details>
 
-합성 시제품은 실제 계산을 연결했지만 실제 데이터 학습 서비스는 아닙니다. v0.2는 **10:00에 이용 가능한 관측1회**와 알려진 초기 대기열만 지원합니다. 같은 시각의 관측 수정은 원본 실행을 보존하고 새 실행으로 만듭니다. 늦게 수신한 관측·임의 시간의 스트리밍은 거부합니다.
+<details>
+<summary><b>Python 엔진·검증</b> (Python 3.12 이상, Node.js 22 이상)</summary>
 
-외생변수 기반 beta/gamma 머신러닝, 일반 관측 스트리밍, 실제 연결자료, 여러 운송건 공동 최적화, 공개 배포·인증·영속 저장은 아직 구현하지 않았습니다. 이번 대회 목표에서 임의로 제외한 것은 아닙니다.
+```bash
+python3 -m pip install -r requirements.txt
+python3 -m pytest -q                     # 엔진 테스트 46개
+node --test tests/*.test.mjs             # 화면 문구·브리핑 규칙 테스트 38개
+node scripts/check-assets.mjs            # 화면 파일 버전 점검
+python3 scripts/train_ai.py              # 학습형 전파율 모듈 재학습(약 2분) → docs/data/ai_model.json
+python3 scripts/build_data.py            # 6개 장면 미리 계산(약 4초) → docs/data/precomputed.json
+python3 scripts/validate.py              # 합성 세계 검증(8코어 약 1분) → docs/data/validation.json
+```
 
-과거 문서 v0.1은 설계 스냅샷으로 보존했습니다. 서비스 구현 후 제출 문서의 상태표를 갱신하는 작업은 별도이며, 문서의 전체 육안 검수도 여전히 별개입니다. 위험값을 실제 실패율·비용 절감 실적으로 쓰지 않습니다.
+엔진만 쓸 때(브라우저와 같은 코드):
 
-## 9. 제출 자료와 역할
+```python
+import sys, json; sys.path.insert(0, "docs/py")
+from rdelay import api
+model = json.load(open("docs/data/ai_model.json"))
+out = api.run({"scenario": "terminal_failure", "cargo": "ulsan_parts", "epsilon": 0.05}, ai_model=model)
+print(out["now"]["alarm"], out["now"]["cause"], out["cargo"]["ulsan_parts"]["decision"]["message"])
+```
 
-[참가신청서 Word](deliverables/RDelay_참가신청서_v0.1.docx) · [신청서 PDF](deliverables/RDelay_참가신청서_v0.1.pdf) · [21쪽 종합설계서](deliverables/RDelay_종합설계서_v0.1.pdf) · [문서 생성 원본](scripts/build_documents.py)
+시연 영상은 `scripts/demo/`에서 다시 만들 수 있습니다(Playwright·ffmpeg).
 
-역할은 수리모델·검증, 데이터·관측 정의, 웹·사용자 흐름, 공개 업무근거·사업화로 분담합니다. 팀원 이름·개인정보·서명·증명서는 공개하지 않습니다. 비용 부담자·구매자·가격은 아직 가설입니다.
+</details>
 
-구성 참고: [DOCKin-Hackathon](https://github.com/Khyojae/DOCKin-Hackathon)의 프로젝트 소개·역할별 코드·실제 시연 구조. 타 프로젝트의 코드·이미지·영상·수상 이력은 가져오지 않았습니다. 라이선스가 확인되지 않은 코드를 복사하지 않습니다. 수리모델은 사용자 제공 원안과 명시한 후속 설계입니다.
+<details>
+<summary><b>공개 데이터 수집 키트</b> (실자료 백테스트 준비)</summary>
+
+```bash
+cd data-kit
+pip install -r requirements.txt
+python selftest.py                       # 가짜 서버로 전 과정 시험(인터넷·인증키 불필요) → 20/20 통과
+cp .env.example .env                     # 공공데이터포털 인증키 입력
+python fetch_portmis.py --probe --start 2023-01-02 --end 2023-01-02   # 관제정보 제공 기간 확인
+python run_all.py --start 2023-01-01     # 관제정보 수집 → 대기 라벨 → 점검표(하루 호출 한도마다 이어서)
+```
+
+화면별 단계 안내는 [data-kit/R-Delay_공개데이터_확보가이드.pdf](data-kit/R-Delay_공개데이터_확보가이드.pdf), Clarksons 자료 요청은 [data-kit/R-Delay_Clarksons_데이터요청서.pdf](data-kit/R-Delay_Clarksons_데이터요청서.pdf)에 있습니다. 받은 자료(`data-kit/data/`)와 인증키(`.env`)는 저장소에 올리지 않습니다.
+
+</details>
+
+<details>
+<summary><b>폴더 구조</b></summary>
+
+```
+R-Delay/
+├─ docs/               GitHub Pages가 서비스하는 웹 앱 전체(빌드 없음)
+│  ├─ index.html       배차 담당자 화면(배차판 + 브리핑 4종)
+│  ├─ driver.html      기사님 화면
+│  ├─ analysis.html    분석 화면(경보·원인·전망·검증 요약)
+│  ├─ method.html      작동 원리·검증(수식·판정 규칙·검증 표)
+│  ├─ assets/          화면 css·js, 글꼴(OFL), 아이콘
+│  ├─ data/            미리 계산 결과 · AI 모듈 계수 · 검증 결과
+│  ├─ py/rdelay/       Python 엔진: sis · volume · ai · engine · queue · cargo · stats · config · api
+│  └─ sw.js            오프라인 캐시(서비스 워커)
+├─ scripts/            학습 · 미리 계산 · 검증 · 화면 캡처 · 시연 영상(demo/)
+├─ tests/              엔진(pytest) · 화면 문구·브리핑 규칙(node --test)
+├─ data-kit/           공개 데이터 수집 키트 · 데이터 확보 가이드 · Clarksons 요청서
+├─ image/              README 이미지
+├─ MODEL.md            모형 정의·가정·증명
+├─ REPORT.md           기술 보고서(문제 · 시연 장면별 결과 · 합성 검증 · 로드맵 · 한계 · 출처)
+├─ GUIDE_GITHUB.md     GitHub 업로드 · Pages 설정 · 확인 방법
+└─ .github/workflows/ci.yml   테스트 자동 실행
+```
+
+</details>
+
+## 데이터·인용 고지
+
+- 화면의 물동량·처리능력·지연·비용·승인 확률·충전소 조건은 공개 보도로 확인한 사건 유형을 본뜬 **합성 가정치**입니다. 검증은 필터가 참 구조·정적 모수를 아는 조건의 합성 세계 결과이며 실증 성능이 아닙니다. 원인 판정은 모형상 배분이며 귀책 판단에 쓰지 않습니다. 의사결정 지원용이며 최종 판단과 책임은 사용자에게 있습니다.
+- 브리핑 문서의 회사·담당자·연락처·컨테이너 번호(RDLU…)는 자리표시자·가상 값입니다.
+- 문제 정의에 쓴 공개 보도와 지역 연계 근거는 [REPORT.md의 출처](REPORT.md#출처)에, 모형 상세는 [MODEL.md](MODEL.md)에 있습니다.
+- 실자료 연동 시 출처: 해양수산부·부산항만공사 공공데이터(공공데이터포털), 기상청 기상자료개방포털(공공누리 출처표시), 한국도로공사. Clarksons Research 자료는 학술 이용 조건 때문에 원자료를 저장소에 넣지 않습니다.
+- [P1] 선행연구 — *A mobility-informed SIR model for regional transmission dynamics: Evidence from subway mobility data in Korea, 2016–2023*(한국자료분석학회지 최종원고, 2026). 이동량 보정 계수 구조를 물동량·처리능력으로 옮겼습니다.
+- 라이브러리·글꼴: [Pyodide](https://pyodide.org) 0.27.2(MPL-2.0), [NumPy](https://numpy.org)(BSD-3-Clause), [KaTeX](https://katex.org) 0.16.11(MIT), Pretendard·Barlow Semi Condensed(SIL OFL). 코드: [MIT License](LICENSE).
+
+---
+
+## 팀원
+
+| 이름 | 이메일 |
+|---|---|
+|신재완|sjw6258@g.kmou.ac.kr|
+|명정효|karl0126@naver.com|
+|김진현|jinh7205@naver.com|
+|김태훈|kth060420@gmail.com|
