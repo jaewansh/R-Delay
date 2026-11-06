@@ -33,10 +33,11 @@ jobs:
           for f in docs/index.html docs/analysis.html docs/driver.html docs/manifest.webmanifest docs/assets/js/board.js docs/assets/js/briefing.js docs/assets/js/driver.js docs/assets/css/board.css docs/sw.js docs/data/precomputed.json docs/data/ai_model.json \
                    docs/assets/js/app.js docs/assets/js/charts.js docs/assets/js/engine-worker.js \
                    docs/assets/js/format.js docs/assets/js/derive.js docs/method.html docs/assets/js/method.js \
-                   docs/assets/js/validation-tables.js docs/assets/css/method.css; do
+                   docs/assets/js/validation-tables.js docs/assets/css/method.css \
+                   docs/backtest.html docs/assets/js/backtest.js docs/data/backtest.json; do
             test -s "$f" || { echo "missing $f"; exit 1; }
           done
-          python -c "import json; json.load(open('docs/data/precomputed.json'))"
+          python -c "import json; json.load(open('docs/data/precomputed.json')); json.load(open('docs/data/backtest.json'))"
 
   data-kit:
     runs-on: ubuntu-latest
@@ -49,3 +50,18 @@ jobs:
         run: python -m pip install -r data-kit/requirements.txt
       - name: Data kit self-test (mock servers, no network)
         run: python data-kit/selftest.py
+
+  realdata:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install -r requirements.txt -r requirements-backtest.txt
+      - name: Real-data backtest unit tests (CI has no raw data; leakage test runs locally)
+        run: python -m pytest -q tests/test_realdata.py
+      - name: Published backtest summary is well formed
+        run: |
+          python -c "import json; d = json.load(open('docs/data/backtest.json', encoding='utf-8')); h = d['headline']; assert 0 < h['pr_auc'] < 1 and d['cases'], 'bad backtest.json'; print('backtest.json ok', h['pr_auc'])"

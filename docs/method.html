@@ -8,10 +8,10 @@
   <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261105a">
-  <link rel="stylesheet" href="assets/css/method.css?v=20261105a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261107b">
+  <link rel="stylesheet" href="assets/css/method.css?v=20261107b">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <script type="module" src="assets/js/method.js?v=20261105a"></script>
+  <script type="module" src="assets/js/method.js?v=20261107b"></script>
 </head>
 <body class="m-page">
 <a class="m-skip" href="#main">본문으로 건너뛰기</a>
@@ -24,7 +24,7 @@
       <details class="m-about" id="about">
         <summary class="m-badge" aria-label="시연용 가상 데이터 안내 열기">ⓘ 시연용 가상 데이터</summary>
         <div class="m-about-body" role="note">
-          <p><b>합성 데이터 개념검증(TRL 3 수준)입니다.</b> 실데이터는 아직 연동하지 않았습니다. 화면의 수치는 공개 보도로 확인한 사건 유형(장비 고장, 우회 물량, 명절 물량, 인력 결근)을 본뜬 합성 자료로 계산했으며, 특정 터미널·기업의 자료나 판정이 아닙니다(터미널 이름은 가상). 판단은 의사결정 지원용이고 최종 결정과 책임은 사용자에게 있습니다.</p>
+          <p><b>상황판 장면은 합성 데이터입니다(개념검증, TRL 3 수준).</b> 부산신항 2023~2026 공개 실자료로 과거를 되돌려 본 검증은 <a href="backtest.html">실자료 검증</a> 페이지에 따로 있습니다. 화면의 수치는 공개 보도로 확인한 사건 유형(장비 고장, 우회 물량, 명절 물량, 인력 결근)을 본뜬 합성 자료로 계산했으며, 특정 터미널·기업의 자료나 판정이 아닙니다(터미널 이름은 가상). 판단은 의사결정 지원용이고 최종 결정과 책임은 사용자에게 있습니다.</p>
         </div>
       </details>
     </div>
@@ -45,6 +45,7 @@
       <li><a href="#limits">한계</a></li>
       <li><a href="#sources">선행연구와 출처</a></li>
     </ol>
+    <p class="m-toc-back"><a href="backtest.html">실자료 검증(부산신항) →</a></p>
     <p class="m-toc-back"><a href="index.html">← 상황판으로</a></p>
   </nav>
 
@@ -272,7 +273,7 @@
     <section id="valid" aria-labelledby="valid-h">
       <h2 id="valid-h"><span class="m-no">5</span>검증</h2>
       <p class="m-kicker">합성 세계 60개 × 5개 시나리오</p>
-      <p>시나리오마다 합성 세계 난수만 바꿔 60번 돌리고, 참값을 아는 합성 자료와 대조했습니다(필터 잡음 조정에 쓴 세계와 겹치지 않음). 필터는 참 세계의 구조와 정적 모수를 아는 조건이며, 기준 전파율 β̄만 ±30% 틀리게 준 실험을 따로 보입니다(구조·다른 모수 오지정은 미시험). 실증 성능이 아니며, 실자료 백테스트는 본선·실증 과제입니다.</p>
+      <p>시나리오마다 합성 세계 난수만 바꿔 60번 돌리고, 참값을 아는 합성 자료와 대조했습니다(필터 잡음 조정에 쓴 세계와 겹치지 않음). 필터는 참 세계의 구조와 정적 모수를 아는 조건이며, 기준 전파율 β̄만 ±30% 틀리게 준 실험을 따로 보입니다(구조·다른 모수 오지정은 미시험). 실증 성능이 아니며, 공개 실자료로 되돌려 본 결과는 <a href="backtest.html">실자료 검증</a>에 따로 있습니다.</p>
       <p class="m-sub">표 머리글은 쉬운 말로 바꿨습니다. 원래 용어는 머리글에 마우스를 올리거나 아래 단추를 누르면 보입니다.</p>
       <button type="button" class="m-head-toggle" id="head-toggle" aria-pressed="false" hidden>원래 용어로 보기</button>
 
@@ -317,7 +318,7 @@
 
       <h3>자료와 검증 조건</h3>
       <ul class="m-limits">
-        <li><b>합성 데이터입니다.</b> 실데이터는 아직 연동하지 않았고, 검증은 계산 엔진이 가상 세계의 구조와 고정 모수를 아는 조건에서 했습니다. 실제 항만 자료로는 아직 검증 전입니다.</li>
+        <li><b>이 표는 합성 데이터 결과입니다.</b> 계산 엔진이 가상 세계의 구조와 고정 모수를 아는 조건이라 실제보다 유리합니다. 부산신항 공개 실자료(2023~2026)로 되돌려 본 결과는 <a href="backtest.html">실자료 검증</a>에 있습니다. 하루 전 선박별 예측은 무작위보다 크게 나았지만 그 힘은 대부분 이력 특징에서 나왔고, 번짐 지수만으로는 미리 맞히지 못했습니다.</li>
         <li><b>기준 전파율을 틀리게 주면 크게 흔들립니다.</b> 기준 전파율을 0.7배로 잘못 주면 장비 고장 장면 20개 세계 중 7개에서 번짐 경보를 놓쳤습니다. 1.3배로 주면 다른 장면에서 헛경보가 늘었습니다(표 3).</li>
       </ul>
 

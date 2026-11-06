@@ -18,13 +18,26 @@ R-Delay는 부산신항에서 시작된 지연이 게이트·도로를 거쳐 �
 
 **웹 데모 → https://jaewansh.github.io/R-Delay/** — 설치·가입 없이 PC·휴대폰 브라우저에서 바로 실행됩니다. 계산 엔진(Python)도 브라우저 안에서 돌아가고, 한 번 열면 인터넷이 끊겨도 열립니다.
 
-| 배차 담당자 | 기사님 | 분석 화면 | 수리모형 |
-|:---:|:---:|:---:|:---:|
-| [배차판·브리핑](https://jaewansh.github.io/R-Delay/?s=terminal_failure&c=ulsan_export) | [기사님 화면](https://jaewansh.github.io/R-Delay/driver.html?s=terminal_failure&c=ulsan_export&a=1) | [분석·근거](https://jaewansh.github.io/R-Delay/analysis.html?s=terminal_failure) | [작동 원리·검증](https://jaewansh.github.io/R-Delay/method.html) |
+| 배차 담당자 | 기사님 | 분석 화면 | 수리모형 | 실자료 검증 |
+|:---:|:---:|:---:|:---:|:---:|
+| [배차판·브리핑](https://jaewansh.github.io/R-Delay/?s=terminal_failure&c=ulsan_export) | [기사님 화면](https://jaewansh.github.io/R-Delay/driver.html?s=terminal_failure&c=ulsan_export&a=1) | [분석·근거](https://jaewansh.github.io/R-Delay/analysis.html?s=terminal_failure) | [작동 원리·검증](https://jaewansh.github.io/R-Delay/method.html) | [부산신항 2023~2026](https://jaewansh.github.io/R-Delay/backtest.html) |
 
-> 합성 데이터 개념검증(TRL 3)입니다. 화면의 수치는 공개 보도로 확인한 사건 유형을 본뜬 가상 자료로 계산했으며, 특정 터미널·기업의 자료나 판정이 아닙니다(터미널 이름은 ‘가상 자동화 터미널 A’).
+> 상황판 장면은 합성 데이터 개념검증(TRL 3)입니다. 부산신항 2023~2026 공개 실자료로 되돌려 본 검증은 아래 [실자료 검증](#실자료-검증--부산신항-20232026-공개-자료-백테스트)에 따로 있습니다. 화면의 수치는 공개 보도로 확인한 사건 유형을 본뜬 가상 자료로 계산했으며, 특정 터미널·기업의 자료나 판정이 아닙니다(터미널 이름은 ‘가상 자동화 터미널 A’).
 
 ---
+
+<!-- realdata-readme:start -->
+### 실자료 검증 — 부산신항 2023~2026 공개 자료 백테스트
+
+- PORT-MIS 관제정보로 잰 신항 컨테이너선 24,177항차(2023-01-01~2026-11-05)의 정박지 대기로 R-Delay를 되돌려 검증했습니다. 기간·목표·지표는 시험 기간을 보기 전에 [정했고](realdata/PROTOCOL.md), 시험 뒤 누설을 더 엄격하게 고친 1건이 있어 시험 기간을 두 번 계산했습니다(두 결과 모두 기록). 시험 기간(2025-07-01~2026-11-01) 8,256항차 중 12시간 넘게 기다린 배는 174척(기저율 2.1%)입니다.
+- **도착 24시간 전, 예측 위험 상위 5% 선박에 실제 장기 대기의 38.5%가 들어 있었고, 경보 정밀도는 16.2%로 무작위의 7.7배였습니다**(상위 5%는 시험 기간 예측 분포 기준; 검증 기간에서 미리 정한 문턱으로는 경보 4.5%, 정밀도 17.4%, 재현율 37.4%). PR-AUC 0.193(95% 0.144~0.245, 무작위 0.021).
+- 예측력은 주로 같은 선박의 이전 기항 이력, 같은 요일·시간대 슬롯 이력, 선박 크기(총톤수)에서 나왔습니다. 공개 자료만으로는 선석 대기열과 번짐 지수 R<sub>d</sub>가 하루 전 예측력을 거의 더하지 못했습니다. R-Delay 부품 없이 같은 이력 특징만 쓴 통계 GBM(PR-AUC 0.250)도 R-Delay GBM(0.234)과 같거나 높았습니다. 터미널 선석 계획(ETB) 연동이 다음 단계입니다.
+
+![하루 전 경보](./image/backtest_alarm.png)
+![도착 몇 시간 전에 얼마나 맞히나](./image/backtest_leads.png)
+
+- 자세히: [실자료 검증 화면](https://jaewansh.github.io/R-Delay/backtest.html) · [REPORT](REPORT.md#검증-실제-공개-자료-백테스트) · [전체 비교표](realdata/results/compare.md) · 재현 `python -m realdata.run_all`
+<!-- realdata-readme:end -->
 
 ## 전체 개발 구조
 
@@ -56,7 +69,8 @@ R-Delay는 부산신항에서 시작된 지연이 게이트·도로를 거쳐 �
 | AI Module | 릿지 회귀 f<sub>ω</sub> — 풍속·파고·주말·장비 상태 → 전파율 사전평균(보조 모듈) |
 | Briefing | 화주 안내 · 기사 지시 · 사내 보고 · 항만 협의 자동 작성, 복사·공유·인쇄·저장 |
 | Data Kit | Python — PORT-MIS 관제정보 수집, ‘선박 대기 12시간 초과’ 라벨, 자료 점검표 |
-| Test | pytest 46개(엔진), Node test 38개(화면 문구·브리핑 규칙), 합성 세계 60개 × 5개 장면 검증, 화면 파일 버전 점검, 데이터 키트 자체 시험 20개 |
+| Real-data Backtest | Python(pandas·scikit-learn) — 누설 없는 2시간 판단 격자, 터미널별 선석 대기열 몬테카를로, 연속 입자필터(엔진과 같은 SIS 함수), 학습형 모듈, 주 단위 블록 부트스트랩 |
+| Test | pytest 46개(엔진) + 실자료 단위·누설 테스트 9개(격자·선박 표·대기열·T1 예정 합계 누설 검사 포함), Node test 38개(화면 문구·브리핑 규칙), 합성 세계 60개 × 5개 장면 검증, 실자료 백테스트(시험 기간 고정), 화면 파일 버전 점검, 데이터 키트 자체 시험 20개 |
 | Deploy | GitHub Pages (`/docs`), GitHub Actions (CI) |
 
 ---
@@ -72,6 +86,8 @@ R-Delay는 부산신항에서 시작된 지연이 게이트·도로를 거쳐 �
 ## 향후 구현 계획
 
 ![향후 구현 — 공개 데이터로 실자료 백테스트](./image/roadmap_data.png)
+
+> 위 1단계(공개 데이터로 실자료 백테스트)는 2026-11-07에 마쳤습니다. 결과는 위 [실자료 검증](#실자료-검증--부산신항-20232026-공개-자료-백테스트)과 [REPORT](REPORT.md#검증-실제-공개-자료-백테스트)에 있습니다.
 
 ---
 
@@ -137,6 +153,20 @@ python run_all.py --start 2023-01-01     # 관제정보 수집 → 대기 라벨
 </details>
 
 <details>
+<summary><b>실자료 백테스트</b> (부산신항 공개 자료, 원자료는 저장소 밖)</summary>
+
+```bash
+python3 -m pip install -r requirements-backtest.txt
+echo "RDELAY_DATA_ROOT=/경로/RDelay_Data/Raw_data" > .env   # 그 아래 public_data/(derived·portmis·manual)
+python3 -m realdata.run_all                # 캐시 → 판단 격자·선박 표 → 대기열 → SIS 필터 → 검증 → 시험 → 그림·docs/data/backtest.json
+python3 -m realdata.run_all --relabel      # 새 관제정보를 넣었을 때 라벨부터 다시
+```
+
+설계는 [realdata/PROTOCOL.md](realdata/PROTOCOL.md)에 시험 전에 고정했고, 결과 표는 [realdata/results/compare.md](realdata/results/compare.md)에 있습니다. 원자료·캐시·Clarksons 자료는 저장소에 올리지 않습니다.
+
+</details>
+
+<details>
 <summary><b>폴더 구조</b></summary>
 
 ```
@@ -153,6 +183,7 @@ R-Delay/
 ├─ scripts/            학습 · 미리 계산 · 검증 · 화면 캡처 · 시연 영상(demo/)
 ├─ tests/              엔진(pytest) · 화면 문구·브리핑 규칙(node --test)
 ├─ data-kit/           공개 데이터 수집 키트 · 데이터 확보 가이드 · Clarksons 요청서
+├─ realdata/           실자료 백테스트(프로토콜 · 코드 · 결과 표 · 그림). 원자료는 저장소 밖(RDELAY_DATA_ROOT)
 ├─ image/              README 이미지
 ├─ MODEL.md            모형 정의·가정·증명
 ├─ REPORT.md           기술 보고서(문제 · 시연 장면별 결과 · 합성 검증 · 로드맵 · 한계 · 출처)

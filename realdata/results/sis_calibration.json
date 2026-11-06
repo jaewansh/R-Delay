@@ -1,0 +1,98 @@
+{
+ "grid": [
+  {
+   "beta_ratio": 0.0,
+   "kappa": 0.0,
+   "loglik": -13211.928769934579
+  },
+  {
+   "beta_ratio": 0.0,
+   "kappa": 0.5,
+   "loglik": -13277.69728222668
+  },
+  {
+   "beta_ratio": 0.3,
+   "kappa": 0.0,
+   "loglik": -12618.923023493093
+  },
+  {
+   "beta_ratio": 0.3,
+   "kappa": 0.5,
+   "loglik": -12682.90512724811
+  },
+  {
+   "beta_ratio": 0.6,
+   "kappa": 0.0,
+   "loglik": -12209.418837973595
+  },
+  {
+   "beta_ratio": 0.6,
+   "kappa": 0.5,
+   "loglik": -12325.966065418967
+  },
+  {
+   "beta_ratio": 0.9,
+   "kappa": 0.0,
+   "loglik": -11897.66606767201
+  },
+  {
+   "beta_ratio": 0.9,
+   "kappa": 0.5,
+   "loglik": -11998.939035821519
+  },
+  {
+   "beta_ratio": 1.2,
+   "kappa": 0.0,
+   "loglik": -11838.518722270688
+  },
+  {
+   "beta_ratio": 1.2,
+   "kappa": 0.5,
+   "loglik": -11978.958946478268
+  },
+  {
+   "beta_ratio": 1.5,
+   "kappa": 0.0,
+   "loglik": -12151.103036343548
+  },
+  {
+   "beta_ratio": 1.5,
+   "kappa": 0.5,
+   "loglik": -12295.85811394485
+  },
+  {
+   "beta_ratio": 2.0,
+   "kappa": 0.0,
+   "loglik": -12749.790797109774
+  },
+  {
+   "beta_ratio": 2.0,
+   "kappa": 0.5,
+   "loglik": -12942.422875454124
+  }
+ ],
+ "best": {
+  "beta_ratio": 1.2,
+  "kappa": 0.0,
+  "loglik": -11838.518722270688
+ },
+ "gamma_s": 0.03383593982568,
+ "f_omega": {
+  "features": [
+   "wind_bsn_max6",
+   "hs_geoje_max6",
+   "offday",
+   "ty_near500"
+  ],
+  "coef": [
+   -0.045459940572552066,
+   -0.06183874210592863,
+   -0.03813462538126778,
+   -0.03863447423476212
+  ],
+  "intercept": -0.222104781800649
+ },
+ "valid_loglik_without": -2879.584977614792,
+ "valid_loglik_with": -2843.858642961216,
+ "use_f_omega": true
+}

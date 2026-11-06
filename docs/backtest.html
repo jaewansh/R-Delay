@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>R-Delay 실자료 검증</title>
+  <meta name="description" content="부산신항 2023~2026 공개 실자료(PORT-MIS 관제정보·기상청·한국도로공사)로 R-Delay를 되돌려 검증한 결과: 선박별 장기 대기 예측, 번짐 지수, 실제 사례.">
+  <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261107b">
+  <link rel="stylesheet" href="assets/css/method.css?v=20261107b">
+  <script type="module" src="assets/js/backtest.js?v=20261107b"></script>
+  <style>
+    .b-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin: 12px 0 6px; }
+    .b-kpi { padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+    .b-kpi b { display: block; font-size: 26px; line-height: 1.15; color: var(--ink); font-variant-numeric: tabular-nums; }
+    .b-kpi span { display: block; margin-top: 4px; color: var(--ink-2); font-size: 13.5px; line-height: 1.45; }
+    .b-case { margin: 18px 0 26px; }
+    .b-case h3 { margin-bottom: 4px; }
+    .b-sub { margin: 10px 0 2px; color: var(--ink-2); font-size: 13px; font-weight: 600; }
+    .b-tag { display: inline-block; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); font-size: 12.5px; }
+    .m-table td.num, .m-table th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .m-table tr.best td { font-weight: 650; }
+    .b-cap { margin: 8px 0 4px; }
+    .b-nw { white-space: nowrap; }
+  </style>
+</head>
+<body class="m-page">
+<a class="m-skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="m-top">
+  <div class="m-top-in">
+    <a class="m-back" href="index.html">← 상황판으로</a>
+    <div class="m-title-row">
+      <h1>R-Delay 실자료 검증 — 부산신항 2023~2026</h1>
+      <details class="m-about" id="about">
+        <summary class="m-badge" aria-label="공개 실자료 후향 검증 안내 열기">ⓘ 공개 실자료 후향 검증</summary>
+        <div class="m-about-body" role="note">
+          <p><b>실제 공개 자료로 과거를 되돌려 본 검증입니다(실시간 운영 검증 아님).</b> 해양수산부 PORT-MIS 관제정보로 부산신항 컨테이너선의 정박지 대기를 재고, 그때까지 알 수 있던 자료만으로 R-Delay가 장기 대기를 미리 알렸는지 확인했습니다. 신항 전체 집계만 싣고 선박·터미널 이름은 넣지 않았습니다. 상황판의 장면은 여전히 합성 자료입니다.</p>
+        </div>
+      </details>
+    </div>
+    <p class="m-notice" id="b-notice">설계(기간 나누기·지표·경보 기준)는 시험 기간 결과를 보기 전에 정해 두었습니다. 시험 뒤 누설을 더 엄격하게 고친 1건이 있어 시험 기간을 두 번 계산했고, 두 결과를 모두 프로토콜에 적었습니다. 숫자는 모두 data/backtest.json에서 읽습니다.</p>
+  </div>
+</header>
+
+<div class="m-shell">
+  <nav class="m-toc m-toc-side" aria-label="목차">
+    <p class="m-toc-title">목차</p>
+    <ol>
+      <li><a href="#summary">한눈에</a></li>
+      <li><a href="#ship">선박별 예측</a></li>
+      <li><a href="#why">예측은 어디서 오나</a></li>
+      <li><a href="#system">신항 경보와 번짐 지수</a></li>
+      <li><a href="#cases">실제 사례</a></li>
+      <li><a href="#method">자료와 방법</a></li>
+      <li><a href="#limits">한계와 다음 단계</a></li>
+    </ol>
+    <p class="m-toc-back"><a href="method.html">작동 원리·합성 검증 →</a></p>
+    <p class="m-toc-back"><a href="index.html">← 상황판으로</a></p>
+  </nav>
+
+  <details class="m-toc m-toc-mobile" id="toc-mobile">
+    <summary>목차</summary>
+    <nav aria-label="목차">
+      <ol>
+        <li><a href="#summary">한눈에</a></li>
+        <li><a href="#ship">선박별 예측</a></li>
+        <li><a href="#why">예측은 어디서 오나</a></li>
+        <li><a href="#system">신항 경보와 번짐 지수</a></li>
+        <li><a href="#cases">실제 사례</a></li>
+        <li><a href="#method">자료와 방법</a></li>
+        <li><a href="#limits">한계와 다음 단계</a></li>
+      </ol>
+    </nav>
+  </details>
+
+  <main id="main" class="m-main" tabindex="-1">
+    <section id="summary" aria-labelledby="summary-h">
+      <h2 id="summary-h">한눈에</h2>
+      <p class="m-lead">신항 터미널의 수출 반입 마감이 '접안 12시간 전'이라, 배가 정박지에서 12시간 넘게 기다리면 화물 반출·반입 계획이 흔들립니다. 이 배가 그렇게 될지를 <b>도착 하루 전</b>에 얼마나 미리 알 수 있는지 실제 자료로 확인했습니다.</p>
+      <div class="b-kpis" id="b-kpis"><p class="m-loading">불러오는 중…</p></div>
+      <p class="m-note" id="b-kpi-note"></p>
+      <p class="m-note" id="b-period"></p>
+    </section>
+
+    <section id="ship" aria-labelledby="ship-h">
+      <h2 id="ship-h">선박별 예측: 도착 몇 시간 전에 얼마나 맞히나</h2>
+      <p>시험 기간(모형을 만들 때 보지 않은 기간)의 모든 신항 컨테이너선에 대해, 도착 24·12·6·2시간 전과 도착 순간에 '12시간 넘게 기다릴 확률'을 냈습니다. 지표는 드문 사건에 맞는 PR-AUC입니다(무작위면 기저율과 같고, 1이면 완벽).</p>
+      <div class="legend" id="lead-legend"></div>
+      <div class="chart" id="lead-chart"></div>
+      <div class="m-table-wrap">
+        <table id="lead-table" class="m-table"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-note" id="lead-note"></p>
+    </section>
+
+    <section id="why" aria-labelledby="why-h">
+      <h2 id="why-h">예측은 어디서 오나</h2>
+      <p>요인 묶음을 하나씩 빼고 다시 맞췄을 때 24시간 전 PR-AUC가 얼마나 달라지는지입니다. 막대는 떨어지는 폭, 숫자는 변화량입니다(시험 기간 사후 분석, 모형 선택에는 쓰지 않음).</p>
+      <div class="chart" id="why-chart"></div>
+      <p class="m-plain" id="why-text"></p>
+    </section>
+
+    <section id="system" aria-labelledby="system-h">
+      <h2 id="system-h">신항 전체 경보와 번짐 지수 R<sub>d</sub></h2>
+      <p>'앞으로 24시간 안에 들어오는 배 중 12시간 넘게 기다리는 배가 한 척이라도 나오나'를 2시간마다 판단했습니다.</p>
+      <div class="m-table-wrap">
+        <table id="t1-table" class="m-table"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <h3>번짐 지수 R<sub>d</sub>를 실자료에 맞춰 보니</h3>
+      <ul id="sis-list"><li class="m-loading">불러오는 중…</li></ul>
+    </section>
+
+    <section id="cases" aria-labelledby="cases-h">
+      <h2 id="cases-h">실제 사례</h2>
+      <p>2시간 간격 신항 정박지 대기 척수, 12시간 넘게 기다린 선박의 도착 시각(빨간 점), R-Delay 경보 확률입니다. 경보선은 시험 기간 확률 상위 10%입니다.</p>
+      <div id="case-list"><p class="m-loading">불러오는 중…</p></div>
+    </section>
+
+    <section id="method" aria-labelledby="method-h">
+      <h2 id="method-h">자료와 방법</h2>
+      <ul id="method-list"><li class="m-loading">불러오는 중…</li></ul>
+      <p class="m-links"><a href="https://github.com/jaewansh/R-Delay/blob/main/realdata/PROTOCOL.md">검증 프로토콜(PROTOCOL.md) →</a> <a href="https://github.com/jaewansh/R-Delay/blob/main/realdata/results/compare.md">전체 비교표 →</a> <a href="https://github.com/jaewansh/R-Delay/tree/main/realdata">재현 코드 →</a></p>
+    </section>
+
+    <section id="limits" aria-labelledby="limits-h">
+      <h2 id="limits-h">한계와 다음 단계</h2>
+      <ul class="m-limits">
+        <li><b>후향 검증입니다.</b> 과거 자료를 시간순으로 되돌려 본 결과이며, 실시간 운영에서 같은 성능이 나온다는 뜻은 아닙니다.</li>
+        <li><b>도착 일정은 안다고 가정했습니다.</b> 정기선의 입항 예정 시각과 갈 터미널을 실제 값으로 대신했습니다. 공개 자료에는 신고 시각·예정 시각이 없어서입니다.</li>
+        <li><b>항계 밖 대기는 빠져 있습니다.</b> 입항 신고 전에 바다에서 기다린 시간은 관제정보에 잡히지 않습니다.</li>
+        <li><b>선석 대기열 모형이 약했던 이유</b>: <span id="lim-queue">터미널은 선석을 '먼저 온 순서'가 아니라 선석 계획(창구)대로 배정합니다. 터미널 선석 계획(ETB)·선사 ETA가 연동되면 대기열 모형이 제 몫을 할 수 있습니다.</span></li>
+        <li><b>도착 직전 값은 일부 저절로 맞습니다.</b> 정박지를 거치지 않은 배는 도착 시각이 곧 접안 시각이라, 도착 순간·2시간 전의 높은 점수에는 라벨 정의 효과가 섞여 있습니다. 주 결과는 24·12·6시간 전입니다.</li>
+        <li><b>육상(도로)과 해상 대기는 2시간 단위에서 연결되지 않았습니다.</b> 교통량 자료가 없고, 신항 배후 고속도로 혼잡 자체가 드뭅니다. 게이트 반출입 자료가 다음 과제입니다.</li>
+        <li>결과는 의사결정 지원용이며, 원인 판정은 모형상 배분으로 책임 소재 판단에 쓰지 않습니다.</li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<footer class="m-foot">
+  <div class="m-foot-in">
+    <p>R-Delay · 2026 동남권 멀티도메인 모빌리티 비즈니스 해커톤(개인부문) 출품작 · MIT License · <a href="https://github.com/jaewansh/R-Delay">GitHub</a></p>
+    <p id="b-sources">출처: 해양수산부 PORT-MIS 관제정보(공공데이터포털), 기상청 기상자료개방포털 ASOS·해양기상부이·태풍 경로(공공누리 제1유형), 한국도로공사 노선별 1시간 구간통행속도(공공데이터).</p>
+    <p><a href="index.html">← 상황판으로</a> · <a href="method.html">작동 원리·합성 검증</a> · <a href="#main">맨 위로 ↑</a></p>
+  </div>
+</footer>
+<noscript><p class="m-error">표와 그래프는 JavaScript가 필요합니다. 같은 숫자는 GitHub의 realdata/results/compare.md에 있습니다.</p></noscript>
+</body>
+</html>

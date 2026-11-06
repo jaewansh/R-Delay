@@ -244,7 +244,7 @@ export function barList(container, items, opts = {}) {
     const w = Math.max(0, X(d.value) - labelW);
     const r = Math.min(4, w);
     if (w > 0.5) svgEl("path", { d: `M${labelW},${y}H${labelW + w - r}Q${labelW + w},${y} ${labelW + w},${y + r}V${y + 16 - r}Q${labelW + w},${y + 16} ${labelW + w - r},${y + 16}H${labelW}Z` }, svg, { fill: d.color });
-    svgEl("text", { x: labelW + w + 6, y: y + 12, "font-size": 12 }, svg, { fill: "var(--ink)" }).textContent = opts.format ? opts.format(d.value) : d.value;
+    svgEl("text", { x: labelW + w + 6, y: y + 12, "font-size": 12 }, svg, { fill: "var(--ink)" }).textContent = d.text ?? (opts.format ? opts.format(d.value) : d.value);
   });
   svgEl("line", { x1: labelW, x2: labelW, y1: 2, y2: height - 2, "stroke-width": 1 }, svg, { stroke: "var(--axis)" });
 }
