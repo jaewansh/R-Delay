@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261105a">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261106a">
   <script>
     // 배포 직후 옛 서비스 워커가 옛 화면 파일을 섞어 주면 첫 화면이 비어 버린다. 첫 화면을 그리기 전에 화면 스크립트(assets/js)에서
     // 오류가 나면, 새 워커를 내려받는 중이면 자리 잡을 때까지(최대 30초), 아니면 4초 기다렸다가 한 번만 새로 고친다.
@@ -47,7 +47,7 @@
       window.addEventListener("unhandledrejection", function (e) { if (fromApp(e.reason && e.reason.stack)) retry(); });
     })();
   </script>
-  <script type="module" src="assets/js/app.js?v=20261105a"></script>
+  <script type="module" src="assets/js/app.js?v=20261106a"></script>
 </head>
 <body>
 <a class="skip" href="#status">본문으로 건너뛰기</a>
@@ -153,7 +153,7 @@
         <ul class="trust-list" id="trust-good" aria-labelledby="trust-good-h"></ul>
         <h3 class="trust-h" id="trust-lim-h">한계</h3>
         <ul class="trust-list" id="trust-limits" aria-labelledby="trust-lim-h"></ul>
-        <p class="trust-links"><a href="method.html#valid">검증 결과 전체 보기 →</a> <button type="button" class="link" id="open-valid">이 장면 계산 근거 보기(전문가) →</button></p>
+        <p class="trust-links"><a href="method.html#valid">검증 결과 전체 보기 →</a> <a href="backtest.html">실자료 검증 보기 →</a> <button type="button" class="link" id="open-valid">이 장면 계산 근거 보기(전문가) →</button></p>
       </section>
 
       <section id="trend" class="card" aria-labelledby="trend-h">
@@ -298,8 +298,8 @@
 <!-- 가상 데이터 안내 -->
 <dialog id="about" class="modal" aria-labelledby="about-h">
   <h2 id="about-h">시연용 가상 데이터</h2>
-  <p><b>합성 데이터 개념검증(TRL 3 수준)입니다.</b> 실데이터는 아직 연동하지 않았습니다. 화면의 수치는 공개 보도로 확인한 사건 유형(장비 고장, 우회 물량, 명절 물량, 인력 결근)을 본뜬 합성 자료로 계산했으며, 특정 터미널·기업의 자료나 판정이 아닙니다(터미널 이름은 가상). 판단은 의사결정 지원용이고 최종 결정과 책임은 사용자에게 있습니다.</p>
-  <p class="aside">엔진 <span id="about-ver">v1.0.0</span> · <a href="method.html">작동 원리·검증 보기 →</a></p>
+  <p><b>합성 데이터 개념검증(TRL 3 수준)입니다.</b> 화면은 실데이터와 연결하지 않았습니다. 공개 실자료 후향 검증(실시간 운영 검증 아님) 결과는 실자료 검증 화면에 따로 있습니다. 화면의 수치는 공개 보도로 확인한 사건 유형(장비 고장, 우회 물량, 명절 물량, 인력 결근)을 본뜬 합성 자료로 계산했으며, 특정 터미널·기업의 자료나 판정이 아닙니다(터미널 이름은 가상). 판단은 의사결정 지원용이고 최종 결정과 책임은 사용자에게 있습니다.</p>
+  <p class="aside">엔진 <span id="about-ver">v1.0.0</span> · <a href="method.html">작동 원리·검증 보기 →</a> · <a href="backtest.html">실자료 검증 보기 →</a></p>
   <div class="sheet-actions"><button type="button" class="primary" data-close autofocus>확인</button></div>
 </dialog>
 

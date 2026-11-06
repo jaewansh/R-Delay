@@ -166,7 +166,7 @@ test("기사님 안내: 컨테이너 반출과 반입 금지를 반영한다", (
 test("믿을 수 있나요: 공지 덕분인 성과는 한계로, 마지막 줄 고정, '실제로' 쓰지 않음", () => {
   for (const run of Object.values(R)) {
     const t = trustLines(VALID, run);
-    assert.equal(t.limits.at(-1), "모두 가상 세계 시험이며 실제 항만 자료로는 아직 검증 전입니다.");
+    assert.equal(t.limits.at(-1), "모두 가상 세계 시험입니다. 실제 공개 자료로 되돌려 본 결과는 실자료 검증 화면에 따로 있습니다.");
     for (const line of [...t.good, ...t.limits.slice(0, -1)]) assert.ok(!line.includes("실제로"), line);
   }
   const tf = trustLines(VALID, R.terminal_failure);
@@ -292,7 +292,7 @@ test("믿을 수 있나요: 공지를 가린 경보 수의 뜻과 과소 예측 
   const t = trustLines(VALID, R.terminal_failure);
   assert.ok(t.limits.some((l) => l.includes("공지를 가리면 판단 시각 번짐 경보는 30회 중 4회뿐")), t.limits.join("\n"));
   assert.ok(t.limits.some((l) => /예측보다 \d+(~\d+)?%p 높았습니다/.test(l)), t.limits.join("\n"));
-  assert.equal(t.limits.at(-1), "모두 가상 세계 시험이며 실제 항만 자료로는 아직 검증 전입니다.");
+  assert.equal(t.limits.at(-1), "모두 가상 세계 시험입니다. 실제 공개 자료로 되돌려 본 결과는 실자료 검증 화면에 따로 있습니다.");
 });
 
 test("막힘 전망: 지금(0번 칸)으로 풀린다고 하지 않고, 끝 2시간 안에서만 풀리면 신호 없음으로 본다", () => {

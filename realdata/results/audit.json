@@ -1,0 +1,1608 @@
+{
+ "generated": "2026-11-07 00:12:09",
+ "data_root_public": "<RDELAY_DATA_ROOT>/public_data",
+ "datasets": {
+  "cntl": {
+   "name": "cntl",
+   "note": "PORT-MIS 관제정보(입항·이동·출항 이벤트)",
+   "files": 1404,
+   "mb": 206.9,
+   "encoding": "utf-8-sig",
+   "rows": 873751,
+   "cols": 30,
+   "dup_rows": 0,
+   "start": "2023-01-01 00:20:00",
+   "end": "2026-11-05 08:45:00",
+   "time_missing": 0,
+   "resolution": "1분",
+   "missing_pct": {
+    "satmntEtryptYear": 100.0,
+    "vsslSatmntAgCd": 53.2,
+    "satmntEtryptCo": 53.2,
+    "tkoffDt": 1.9,
+    "harborEntrpsCd": 0.5,
+    "harborEntrpsNm": 0.5
+   }
+  },
+  "vssl": {
+   "name": "vssl",
+   "note": "PORT-MIS 선박운항정보(입출항 신고)",
+   "files": 1404,
+   "mb": 105.8,
+   "encoding": "utf-8-sig",
+   "rows": 345183,
+   "cols": 50,
+   "dup_rows": 0,
+   "start": "2023-01-01 00:00:00",
+   "end": "2026-11-04 23:04:00",
+   "time_missing": 172264,
+   "resolution": "1분",
+   "missing_pct": {
+    "dstnEtryptDt": 76.7,
+    "tkoffPrrrnDt": 51.3,
+    "ldFrghtTon": 50.3,
+    "tkoffDt": 50.1,
+    "etryptDt": 49.9,
+    "landngFrghtTon": 49.9,
+    "mrNum": 49.4,
+    "nxlnptNatPrtCd": 2.8
+   }
+  },
+  "voyages": {
+   "name": "voyages",
+   "note": "신항 컨테이너선 항차·대기 라벨",
+   "files": 1,
+   "mb": 3.9,
+   "encoding": "utf-8-sig",
+   "rows": 24177,
+   "cols": 13,
+   "dup_rows": 0,
+   "start": "2023-01-01 00:57:00",
+   "end": "2026-11-04 20:52:00",
+   "time_missing": 0,
+   "resolution": "1분",
+   "missing_pct": {}
+  },
+  "waiting_2h": {
+   "name": "waiting_2h",
+   "note": "2시간 대기 척수",
+   "files": 1,
+   "mb": 0.4,
+   "encoding": "utf-8-sig",
+   "rows": 16848,
+   "cols": 4,
+   "dup_rows": 0,
+   "start": "2023-01-01 00:00:00",
+   "end": "2026-11-04 22:00:00",
+   "time_missing": 0,
+   "resolution": "2시간(짝수 시각)",
+   "missing_pct": {}
+  },
+  "asos": {
+   "name": "asos",
+   "note": "ASOS 시간자료(부산·울산·창원)",
+   "files": 4,
+   "mb": 11.3,
+   "encoding": "cp949",
+   "rows": 101046,
+   "cols": 12,
+   "dup_rows": 0,
+   "start": "2023-01-01 00:00:00",
+   "end": "2026-11-04 09:00:00",
+   "time_missing": 0,
+   "resolution": "1시간",
+   "missing_pct": {
+    "wind_qc": 100.0,
+    "rain": 90.0,
+    "wx_code": 81.4,
+    "wind": 0.1,
+    "wind_dir": 0.1,
+    "slp": 0.1,
+    "temp": 0.0,
+    "humid": 0.0
+   }
+  },
+  "buoy": {
+   "name": "buoy",
+   "note": "해양기상부이 시간자료",
+   "files": 4,
+   "mb": 4.4,
+   "encoding": "cp949",
+   "rows": 64075,
+   "cols": 14,
+   "dup_rows": 0,
+   "start": "2023-01-01 00:00:00",
+   "end": "2026-11-04 00:00:00",
+   "time_missing": 0,
+   "resolution": "1시간",
+   "missing_pct": {
+    "wind_dir": 16.2,
+    "wind": 15.8,
+    "gust": 15.8,
+    "humid": 10.4,
+    "wave_mean": 8.8,
+    "wave_sig": 7.1,
+    "wave_max": 7.0,
+    "wave_period": 6.9
+   }
+  },
+  "typhoon_track": {
+   "name": "typhoon_track",
+   "note": "태풍경로",
+   "files": 1,
+   "mb": 0.1,
+   "encoding": "utf-8-sig",
+   "rows": 2230,
+   "cols": 6,
+   "dup_rows": 0,
+   "start": "2023-04-20 15:00:00",
+   "end": "2026-11-04 03:00:00",
+   "time_missing": 0,
+   "resolution": "1시간",
+   "missing_pct": {}
+  },
+  "typhoon_list": {
+   "name": "typhoon_list",
+   "note": "태풍목록",
+   "files": 1,
+   "mb": 0.0,
+   "encoding": "cp949",
+   "rows": 282,
+   "cols": 9,
+   "dup_rows": 0,
+   "start": "2016-07-03 09:00:00",
+   "end": "2026-10-24 03:00:00",
+   "time_missing": 0,
+   "resolution": "1시간",
+   "missing_pct": {
+    "end": 0.4
+   }
+  },
+  "road": {
+   "name": "road",
+   "note": "신항 배후 고속도로 1시간 속도",
+   "files": 1,
+   "mb": 104.9,
+   "encoding": "utf-8-sig",
+   "rows": 1945362,
+   "cols": 7,
+   "dup_rows": 0,
+   "start": "2023-01-01 00:00:00",
+   "end": "2026-09-30 23:00:00",
+   "time_missing": 0,
+   "resolution": "1시간",
+   "missing_pct": {}
+  },
+  "bpa_calls": {
+   "name": "bpa_calls",
+   "note": "부산항만공사 선박 입출항 집계",
+   "files": 1,
+   "mb": 57.9,
+   "encoding": "cp949",
+   "rows": 272904,
+   "cols": 34,
+   "dup_rows": 0,
+   "start": "1950-01-01 00:00:00",
+   "end": "2025-04-29 22:00:00",
+   "time_missing": 0,
+   "resolution": "1분",
+   "missing_pct": {
+    "전체승객수": 50.8,
+    "차항지코드1": 0.8,
+    "차항지코드2": 0.8,
+    "차항지명": 0.8,
+    "적재톤수": 0.8,
+    "환적톤수": 0.8,
+    "위험물톤수": 0.8,
+    "선박명": 0.8
+   }
+  },
+  "bpa_vessel_monthly": {
+   "name": "bpa_vessel_monthly",
+   "note": "외내항 선박 통합집계(월)",
+   "files": 1,
+   "mb": 1.8,
+   "encoding": "utf-8-sig",
+   "rows": 13434,
+   "cols": 19,
+   "dup_rows": 0,
+   "missing_pct": {}
+  },
+  "bpa_container_monthly": {
+   "name": "bpa_container_monthly",
+   "note": "외내항 컨테이너 통합집계(월)",
+   "files": 1,
+   "mb": 0.2,
+   "encoding": "utf-8-sig",
+   "rows": 2236,
+   "cols": 18,
+   "dup_rows": 0,
+   "missing_pct": {}
+  },
+  "bpa_container_annual": {
+   "name": "bpa_container_annual",
+   "note": "컨테이너 수송통계(연)",
+   "files": 1,
+   "mb": 0.0,
+   "encoding": "utf-8-sig",
+   "rows": 32,
+   "cols": 16,
+   "dup_rows": 0,
+   "missing_pct": {}
+  },
+  "tide_stations": {
+   "name": "tide_stations",
+   "note": "조위관측소 목록",
+   "files": 1,
+   "mb": 0.0,
+   "encoding": "cp949",
+   "rows": 61,
+   "cols": 12,
+   "dup_rows": 0,
+   "missing_pct": {
+    "조위관측소고정점명1": 100.0,
+    "구우편번호": 1.6
+   }
+  }
+ },
+ "grid": {
+  "waiting_2h": {
+   "aligned": true,
+   "expected": 16848,
+   "present": 16848,
+   "missing": 0,
+   "dups": 0
+  }
+ },
+ "label_data_end": "2026-11-05 08:45:00",
+ "labels": {
+  "n": 24177,
+  "gt12": 578,
+  "kinds": {
+   "바로 접안": 23484,
+   "정박지→선석": 693
+  },
+  "wait_pos_quantiles": {
+   "0.1": 9.4,
+   "0.25": 14.3,
+   "0.5": 22.4,
+   "0.75": 38.7,
+   "0.9": 62.4,
+   "0.95": 85.9,
+   "0.99": 135.1
+  },
+  "wait_hist": {
+   "0": 23484,
+   "0~2": 0,
+   "2~6": 18,
+   "6~12": 97,
+   "12~24": 260,
+   "24~48": 199,
+   "48~72": 69,
+   "72~168": 46,
+   "168~336": 2,
+   "336~720": 1,
+   "720+": 1
+  },
+  "max_wait_h": 1885.87,
+  "berth_facilities": 28,
+  "berth_non_newport": 0,
+  "berth_north_or_gamcheon": 0,
+  "anchorage_facilities": {
+   "신항 U-1 정박지": 157,
+   "신항 U-3 정박지": 149,
+   "신항 U-2 정박지": 130,
+   "신항 W-1 정박지": 75,
+   "신항 U-4 정박지": 50,
+   "신항 U-5 정박지": 34,
+   "신항 W-2 정박지": 27,
+   "남외항 N-5박지": 22,
+   "신항 U-6 정박지": 21,
+   "남외항 N-4박지": 15,
+   "남외항 N-3박지": 11,
+   "M박지 M9 묘지": 1,
+   "M박지 M8 묘지": 1
+  },
+  "top30": [
+   {
+    "rank": 1,
+    "wait_h": 1886,
+    "grt_band": "5천~1만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2023-10"
+   },
+   {
+    "rank": 2,
+    "wait_h": 684,
+    "grt_band": "1만~3만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2025-10"
+   },
+   {
+    "rank": 3,
+    "wait_h": 237,
+    "grt_band": "10만 이상",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2024-08"
+   },
+   {
+    "rank": 4,
+    "wait_h": 182,
+    "grt_band": "1만~3만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2026-06"
+   },
+   {
+    "rank": 5,
+    "wait_h": 145,
+    "grt_band": "5천~1만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2024-10"
+   },
+   {
+    "rank": 6,
+    "wait_h": 145,
+    "grt_band": "10만 이상",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2023-02"
+   },
+   {
+    "rank": 7,
+    "wait_h": 143,
+    "grt_band": "3만~10만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2026-09"
+   },
+   {
+    "rank": 8,
+    "wait_h": 134,
+    "grt_band": "3만~10만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2023-03"
+   },
+   {
+    "rank": 9,
+    "wait_h": 133,
+    "grt_band": "5천~1만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2024-09"
+   },
+   {
+    "rank": 10,
+    "wait_h": 127,
+    "grt_band": "1만~3만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2024-07"
+   },
+   {
+    "rank": 11,
+    "wait_h": 127,
+    "grt_band": "1만~3만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2025-04"
+   },
+   {
+    "rank": 12,
+    "wait_h": 124,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2024-07"
+   },
+   {
+    "rank": 13,
+    "wait_h": 122,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2026-09"
+   },
+   {
+    "rank": 14,
+    "wait_h": 121,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2024-12"
+   },
+   {
+    "rank": 15,
+    "wait_h": 116,
+    "grt_band": "3만~10만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2023-02"
+   },
+   {
+    "rank": 16,
+    "wait_h": 116,
+    "grt_band": "3만~10만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2025-02"
+   },
+   {
+    "rank": 17,
+    "wait_h": 116,
+    "grt_band": "1만~3만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2025-11"
+   },
+   {
+    "rank": 18,
+    "wait_h": 114,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2024-01"
+   },
+   {
+    "rank": 19,
+    "wait_h": 112,
+    "grt_band": "3만~10만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2024-02"
+   },
+   {
+    "rank": 20,
+    "wait_h": 107,
+    "grt_band": "5천~1만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2025-09"
+   },
+   {
+    "rank": 21,
+    "wait_h": 107,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2026-09"
+   },
+   {
+    "rank": 22,
+    "wait_h": 101,
+    "grt_band": "10만 이상",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2023-11"
+   },
+   {
+    "rank": 23,
+    "wait_h": 95,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2026-09"
+   },
+   {
+    "rank": 24,
+    "wait_h": 95,
+    "grt_band": "3만~10만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2026-08"
+   },
+   {
+    "rank": 25,
+    "wait_h": 94,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2026-10"
+   },
+   {
+    "rank": 26,
+    "wait_h": 94,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2025-10"
+   },
+   {
+    "rank": 27,
+    "wait_h": 93,
+    "grt_band": "1만~3만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2026-08"
+   },
+   {
+    "rank": 28,
+    "wait_h": 91,
+    "grt_band": "3만~10만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2023-03"
+   },
+   {
+    "rank": 29,
+    "wait_h": 91,
+    "grt_band": "5천~1만",
+    "arrival_area": "남외항 박지",
+    "arrival_month": "2025-05"
+   },
+   {
+    "rank": 30,
+    "wait_h": 90,
+    "grt_band": "5천~1만",
+    "arrival_area": "신항 정박지",
+    "arrival_month": "2024-02"
+   }
+  ],
+  "monthly": {
+   "2023-01": {
+    "n": 503,
+    "gt12": 10,
+    "waited": 16,
+    "rate_pct": 1.99
+   },
+   "2023-02": {
+    "n": 463,
+    "gt12": 15,
+    "waited": 18,
+    "rate_pct": 3.24
+   },
+   "2023-03": {
+    "n": 541,
+    "gt12": 18,
+    "waited": 20,
+    "rate_pct": 3.33
+   },
+   "2023-04": {
+    "n": 528,
+    "gt12": 9,
+    "waited": 10,
+    "rate_pct": 1.7
+   },
+   "2023-05": {
+    "n": 547,
+    "gt12": 15,
+    "waited": 19,
+    "rate_pct": 2.74
+   },
+   "2023-06": {
+    "n": 540,
+    "gt12": 17,
+    "waited": 20,
+    "rate_pct": 3.15
+   },
+   "2023-07": {
+    "n": 534,
+    "gt12": 17,
+    "waited": 18,
+    "rate_pct": 3.18
+   },
+   "2023-08": {
+    "n": 531,
+    "gt12": 17,
+    "waited": 22,
+    "rate_pct": 3.2
+   },
+   "2023-09": {
+    "n": 540,
+    "gt12": 19,
+    "waited": 23,
+    "rate_pct": 3.52
+   },
+   "2023-10": {
+    "n": 519,
+    "gt12": 16,
+    "waited": 18,
+    "rate_pct": 3.08
+   },
+   "2023-11": {
+    "n": 529,
+    "gt12": 21,
+    "waited": 23,
+    "rate_pct": 3.97
+   },
+   "2023-12": {
+    "n": 500,
+    "gt12": 13,
+    "waited": 15,
+    "rate_pct": 2.6
+   },
+   "2024-01": {
+    "n": 540,
+    "gt12": 10,
+    "waited": 10,
+    "rate_pct": 1.85
+   },
+   "2024-02": {
+    "n": 463,
+    "gt12": 19,
+    "waited": 20,
+    "rate_pct": 4.1
+   },
+   "2024-03": {
+    "n": 533,
+    "gt12": 16,
+    "waited": 22,
+    "rate_pct": 3.0
+   },
+   "2024-04": {
+    "n": 520,
+    "gt12": 9,
+    "waited": 10,
+    "rate_pct": 1.73
+   },
+   "2024-05": {
+    "n": 546,
+    "gt12": 13,
+    "waited": 16,
+    "rate_pct": 2.38
+   },
+   "2024-06": {
+    "n": 551,
+    "gt12": 13,
+    "waited": 17,
+    "rate_pct": 2.36
+   },
+   "2024-07": {
+    "n": 578,
+    "gt12": 12,
+    "waited": 16,
+    "rate_pct": 2.08
+   },
+   "2024-08": {
+    "n": 561,
+    "gt12": 15,
+    "waited": 16,
+    "rate_pct": 2.67
+   },
+   "2024-09": {
+    "n": 521,
+    "gt12": 9,
+    "waited": 15,
+    "rate_pct": 1.73
+   },
+   "2024-10": {
+    "n": 557,
+    "gt12": 7,
+    "waited": 9,
+    "rate_pct": 1.26
+   },
+   "2024-11": {
+    "n": 536,
+    "gt12": 8,
+    "waited": 11,
+    "rate_pct": 1.49
+   },
+   "2024-12": {
+    "n": 549,
+    "gt12": 6,
+    "waited": 9,
+    "rate_pct": 1.09
+   },
+   "2025-01": {
+    "n": 519,
+    "gt12": 10,
+    "waited": 13,
+    "rate_pct": 1.93
+   },
+   "2025-02": {
+    "n": 474,
+    "gt12": 19,
+    "waited": 23,
+    "rate_pct": 4.01
+   },
+   "2025-03": {
+    "n": 559,
+    "gt12": 11,
+    "waited": 17,
+    "rate_pct": 1.97
+   },
+   "2025-04": {
+    "n": 516,
+    "gt12": 17,
+    "waited": 19,
+    "rate_pct": 3.29
+   },
+   "2025-05": {
+    "n": 532,
+    "gt12": 10,
+    "waited": 15,
+    "rate_pct": 1.88
+   },
+   "2025-06": {
+    "n": 533,
+    "gt12": 11,
+    "waited": 14,
+    "rate_pct": 2.06
+   },
+   "2025-07": {
+    "n": 560,
+    "gt12": 9,
+    "waited": 13,
+    "rate_pct": 1.61
+   },
+   "2025-08": {
+    "n": 532,
+    "gt12": 12,
+    "waited": 13,
+    "rate_pct": 2.26
+   },
+   "2025-09": {
+    "n": 537,
+    "gt12": 7,
+    "waited": 9,
+    "rate_pct": 1.3
+   },
+   "2025-10": {
+    "n": 509,
+    "gt12": 13,
+    "waited": 13,
+    "rate_pct": 2.55
+   },
+   "2025-11": {
+    "n": 534,
+    "gt12": 10,
+    "waited": 10,
+    "rate_pct": 1.87
+   },
+   "2025-12": {
+    "n": 534,
+    "gt12": 3,
+    "waited": 5,
+    "rate_pct": 0.56
+   },
+   "2026-01": {
+    "n": 517,
+    "gt12": 5,
+    "waited": 7,
+    "rate_pct": 0.97
+   },
+   "2026-02": {
+    "n": 465,
+    "gt12": 9,
+    "waited": 10,
+    "rate_pct": 1.94
+   },
+   "2026-03": {
+    "n": 554,
+    "gt12": 7,
+    "waited": 8,
+    "rate_pct": 1.26
+   },
+   "2026-04": {
+    "n": 525,
+    "gt12": 7,
+    "waited": 8,
+    "rate_pct": 1.33
+   },
+   "2026-05": {
+    "n": 538,
+    "gt12": 7,
+    "waited": 11,
+    "rate_pct": 1.3
+   },
+   "2026-06": {
+    "n": 508,
+    "gt12": 14,
+    "waited": 14,
+    "rate_pct": 2.76
+   },
+   "2026-07": {
+    "n": 512,
+    "gt12": 18,
+    "waited": 19,
+    "rate_pct": 3.52
+   },
+   "2026-08": {
+    "n": 487,
+    "gt12": 18,
+    "waited": 19,
+    "rate_pct": 3.7
+   },
+   "2026-09": {
+    "n": 454,
+    "gt12": 25,
+    "waited": 26,
+    "rate_pct": 5.51
+   },
+   "2026-10": {
+    "n": 486,
+    "gt12": 12,
+    "waited": 14,
+    "rate_pct": 2.47
+   },
+   "2026-11": {
+    "n": 62,
+    "gt12": 0,
+    "waited": 0,
+    "rate_pct": 0.0
+   }
+  },
+  "yearly": {
+   "2023": {
+    "n": 6275,
+    "gt12": 187,
+    "rate_pct": 2.98
+   },
+   "2024": {
+    "n": 6455,
+    "gt12": 137,
+    "rate_pct": 2.12
+   },
+   "2025": {
+    "n": 6339,
+    "gt12": 132,
+    "rate_pct": 2.08
+   },
+   "2026": {
+    "n": 5108,
+    "gt12": 122,
+    "rate_pct": 2.39
+   }
+  },
+  "long_168": {
+   "n": 4,
+   "kinds": {
+    "풀컨테이너선": 4
+   },
+   "grt_median": 18796.0,
+   "grt_median_all_waited": 9858.0
+  },
+  "n_gt_72": 50,
+  "n_gt_168": 4,
+  "n_gt_336": 2,
+  "n_gt_720": 1,
+  "terminals_anon": 8
+ },
+ "sensitivity": {
+  "grid": [
+   "2023-01-01 00:00:00",
+   "2026-11-03 20:00:00",
+   16835
+  ],
+  "rows": [
+   {
+    "thr": 6,
+    "cap": null,
+    "ships": 675,
+    "ship_rate_pct": 2.79,
+    "T1_rate_pct": 36.9,
+    "episodes": 251,
+    "T1_학습_pct": 39.5,
+    "ep_학습": 133,
+    "T1_검증_pct": 42.5,
+    "ep_검증": 31,
+    "T1_시험_pct": 31.1,
+    "ep_시험": 87
+   },
+   {
+    "thr": 6,
+    "cap": 336,
+    "ships": 673,
+    "ship_rate_pct": 2.78,
+    "T1_rate_pct": 36.8,
+    "episodes": 250,
+    "T1_학습_pct": 39.4,
+    "ep_학습": 133,
+    "T1_검증_pct": 42.5,
+    "ep_검증": 31,
+    "T1_시험_pct": 30.9,
+    "ep_시험": 86
+   },
+   {
+    "thr": 6,
+    "cap": 168,
+    "ships": 671,
+    "ship_rate_pct": 2.78,
+    "T1_rate_pct": 36.7,
+    "episodes": 251,
+    "T1_학습_pct": 39.2,
+    "ep_학습": 134,
+    "T1_검증_pct": 42.5,
+    "ep_검증": 31,
+    "T1_시험_pct": 30.8,
+    "ep_시험": 86
+   },
+   {
+    "thr": 6,
+    "cap": 72,
+    "ships": 625,
+    "ship_rate_pct": 2.59,
+    "T1_rate_pct": 34.9,
+    "episodes": 252,
+    "T1_학습_pct": 38.0,
+    "ep_학습": 134,
+    "T1_검증_pct": 39.4,
+    "ep_검증": 33,
+    "T1_시험_pct": 28.6,
+    "ep_시험": 85
+   },
+   {
+    "thr": 12,
+    "cap": null,
+    "ships": 578,
+    "ship_rate_pct": 2.39,
+    "T1_rate_pct": 33.1,
+    "episodes": 242,
+    "T1_학습_pct": 34.9,
+    "ep_학습": 128,
+    "T1_검증_pct": 36.4,
+    "ep_검증": 32,
+    "T1_시험_pct": 29.1,
+    "ep_시험": 82
+   },
+   {
+    "thr": 12,
+    "cap": 336,
+    "ships": 576,
+    "ship_rate_pct": 2.38,
+    "T1_rate_pct": 32.9,
+    "episodes": 241,
+    "T1_학습_pct": 34.8,
+    "ep_학습": 128,
+    "T1_검증_pct": 36.4,
+    "ep_검증": 32,
+    "T1_시험_pct": 28.9,
+    "ep_시험": 81
+   },
+   {
+    "thr": 12,
+    "cap": 168,
+    "ships": 574,
+    "ship_rate_pct": 2.37,
+    "T1_rate_pct": 32.8,
+    "episodes": 242,
+    "T1_학습_pct": 34.7,
+    "ep_학습": 129,
+    "T1_검증_pct": 36.4,
+    "ep_검증": 32,
+    "T1_시험_pct": 28.8,
+    "ep_시험": 81
+   },
+   {
+    "thr": 12,
+    "cap": 72,
+    "ships": 528,
+    "ship_rate_pct": 2.18,
+    "T1_rate_pct": 30.8,
+    "episodes": 242,
+    "T1_학습_pct": 33.2,
+    "ep_학습": 129,
+    "T1_검증_pct": 32.8,
+    "ep_검증": 33,
+    "T1_시험_pct": 26.5,
+    "ep_시험": 80
+   },
+   {
+    "thr": 24,
+    "cap": null,
+    "ships": 318,
+    "ship_rate_pct": 1.32,
+    "T1_rate_pct": 19.6,
+    "episodes": 179,
+    "T1_학습_pct": 22.2,
+    "ep_학습": 101,
+    "T1_검증_pct": 16.8,
+    "ep_검증": 20,
+    "T1_시험_pct": 16.9,
+    "ep_시험": 58
+   },
+   {
+    "thr": 24,
+    "cap": 336,
+    "ships": 316,
+    "ship_rate_pct": 1.31,
+    "T1_rate_pct": 19.5,
+    "episodes": 177,
+    "T1_학습_pct": 22.0,
+    "ep_학습": 100,
+    "T1_검증_pct": 16.8,
+    "ep_검증": 20,
+    "T1_시험_pct": 16.7,
+    "ep_시험": 57
+   },
+   {
+    "thr": 24,
+    "cap": 168,
+    "ships": 314,
+    "ship_rate_pct": 1.3,
+    "T1_rate_pct": 19.4,
+    "episodes": 178,
+    "T1_학습_pct": 21.9,
+    "ep_학습": 101,
+    "T1_검증_pct": 16.8,
+    "ep_검증": 20,
+    "T1_시험_pct": 16.7,
+    "ep_시험": 57
+   },
+   {
+    "thr": 24,
+    "cap": 72,
+    "ships": 268,
+    "ship_rate_pct": 1.11,
+    "T1_rate_pct": 17.0,
+    "episodes": 165,
+    "T1_학습_pct": 20.0,
+    "ep_학습": 98,
+    "T1_검증_pct": 12.9,
+    "ep_검증": 17,
+    "T1_시험_pct": 14.0,
+    "ep_시험": 50
+   }
+  ]
+ },
+ "label_reproduction": {
+  "repo_datakit": {
+   "rows": 24177,
+   "gt12": 578,
+   "excluded_other_berth_first": 2999,
+   "only_rebuilt": 0,
+   "only_given": 0,
+   "same_wait_pct": 100.0,
+   "seconds": 94.7
+  },
+  "used_datakit": {
+   "rows": 24177,
+   "gt12": 578,
+   "excluded_other_berth_first": 2999,
+   "only_rebuilt": 0,
+   "only_given": 0,
+   "same_wait_pct": 100.0,
+   "seconds": 95.8
+  }
+ },
+ "berth": {
+  "intervals": 27854,
+  "open_intervals": 22,
+  "voyages_with_unberth_pct": 99.9,
+  "stay_quantiles_h": {
+   "0.1": 7.7,
+   "0.25": 12.4,
+   "0.5": 19.2,
+   "0.75": 28.6,
+   "0.9": 39.0,
+   "0.99": 60.8
+  },
+  "stay_mean_h": 21.6,
+  "shifts_per_voyage_mean": 1.02,
+  "concurrent_berthed": {
+   "p50": 18.0,
+   "p95": 22.0,
+   "p99": 24.0,
+   "max": 26
+  },
+  "mu0_per_h": 0.0463
+ },
+ "asof_waiting": {
+  "intervals": 4920,
+  "anchorages": {
+   "남외항 N-3박지": 1174,
+   "남외항 N-4박지": 1008,
+   "남외항 N-5박지": 398,
+   "신항 U-1 정박지": 347,
+   "M박지 M8 묘지": 328,
+   "신항 U-3 정박지": 283,
+   "신항 U-2 정박지": 273,
+   "E박지 E2 묘지": 258,
+   "신항 W-1 정박지": 154,
+   "M박지 M9 묘지": 148,
+   "M박지 M7 묘지": 128,
+   "신항 U-4 정박지": 106,
+   "E박지 E1 묘지": 103,
+   "신항 W-2 정박지": 83,
+   "신항 U-5 정박지": 77
+  },
+  "newport_anchorages": {
+   "mean": 1.12,
+   "label_mean": 0.7,
+   "corr_with_label_n_waiting": 0.618,
+   "share_ships_later_newport_pct": 68.1,
+   "train": {
+    "mean": 1.09,
+    "label_mean": 0.78,
+    "corr_with_label_n_waiting": 0.622,
+    "share_ships_later_newport_pct": 67.3
+   }
+  },
+  "all_anchorages": {
+   "mean": 5.14,
+   "label_mean": 0.7,
+   "corr_with_label_n_waiting": 0.406,
+   "share_ships_later_newport_pct": 27.4,
+   "train": {
+    "mean": 6.18,
+    "label_mean": 0.78,
+    "corr_with_label_n_waiting": 0.408,
+    "share_ships_later_newport_pct": 27.8
+   }
+  }
+ },
+ "pretest_patterns": {
+  "period": [
+   "2023-01-01",
+   "2025-06-30"
+  ],
+  "days": 912,
+  "voyages": 15863,
+  "gt12_capped": 400,
+  "daily_mean": 0.439,
+  "daily_var": 0.45,
+  "daily_var_over_mean": 1.026,
+  "grt_bands": {
+   "5천 미만": {
+    "arrivals_pct": 0.1,
+    "gt12_pct": 0.2
+   },
+   "5천~1만": {
+    "arrivals_pct": 13.7,
+    "gt12_pct": 57.5
+   },
+   "1만~3만": {
+    "arrivals_pct": 20.4,
+    "gt12_pct": 21.8
+   },
+   "3만~10만": {
+    "arrivals_pct": 36.7,
+    "gt12_pct": 18.5
+   },
+   "10만 이상": {
+    "arrivals_pct": 29.0,
+    "gt12_pct": 2.0
+   }
+  }
+ },
+ "vssl": {
+  "columns": [
+   "prtAgCd",
+   "prtAgNm",
+   "etryptYear",
+   "etryptCo",
+   "clsgn",
+   "vsslNm",
+   "vsslNltyCd",
+   "vsslNltyNm",
+   "vsslKndCd",
+   "vsslKndNm",
+   "etryptPurpsCd",
+   "etryptPurpsNm",
+   "frstDpmprtNatPrtCd",
+   "frstDpmprtPrtNm",
+   "prvsDpmprtNatPrtCd",
+   "prvsDpmprtPrtNm",
+   "nxlnptNatPrtCd",
+   "nxlnptPrtNm",
+   "dstnNatPrtCd",
+   "dstnPrtNm",
+   "reqstSeNm",
+   "etryndNm",
+   "etryptDt",
+   "ibobprtNm",
+   "laidupFcltyCd",
+   "laidupFcltySubCd",
+   "laidupFcltyNm",
+   "tugYn",
+   "piltgYn",
+   "ldadngFrghtClCd",
+   "ldadngTon",
+   "trnpdtTon",
+   "landngFrghtTon",
+   "grtg",
+   "intrlGrtg",
+   "satmntEntrpsNm",
+   "crewCo",
+   "koranCrewCo",
+   "frgnrCrewCo",
+   "mrNum",
+   "tkoffPrrrnDt",
+   "tkoffDt",
+   "ldFrghtTon",
+   "dstnEtryptDt"
+  ],
+  "reqstSeNm": {
+   "최종": 342814,
+   "최초": 1991,
+   "변경": 378
+  },
+  "etryndNm": {
+   "입항": 172919,
+   "출항": 172264
+  },
+  "has_report_time_col": false,
+  "voyages_matched_pct": 99.9,
+  "etryptDt_minus_arrival_h": {
+   "0.05": 0.0,
+   "0.25": 0.0,
+   "0.5": 0.0,
+   "0.75": 0.0,
+   "0.95": 0.0
+  },
+  "etryptDt_midnight_pct": 2.2,
+  "file_day_vs_etryptDt_date_same_pct": 100.0
+ },
+ "bpa": {
+  "bpa_rows": 272904,
+  "bpa_range": [
+   "1950-01-01 00:00:00",
+   "2025-04-29 22:00:00"
+  ],
+  "bpa_bad_dates": 11,
+  "voyages_2023_24": 12730,
+  "matched_by_callsign_pct": 10.7,
+  "matched_pct": 78.0,
+  "bpa_arrival_minus_label_h": {
+   "0.05": 0.0,
+   "0.25": 0.0,
+   "0.5": 0.0,
+   "0.75": 0.0,
+   "0.95": 0.0
+  },
+  "within_1h_pct": 78.0,
+  "monthly": {
+   "2023-01": {
+    "ours": 503.0,
+    "gt12": 10.0,
+    "wait_mean": 0.76,
+    "matched_bpa_stay_h_median": 21.9,
+    "bpa_calls": 1127.0,
+    "bpa_stay_h_median": 19.75
+   },
+   "2023-02": {
+    "ours": 463.0,
+    "gt12": 15.0,
+    "wait_mean": 1.43,
+    "matched_bpa_stay_h_median": 23.03,
+    "bpa_calls": 1053.0,
+    "bpa_stay_h_median": 19.12
+   },
+   "2023-03": {
+    "ours": 541.0,
+    "gt12": 18.0,
+    "wait_mean": 1.18,
+    "matched_bpa_stay_h_median": 23.33,
+    "bpa_calls": 1239.0,
+    "bpa_stay_h_median": 19.37
+   },
+   "2023-04": {
+    "ours": 528.0,
+    "gt12": 9.0,
+    "wait_mean": 0.48,
+    "matched_bpa_stay_h_median": 23.93,
+    "bpa_calls": 1211.0,
+    "bpa_stay_h_median": 19.83
+   },
+   "2023-05": {
+    "ours": 547.0,
+    "gt12": 15.0,
+    "wait_mean": 1.11,
+    "matched_bpa_stay_h_median": 22.81,
+    "bpa_calls": 1223.0,
+    "bpa_stay_h_median": 19.12
+   },
+   "2023-06": {
+    "ours": 540.0,
+    "gt12": 17.0,
+    "wait_mean": 0.88,
+    "matched_bpa_stay_h_median": 20.6,
+    "bpa_calls": 1210.0,
+    "bpa_stay_h_median": 18.82
+   },
+   "2023-07": {
+    "ours": 534.0,
+    "gt12": 17.0,
+    "wait_mean": 0.98,
+    "matched_bpa_stay_h_median": 22.03,
+    "bpa_calls": 1246.0,
+    "bpa_stay_h_median": 18.39
+   },
+   "2023-08": {
+    "ours": 531.0,
+    "gt12": 17.0,
+    "wait_mean": 1.12,
+    "matched_bpa_stay_h_median": 20.94,
+    "bpa_calls": 1153.0,
+    "bpa_stay_h_median": 19.1
+   },
+   "2023-09": {
+    "ours": 540.0,
+    "gt12": 19.0,
+    "wait_mean": 1.52,
+    "matched_bpa_stay_h_median": 20.95,
+    "bpa_calls": 1206.0,
+    "bpa_stay_h_median": 20.0
+   },
+   "2023-10": {
+    "ours": 519.0,
+    "gt12": 16.0,
+    "wait_mean": 4.31,
+    "matched_bpa_stay_h_median": 21.21,
+    "bpa_calls": 1165.0,
+    "bpa_stay_h_median": 19.4
+   },
+   "2023-11": {
+    "ours": 529.0,
+    "gt12": 21.0,
+    "wait_mean": 1.43,
+    "matched_bpa_stay_h_median": 21.22,
+    "bpa_calls": 1172.0,
+    "bpa_stay_h_median": 20.23
+   },
+   "2023-12": {
+    "ours": 500.0,
+    "gt12": 13.0,
+    "wait_mean": 0.79,
+    "matched_bpa_stay_h_median": 20.93,
+    "bpa_calls": 1138.0,
+    "bpa_stay_h_median": 19.84
+   },
+   "2024-01": {
+    "ours": 540.0,
+    "gt12": 10.0,
+    "wait_mean": 0.76,
+    "matched_bpa_stay_h_median": 20.98,
+    "bpa_calls": 1151.0,
+    "bpa_stay_h_median": 19.5
+   },
+   "2024-02": {
+    "ours": 463.0,
+    "gt12": 19.0,
+    "wait_mean": 1.65,
+    "matched_bpa_stay_h_median": 23.25,
+    "bpa_calls": 1016.0,
+    "bpa_stay_h_median": 22.0
+   },
+   "2024-03": {
+    "ours": 533.0,
+    "gt12": 16.0,
+    "wait_mean": 0.79,
+    "matched_bpa_stay_h_median": 23.85,
+    "bpa_calls": 1178.0,
+    "bpa_stay_h_median": 20.73
+   },
+   "2024-04": {
+    "ours": 520.0,
+    "gt12": 9.0,
+    "wait_mean": 0.56,
+    "matched_bpa_stay_h_median": 23.15,
+    "bpa_calls": 1115.0,
+    "bpa_stay_h_median": 20.7
+   },
+   "2024-05": {
+    "ours": 546.0,
+    "gt12": 13.0,
+    "wait_mean": 0.8,
+    "matched_bpa_stay_h_median": 23.75,
+    "bpa_calls": 1140.0,
+    "bpa_stay_h_median": 20.2
+   },
+   "2024-06": {
+    "ours": 551.0,
+    "gt12": 13.0,
+    "wait_mean": 0.82,
+    "matched_bpa_stay_h_median": 24.18,
+    "bpa_calls": 1115.0,
+    "bpa_stay_h_median": 20.6
+   },
+   "2024-07": {
+    "ours": 578.0,
+    "gt12": 12.0,
+    "wait_mean": 1.0,
+    "matched_bpa_stay_h_median": 23.59,
+    "bpa_calls": 1133.0,
+    "bpa_stay_h_median": 21.42
+   },
+   "2024-08": {
+    "ours": 561.0,
+    "gt12": 15.0,
+    "wait_mean": 1.33,
+    "matched_bpa_stay_h_median": 23.33,
+    "bpa_calls": 1129.0,
+    "bpa_stay_h_median": 20.03
+   },
+   "2024-09": {
+    "ours": 521.0,
+    "gt12": 9.0,
+    "wait_mean": 0.82,
+    "matched_bpa_stay_h_median": 21.77,
+    "bpa_calls": 1061.0,
+    "bpa_stay_h_median": 20.2
+   },
+   "2024-10": {
+    "ours": 557.0,
+    "gt12": 7.0,
+    "wait_mean": 0.65,
+    "matched_bpa_stay_h_median": 22.48,
+    "bpa_calls": 1129.0,
+    "bpa_stay_h_median": 20.25
+   },
+   "2024-11": {
+    "ours": 536.0,
+    "gt12": 8.0,
+    "wait_mean": 0.34,
+    "matched_bpa_stay_h_median": 22.05,
+    "bpa_calls": 1067.0,
+    "bpa_stay_h_median": 21.22
+   },
+   "2024-12": {
+    "ours": 549.0,
+    "gt12": 6.0,
+    "wait_mean": 0.47,
+    "matched_bpa_stay_h_median": 23.83,
+    "bpa_calls": 1102.0,
+    "bpa_stay_h_median": 20.79
+   }
+  },
+  "corr_monthly_counts": 0.454,
+  "corr_wait_vs_bpa_stay": -0.184
+ },
+ "weather": {
+  "asos": {
+   "152": {
+    "name": "울산",
+    "start": "2023-01-01 00:00:00",
+    "end": "2026-11-04 09:00:00",
+    "hours_missing": 0,
+    "wind_missing_pct": 0.0
+   },
+   "155": {
+    "name": "창원",
+    "start": "2023-01-01 00:00:00",
+    "end": "2026-11-04 09:00:00",
+    "hours_missing": 0,
+    "wind_missing_pct": 0.01
+   },
+   "159": {
+    "name": "부산",
+    "start": "2023-01-01 00:00:00",
+    "end": "2026-11-04 09:00:00",
+    "hours_missing": 0,
+    "wind_missing_pct": 0.34
+   }
+  },
+  "buoy": {
+   "22104": {
+    "start": "2023-01-01 00:00:00",
+    "end": "2026-11-04 00:00:00",
+    "hours_missing": 852,
+    "wave_sig_missing_pct": 0.36,
+    "wind_missing_pct": 0.0
+   },
+   "22485": {
+    "start": "2025-05-20 01:00:00",
+    "end": "2026-09-10 23:00:00",
+    "hours_missing": 840,
+    "wave_sig_missing_pct": 16.09,
+    "wind_missing_pct": 22.46
+   },
+   "22512": {
+    "start": "2025-05-20 01:00:00",
+    "end": "2026-07-15 02:00:00",
+    "hours_missing": 843,
+    "wave_sig_missing_pct": 3.31,
+    "wind_missing_pct": 51.11
+   },
+   "22513": {
+    "start": "2025-05-20 01:00:00",
+    "end": "2026-11-04 00:00:00",
+    "hours_missing": 1456,
+    "wave_sig_missing_pct": 21.15,
+    "wind_missing_pct": 26.52
+   }
+  },
+  "wind_corr_with_busan159": {
+   "152": 0.449,
+   "155": 0.38,
+   "22104": 0.386,
+   "22485": 0.279,
+   "22512": 0.426,
+   "22513": 0.29
+  }
+ },
+ "road": {
+  "zone_ids": 62,
+  "zone_names": 66,
+  "zero_speed_pct": 24.1,
+  "start": "2023-01-01 00:00:00",
+  "end": "2026-09-30 23:00:00",
+  "zones_mostly_zero": 3,
+  "zones_usable": 37,
+  "zones_multi_name": 5,
+  "hours_no_valid_zone": 7,
+  "valid_zones_per_hour_median": 44.0,
+  "zero_pct_by_month_minmax": [
+   10.4,
+   38.5
+  ]
+ },
+ "typhoon": {
+  "track_points": 2230,
+  "storms_in_track": 101,
+  "track_range": [
+   "2023-04-20 15:00:00",
+   "2026-11-04 03:00:00"
+  ],
+  "list_rows": 282,
+  "list_years": [
+   2016,
+   2026
+  ],
+  "within_500km": [
+   {
+    "year": 2023,
+    "num": 6,
+    "name": "카눈",
+    "start": "2023-08-09 09:00:00",
+    "end": "2023-08-11 06:00:00",
+    "min_km": 52
+   },
+   {
+    "year": 2024,
+    "num": 9,
+    "name": "종다리",
+    "start": "2024-08-20 12:00:00",
+    "end": "2024-08-20 18:00:00",
+    "min_km": 353
+   },
+   {
+    "year": 2024,
+    "num": 10,
+    "name": "산산",
+    "start": "2024-08-29 03:00:00",
+    "end": "2024-08-30 21:00:00",
+    "min_km": 287
+   },
+   {
+    "year": 2025,
+    "num": 12,
+    "name": "링링",
+    "start": "2025-08-21 09:00:00",
+    "end": "2025-08-22 03:00:00",
+    "min_km": 370
+   },
+   {
+    "year": 2025,
+    "num": 15,
+    "name": "페이파",
+    "start": "2025-09-04 21:00:00",
+    "end": "2025-09-05 03:00:00",
+    "min_km": 409
+   },
+   {
+    "year": 2026,
+    "num": 30,
+    "name": "참피",
+    "start": "2026-10-26 03:00:00",
+    "end": "2026-10-26 03:00:00",
+    "min_km": 438
+   }
+  ]
+ },
+ "platform": {
+  "platform_arrival_reports/11_입항신고 정보.csv": {
+   "rows": 15,
+   "cols": 30,
+   "date_range": [
+    "2023-03-28",
+    "2023-04-09"
+   ],
+   "busan_rows": null
+  },
+  "platform_arrival_results/15_항만입항 실적 정보.csv": {
+   "rows": 60884,
+   "cols": 19,
+   "date_range": [
+    "2020-12-31",
+    "2023-03-23"
+   ],
+   "busan_rows": 16281
+  },
+  "platform_berth_schedule/10_터미널 선박일정 정보.csv": {
+   "rows": 289,
+   "cols": 80,
+   "date_range": [
+    "2020-05-31",
+    "2023-03-16"
+   ],
+   "busan_rows": null
+  },
+  "platform_planned_schedule/07_선박예정일정.csv": {
+   "rows": 765,
+   "cols": 35,
+   "date_range": [
+    "2020-07-10",
+    "2022-12-13"
+   ],
+   "busan_rows": 95
+  },
+  "platform_timely_calls/12_적시선박 입출항 정보.csv": {
+   "rows": 3553,
+   "cols": 17,
+   "date_range": [
+    "2001-12-02",
+    "2022-12-13"
+   ],
+   "busan_rows": 422
+  }
+ },
+ "elapsed_s": 207.4
+}

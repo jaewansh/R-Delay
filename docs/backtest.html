@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>R-Delay 실자료 검증</title>
+  <meta name="description" content="R-Delay 경보를 부산신항 공개 실자료로 되돌려 본 결과(공개 실자료 후향 검증, 실시간 운영 검증 아님): 단순 기준선과의 비교, 경보 성적, 실제 사례, 한계와 자료 출처.">
+  <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261106a">
+  <link rel="stylesheet" href="assets/css/method.css?v=20261106a">
+  <link rel="stylesheet" href="assets/css/backtest.css?v=20261106a">
+  <script type="module" src="assets/js/backtest.js?v=20261106a"></script>
+</head>
+<body class="m-page bt-page">
+<a class="m-skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="m-top">
+  <div class="m-top-in">
+    <a class="m-back" href="index.html">← 상황판으로</a>
+    <div class="m-title-row">
+      <h1>실제 자료로 되돌려 본 결과</h1>
+      <details class="m-about" id="about">
+        <summary class="m-badge" aria-label="공개 실자료 검증 안내 열기">ⓘ 공개 실자료 검증</summary>
+        <div class="m-about-body" role="note">
+          <p><b>공개 실자료 후향 검증(실시간 운영 검증 아님)입니다.</b> 지난 공개 자료로 R-Delay가 그 시각에 냈을 판단을 다시 계산해, 실제로 배가 기다린 기록과 맞춰 봤습니다. 실제 운영에서 낸 경보가 아닙니다. 결과는 부산신항 전체 집계값이고, 배 단위로 보이는 것은 사례 그림의 12시간 넘게 기다린 배뿐입니다. 그것도 시 단위로 내린 도착 시각과 대기 시간 구간만 적었습니다(선박 이름·호출부호·터미널 없음). 특정 터미널·선사·선박에 대한 판정이 아니며, 원인 판정은 모형상 배분으로 책임 소재 판단에 쓰지 않습니다.</p>
+        </div>
+      </details>
+    </div>
+    <p class="m-notice"><b>공개 실자료 후향 검증(실시간 운영 검증 아님)</b>입니다. 상황판의 수치와 <a href="method.html">작동 원리·검증</a> 페이지의 검증 표는 합성 데이터로 계산했고, 실제 부산신항 공개 자료로 계산한 결과는 이 페이지에 있습니다. 작동 원리·검증 페이지에 적힌 실자료 요약 숫자도 이 페이지의 결과 파일(data/backtest.json)에서 옮긴 것입니다.</p>
+    <p class="bt-meta" id="bt-meta"><span class="m-loading">결과 파일 정보를 불러오는 중…</span></p>
+  </div>
+</header>
+
+<div class="m-shell">
+  <nav class="m-toc m-toc-side" aria-label="목차">
+    <p class="m-toc-title">목차</p>
+    <ol>
+      <li><a href="#summary">한눈에</a></li>
+      <li><a href="#design">무엇을 어떻게 맞혔나</a></li>
+      <li><a href="#compare">단순 기준선과 비교</a></li>
+      <li><a href="#alarm">경보로 보면</a></li>
+      <li><a href="#cases">실제 사례</a></li>
+      <li><a href="#reliability">확률은 믿을 만한가</a></li>
+      <li><a href="#where">어디서 잘하고 못하나</a></li>
+      <li><a href="#limits">한계</a></li>
+      <li><a href="#sources">자료 출처</a></li>
+    </ol>
+    <p class="m-toc-back"><a href="method.html">작동 원리·검증 →</a></p>
+    <p class="m-toc-back"><a href="index.html">← 상황판으로</a></p>
+  </nav>
+
+  <details class="m-toc m-toc-mobile" id="toc-mobile">
+    <summary>목차</summary>
+    <nav aria-label="목차">
+      <ol>
+        <li><a href="#summary">한눈에</a></li>
+        <li><a href="#design">무엇을 어떻게 맞혔나</a></li>
+        <li><a href="#compare">단순 기준선과 비교</a></li>
+        <li><a href="#alarm">경보로 보면</a></li>
+        <li><a href="#cases">실제 사례</a></li>
+        <li><a href="#reliability">확률은 믿을 만한가</a></li>
+        <li><a href="#where">어디서 잘하고 못하나</a></li>
+        <li><a href="#limits">한계</a></li>
+        <li><a href="#sources">자료 출처</a></li>
+      </ol>
+    </nav>
+  </details>
+
+  <main id="main" class="m-main" tabindex="-1">
+    <noscript><p class="m-error">이 페이지의 표와 그림은 JavaScript가 필요합니다. 결과 원본은 <a href="data/backtest.json">data/backtest.json</a>에 있습니다.</p></noscript>
+    <p class="sr-only" id="bt-live" aria-live="polite"></p>
+
+    <!-- 1 -->
+    <section id="summary" aria-labelledby="summary-h">
+      <h2 id="summary-h"><span class="m-no">1</span>한눈에</h2>
+      <p class="m-lead" id="bt-question"><span class="m-loading">불러오는 중…</span></p>
+      <ul class="bt-answer" id="bt-answer" aria-label="답"></ul>
+      <h3 id="bt-tiles-h">맞힌 정도(PR-AUC, 평가 기간)</h3>
+      <div class="bt-tiles" id="bt-tiles" role="list" aria-labelledby="bt-tiles-h"></div>
+      <p class="m-sub" id="bt-tiles-note"></p>
+      <p class="m-plain" id="bt-plain" hidden></p>
+    </section>
+
+    <!-- 2 -->
+    <section id="design" aria-labelledby="design-h">
+      <h2 id="design-h"><span class="m-no">2</span>무엇을 어떻게 맞혔나</h2>
+      <dl class="m-rule-list" id="bt-design"><dt>맞힐 것</dt><dd class="m-loading">불러오는 중…</dd></dl>
+
+      <h3 id="bt-periods-h">기간</h3>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-periods-h">
+        <table id="bt-periods" class="m-table" aria-labelledby="bt-periods-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-scroll-hint" aria-hidden="true">표를 옆으로 밀어 나머지 열을 볼 수 있습니다.</p>
+      <p class="m-note" id="bt-once"></p>
+
+      <h3 id="bt-models-h">비교한 모형</h3>
+      <div id="bt-models"><p class="m-loading">불러오는 중…</p></div>
+
+      <h3 id="bt-pretest-h">평가 기간 전 자료에서 본 12시간 초과 대기</h3>
+      <p id="bt-pretest-lead"></p>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-pretest-h">
+        <table id="bt-pretest" class="m-table" aria-labelledby="bt-pretest-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-note" id="bt-pretest-note"></p>
+    </section>
+
+    <!-- 3 -->
+    <section id="compare" aria-labelledby="compare-h">
+      <h2 id="compare-h"><span class="m-no">3</span>단순 기준선과 비교</h2>
+      <p id="bt-compare-lead"></p>
+      <div class="legend bt-legend" id="bt-compare-legend"></div>
+      <div class="chart bt-chart" id="bt-compare-chart"><p class="m-loading">불러오는 중…</p></div>
+      <p class="m-sub" id="bt-compare-cap"></p>
+
+      <h3 id="bt-scores-h">표. 평가 기간 점수(대괄호: 95% 구간)</h3>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-scores-h">
+        <table id="bt-scores" class="m-table" aria-labelledby="bt-scores-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-scroll-hint" aria-hidden="true">표를 옆으로 밀어 나머지 열을 볼 수 있습니다.</p>
+      <p class="m-note" id="bt-scores-note"></p>
+
+      <h3 id="bt-pairs-h">표. 두 모형의 차이(앞 모형 − 뒤 모형)</h3>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-pairs-h">
+        <table id="bt-pairs" class="m-table" aria-labelledby="bt-pairs-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-scroll-hint" aria-hidden="true">표를 옆으로 밀어 나머지 열을 볼 수 있습니다.</p>
+      <p class="m-note" id="bt-pairs-note"></p>
+    </section>
+
+    <!-- 4 -->
+    <section id="alarm" aria-labelledby="alarm-h">
+      <h2 id="alarm-h"><span class="m-no">4</span>경보로 보면</h2>
+      <p id="bt-alarm-lead"></p>
+      <h3 id="bt-alarm-h">표. 검증 기간에서 정한 경보 기준을 그대로 쓸 때(평가 기간)</h3>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-alarm-h">
+        <table id="bt-alarm" class="m-table bt-compact" aria-labelledby="bt-alarm-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-scroll-hint" aria-hidden="true">표를 옆으로 밀어 나머지 열을 볼 수 있습니다.</p>
+      <p class="m-callout" id="bt-window-note" hidden></p>
+      <dl class="m-rule-list" id="bt-alarm-defs">
+        <dt>정밀도</dt><dd>경보를 낸 판단 시각 가운데, 그 뒤 24시간 안에 12시간 넘게 기다린 배가 정말로 온 비율입니다.</dd>
+        <dt>재현율</dt><dd>그런 배가 온 판단 시각 가운데 경보를 낸 비율입니다.</dd>
+        <dt>경보 횟수</dt><dd>경보가 꺼져 있다가 켜진 횟수입니다.</dd>
+        <dt>오경보율</dt><dd>켜진 경보 가운데, 정해 둔 시간 안에 12시간 넘게 기다린 배가 오지 않은 경보의 비율입니다(정의는 저장소 realdata/PROTOCOL.md 4절).</dd>
+        <dt>에피소드</dt><dd>12시간 넘게 기다린 배가 잇따라 도착한 기간을 하나로 묶은 것입니다. 시작은 그 묶음의 첫 도착입니다.</dd>
+        <dt>시작을 잡음</dt><dd>에피소드 시작 전 72시간 안에 경보가 있었는지(72시간 창), 그리고 자기 24시간 예측 창이 시작을 덮는 경보, 곧 시작 전 24시간 안의 경보가 있었는지(덮는 경보)로 셉니다.</dd>
+        <dt>선행시간</dt><dd>시작 전 72시간 안의 첫 경보가 시작보다 몇 시간 앞섰는지입니다. 잡은 에피소드만 셉니다.</dd>
+      </dl>
+    </section>
+
+    <!-- 5 -->
+    <section id="cases" aria-labelledby="cases-h">
+      <h2 id="cases-h"><span class="m-no">5</span>실제 사례</h2>
+      <p class="m-note" id="bt-case-note"></p>
+      <div class="bt-tabs" role="tablist" aria-label="사례 고르기" id="bt-case-tabs"></div>
+      <div class="bt-case" role="tabpanel" id="bt-case-panel" tabindex="0"><p class="m-loading">불러오는 중…</p></div>
+    </section>
+
+    <!-- 6 -->
+    <section id="reliability" aria-labelledby="reliability-h">
+      <h2 id="reliability-h"><span class="m-no">6</span>확률은 믿을 만한가</h2>
+      <p id="bt-rel-lead"></p>
+      <div class="legend bt-legend" id="bt-rel-legend"></div>
+      <div class="chart bt-chart bt-rel" id="bt-rel-chart"><p class="m-loading">불러오는 중…</p></div>
+      <p class="m-note" id="bt-rel-note"></p>
+      <details class="bt-details" id="bt-rel-details">
+        <summary>신뢰도 곡선을 표로 보기</summary>
+        <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-label="신뢰도 곡선 표">
+          <table id="bt-rel-table" class="m-table" aria-label="신뢰도 곡선 표"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+        </div>
+      </details>
+    </section>
+
+    <!-- 7 -->
+    <section id="where" aria-labelledby="where-h">
+      <h2 id="where-h"><span class="m-no">7</span>어디서 잘하고 어디서 못하나</h2>
+      <h3 id="bt-sub-h">표. 묶음별 PR-AUC(평가 기간)</h3>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-sub-h">
+        <table id="bt-sub" class="m-table bt-compact" aria-labelledby="bt-sub-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-scroll-hint" aria-hidden="true">표를 옆으로 밀어 나머지 열을 볼 수 있습니다.</p>
+      <p class="m-note" id="bt-sub-note"></p>
+
+      <h3 id="bt-vessel-h">표. 배 한 척씩 맞히기(선박 단위, 평가 기간)</h3>
+      <p id="bt-vessel-lead"></p>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-vessel-h">
+        <table id="bt-vessel" class="m-table bt-compact bt-wrap-first" aria-labelledby="bt-vessel-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <p class="m-scroll-hint" aria-hidden="true">표를 옆으로 밀어 나머지 열을 볼 수 있습니다.</p>
+      <p class="m-note" id="bt-vessel-note"></p>
+
+      <h3>사후 설명: 점수끼리 얼마나 닮았나</h3>
+      <p id="bt-post-lead"></p>
+      <ul class="m-bullets" id="bt-post"></ul>
+      <p class="m-note" id="bt-post-note"></p>
+
+      <h3>번짐 지수 R<sub>d</sub>는 실자료에서</h3>
+      <p id="bt-rd"></p>
+    </section>
+
+    <!-- 8 -->
+    <section id="limits" aria-labelledby="limits-h">
+      <h2 id="limits-h"><span class="m-no">8</span>한계</h2>
+      <p>좋은 결과와 함께 아래 한계를 같은 무게로 읽어 주세요.</p>
+      <ul class="m-limits" id="bt-limits"><li class="m-loading">불러오는 중…</li></ul>
+    </section>
+
+    <!-- 9 -->
+    <section id="sources" aria-labelledby="sources-h">
+      <h2 id="sources-h"><span class="m-no">9</span>자료 출처</h2>
+      <ul class="bt-sources" id="bt-sources"><li class="m-loading">불러오는 중…</li></ul>
+      <p class="m-note" id="bt-kogl"></p>
+      <h3 id="bt-ranges-h">자료 기간</h3>
+      <div class="table-wrap m-table-wrap" tabindex="0" role="region" aria-labelledby="bt-ranges-h">
+        <table id="bt-ranges" class="m-table" aria-labelledby="bt-ranges-h"><tbody><tr><td class="m-loading">불러오는 중…</td></tr></tbody></table>
+      </div>
+      <h3>이 페이지의 숫자는 어디서 오나</h3>
+      <p id="bt-files-lead"></p>
+      <ul class="bt-files" id="bt-files"></ul>
+      <p class="m-sub bt-commit" id="bt-commit" hidden></p>
+      <p class="m-links"><a href="data/backtest.json">결과 파일(backtest.json) →</a> <a href="https://github.com/jaewansh/R-Delay">GitHub 저장소 →</a></p>
+    </section>
+  </main>
+</div>
+
+<footer class="m-foot">
+  <div class="m-foot-in">
+    <p>R-Delay · 2026 동남권 멀티도메인 모빌리티 비즈니스 해커톤(개인부문) 출품작 · MIT License · <a href="https://github.com/jaewansh/R-Delay">GitHub</a></p>
+    <p>공개 실자료 후향 검증(실시간 운영 검증 아님)입니다. 결과는 부산신항 전체 집계값이고, 사례 그림의 12시간 초과 대기 선박만 시 단위 도착 시각과 대기 시간 구간으로 보입니다(선박 이름·호출부호·터미널 없음). 원인 판정은 모형상 배분으로 책임 소재 판단에 쓰지 않습니다.</p>
+    <p><a href="index.html">← 상황판으로</a> · <a href="method.html">작동 원리·검증</a> · <a href="#main">맨 위로 ↑</a></p>
+  </div>
+</footer>
+</body>
+</html>

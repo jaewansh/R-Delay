@@ -9,7 +9,7 @@
   항차 = (호출부호 clsgn, 입항연도 etryptYear, 입항횟수 etryptCo), 컨테이너선만
   첫 '입항' 관제의 시설이 정박지   → 그 시각부터 신항 선석에 처음 댄 관제 시각까지가 대기
   첫 '입항' 관제의 시설이 신항 선석 → 대기 0
-  신항 선석에 대지 않은 항차(북항·감천 등)는 뺍니다.
+  신항 선석에 대지 않은 항차(북항·감천 등), 다른 선석에 먼저 댔다가 신항으로 옮긴 항차는 뺍니다.
 먼저 --inspect로 실제 값을 보고 패턴을 맞추세요. 항계 밖 대기는 입항 신고 전이라 빠질 수 있습니다.
 """
 from __future__ import annotations
@@ -69,7 +69,7 @@ def build(cfg, df):
     is_berth = m("fcltyNm", cfg["newport_berth_pattern"]) & ~is_anch & ~m("fcltyNm", cfg.get("exclude_facility_pattern", ""))
     is_cont = m("vsslKndNm", cfg["container_ship_pattern"])
     d = df.assign(is_arr=is_arr, is_anch=is_anch, is_berth=is_berth, is_cont=is_cont).sort_values("t", kind="stable")
-    rows = []
+    rows, excluded = [], [0]
     for k, g in d.groupby(["clsgn", "etryptYear", "etryptCo"], sort=False):
         if not g["is_cont"].any():
             continue
@@ -82,6 +82,11 @@ def build(cfg, df):
         if berth.empty:
             continue
         b = berth.iloc[0]
+        # 신항 선석 전에 다른 선석(북항·감천 등)에 먼저 댄 항차는 터미널 간 이동이지 대기가 아니므로 뺀다.
+        between = g[(g["t"] >= a["t"]) & (g["t"] < b["t"])]
+        if (not a["is_anch"] and not a["is_berth"]) or (between["cntrlNm"].eq("접안") & ~between["is_berth"] & ~between["is_anch"]).any():
+            excluded[0] += 1
+            continue
         if a["is_anch"]:
             wait_h, kind = (b["t"] - a["t"]).total_seconds() / 3600, "정박지→선석"
         elif a["is_berth"]:
@@ -94,7 +99,9 @@ def build(cfg, df):
             "berth_t": b["t"], "berth_facility": b["fcltyNm"], "wait_h": round(wait_h, 2), "wait_kind": kind,
             "wait_gt_threshold": int(wait_h > cfg["wait_threshold_h"]),
         })
-    return pd.DataFrame(rows)
+    out = pd.DataFrame(rows)
+    out.attrs["excluded_other_berth_first"] = excluded[0]
+    return out
 
 
 def grid(cfg, v):
@@ -140,6 +147,7 @@ def main():
         "초과 비율": round(float(v["wait_gt_threshold"].mean()), 4),
         "대기 중앙값(시간)": round(float(v["wait_h"].median()), 2),
         "판정 종류": {k: int(n) for k, n in v["wait_kind"].value_counts().items()},
+        "제외(다른 선석 먼저 접안→신항 이동)": int(v.attrs.get("excluded_other_berth_first", 0)),
     }
     (out / "label_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"신항 컨테이너선 항차 {len(v):,}건 · 대기 {th}시간 초과 {summary[f'대기 {th}시간 초과']:,}건 "

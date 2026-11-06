@@ -4,7 +4,7 @@
 import {
   NODE_NAME, SCENARIO_CHIP, CARGO_SHORT, clock, clock10, clock10ceil, fmtDur, fmtDurCeil, fmtDurRange, fmtP, fmtWon, fmtRd,
   fmtRatio, fmtCap, nextUpdateText, hourLabel,
-} from "./format.js?v=20261105a";
+} from "./format.js?v=20261106a";
 
 export const LEVEL_OF_ALARM = { "정상": "good", "적체 경보": "warning", "확산 경보": "serious", "확산·적체 경보": "critical" };
 
@@ -698,7 +698,7 @@ export function trustLines(valid, run) {
       limits.push(`${who} 시험 결과가 예측보다 ${range(gaps)}%p 높았습니다(놓칠 확률을 낮게 잡는 편)`);
     }
   }
-  limits.push("모두 가상 세계 시험이며 실제 항만 자료로는 아직 검증 전입니다.");
+  limits.push("모두 가상 세계 시험입니다. 실제 공개 자료로 되돌려 본 결과는 실자료 검증 화면에 따로 있습니다.");
   const lim = limits.length > 6 ? [...limits.slice(0, 5), limits[limits.length - 1]] : limits;
   return { good: good.slice(0, 3), limits: lim };
 }

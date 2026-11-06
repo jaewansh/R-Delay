@@ -1,0 +1,48 @@
+{
+ "features": [
+  "wind_busan_max6",
+  "wave_geoje_max6",
+  "weekend",
+  "holiday",
+  "ty_close"
+ ],
+ "coef": [
+  -0.0009116613096582861,
+  -0.0016153719314955645,
+  0.0012766706951862293,
+  0.00020404516949581577,
+  5.761865607476781e-05
+ ],
+ "intercept": -0.00022022302411443,
+ "lam": 10.0,
+ "normalize": {
+  "mean": {
+   "wind_busan_max6": 4.39924,
+   "wave_geoje_max6": 1.17865,
+   "weekend": 0.28631,
+   "holiday": 0.04979,
+   "ty_close": 0.01145
+  },
+  "std": {
+   "wind_busan_max6": 1.85485,
+   "wave_geoje_max6": 0.69066,
+   "weekend": 0.45206,
+   "holiday": 0.21753,
+   "ty_close": 0.07046
+  },
+  "median_fill": {
+   "wind_busan_max6": 4.0,
+   "wave_geoje_max6": 1.0,
+   "weekend": 0.0,
+   "holiday": 0.0,
+   "ty_close": 0.0
+  }
+ },
+ "label": "AI 없이 돌린 실자료 입자필터의 6시간 고정시차 평활 E[z_S|y]",
+ "n_train": 8688,
+ "n_val": 2172,
+ "r2_train": 0.0131,
+ "r2_val": -0.0068,
+ "corr_val": 0.0278,
+ "label_sd_train": 0.0213
+}

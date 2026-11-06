@@ -1,0 +1,10 @@
+[
+ {
+  "time": "2026-11-06 22:11:05",
+  "protocol": "v1.4",
+  "rdelay": "realdata/cache/rdelay_all_W24_P512.parquet",
+  "reason": "첫 시험 계산",
+  "R3_test_pr_auc": 0.3293,
+  "S2_test_pr_auc": 0.3125
+ }
+]
