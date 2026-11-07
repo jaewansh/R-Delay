@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import pathlib
 import subprocess
 
@@ -35,19 +36,29 @@ REPORT_ANCHOR = "REPORT.md#두-번째-분석-선박별-하루-전-경보"
 FIRST_RUN = {"pr_auc": 0.196, "roc_auc": 0.858}  # 시험 첫 계산(누설 수정 전) 24시간 전 하이브리드 — PROTOCOL 부록 B
 
 
+FONTS = ("Pretendard", "Malgun Gothic", "AppleGothic", "Apple SD Gothic Neo", "NanumGothic", "Noto Sans CJK KR", "Noto Sans KR",
+         "Noto Sans CJK JP")  # 마지막은 리눅스용(CJK 글꼴에 한글도 들어 있음)
+
+
 def _font():
+    """그림 설정. 창을 띄우지 않는 Agg로 그리고, 한글 글꼴은 있는 것 중 앞에서부터 고른다.
+
+    Windows는 맑은 고딕, Mac은 AppleGothic이 기본으로 있다. 다른 글꼴을 쓰려면 .env에 RDELAY_FONT_DIR=<ttf·otf 폴더>.
+    """
     import matplotlib
+    matplotlib.use("Agg")
     from matplotlib import font_manager as fm
-    for d in (pathlib.Path.home() / "fontpkg/pt/package/dist/public/static/alternative",
-              pathlib.Path("/home/claude/fontpkg/pt/package/dist/public/static/alternative")):
-        if d.exists():
-            for f in d.glob("Pretendard-*.ttf"):
-                fm.fontManager.addfont(str(f))
+    extra = os.environ.get("RDELAY_FONT_DIR", "").strip()
+    if extra and pathlib.Path(extra).expanduser().is_dir():
+        for f in sorted(pathlib.Path(extra).expanduser().glob("*.[ot]tf")):
+            fm.fontManager.addfont(str(f))
     have = {f.name for f in fm.fontManager.ttflist}
-    for name in ("Pretendard", "Malgun Gothic", "AppleGothic", "Apple SD Gothic Neo", "NanumGothic", "Noto Sans CJK KR"):
-        if name in have:
-            matplotlib.rcParams["font.family"] = name
-            break
+    name = next((n for n in FONTS if n in have), None)
+    if name:
+        matplotlib.rcParams["font.family"] = name
+    else:
+        print("[알림] 한글 글꼴(맑은 고딕·AppleGothic·나눔고딕)을 찾지 못해 그림의 한글이 네모로 보일 수 있습니다. "
+              "숫자 결과에는 영향이 없습니다. 글꼴 폴더를 .env의 RDELAY_FONT_DIR에 적으면 그 글꼴을 씁니다.")
     matplotlib.rcParams.update({"axes.unicode_minus": False, "axes.edgecolor": COL["line"], "axes.labelcolor": COL["ink2"],
                                 "xtick.color": COL["muted"], "ytick.color": COL["muted"], "axes.titleweight": "bold",
                                 "axes.titlecolor": COL["ink"], "axes.grid": True, "grid.color": COL["grid"],
@@ -535,7 +546,7 @@ def _replace_between(path: pathlib.Path, tag: str, body: str) -> bool:
     if start not in s or end not in s:
         return False
     s = s[: s.index(start)] + f"{start}\n{body}\n{end}" + s[s.index(end) + len(end):]
-    path.write_text(s, encoding="utf-8")
+    paths.write_text(path, s)
     return True
 
 
@@ -552,14 +563,14 @@ def build_all():
     _font()
     res, cal, sens, p1, g = _load()
     S = summary(res, cal, sens, p1, g)
-    (paths.RESULTS / "summary.json").write_text(json.dumps(S, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
-    (paths.RESULTS / "compare.md").write_text(compare_md(S), encoding="utf-8")
+    paths.write_text(paths.RESULTS / "summary.json", json.dumps(S, ensure_ascii=False, indent=1, default=str))
+    paths.write_text(paths.RESULTS / "compare.md", compare_md(S))
     fig_leads(S)
     fig_alarm(S)
     fig_reliability(S)
     fig_drivers(S)
     out = paths.ROOT / "docs" / "data" / "backtest_ship.json"
-    out.write_text(json.dumps(web_json(S), ensure_ascii=False, separators=(",", ":"), default=str), encoding="utf-8")
+    paths.write_text(out, json.dumps(web_json(S), ensure_ascii=False, separators=(",", ":"), default=str))
     docs = update_docs(S)
     print(f"summary → {paths.RESULTS / 'summary.json'} · web → {out} ({out.stat().st_size / 1024:.0f} KB) · figs → {paths.REPORTS} · docs {docs}")
     return S

@@ -3,8 +3,10 @@
   python -m realdata_ship.run_all              # 캐시 갱신 → 격자·선박 표 → 대기열 → SIS → 검증 → 시험 → 그림·backtest.json
   python -m realdata_ship.run_all --relabel    # 새 관제정보가 들어왔을 때: data-kit 라벨부터 다시 만든다
   python -m realdata_ship.run_all --skip-calibrate   # SIS 우도 격자를 다시 돌리지 않고 저장된 값을 쓴다
+  python -m realdata_ship.run_all --workers 1        # 메모리가 적은 컴퓨터: SIS 우도 격자를 한 프로세스로
 
 모형·기준은 PROTOCOL.md대로 고정이고, 자료가 늘면 시험 기간만 늘어난다.
+처음 실행 전 점검: python scripts/laptop_check.py (안내: RUN_LOCAL.md)
 """
 from __future__ import annotations
 
@@ -30,6 +32,18 @@ def log(msg):
     print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
 
 
+def env_line() -> str:
+    """실행 환경 한 줄(다른 컴퓨터에서 숫자가 다를 때 원인을 찾기 위해)."""
+    import multiprocessing as mp
+    import platform
+
+    import matplotlib
+    import sklearn
+    return (f"Python {platform.python_version()} · {platform.system()} {platform.release()} · numpy {np.__version__} · "
+            f"pandas {pd.__version__} · scikit-learn {sklearn.__version__} · matplotlib {matplotlib.__version__} · "
+            f"병렬 방식 {mp.get_start_method()}")
+
+
 def relabel():
     env = dict(os.environ, RDELAY_DATA_DIR=str(paths.public()))
     kit = paths.ROOT / "data-kit"
@@ -42,9 +56,12 @@ def main():
     ap.add_argument("--relabel", action="store_true")
     ap.add_argument("--skip-calibrate", action="store_true")
     ap.add_argument("--n-boot", type=int, default=1000)
+    ap.add_argument("--workers", type=int, default=2, help="SIS 우도 격자 병렬 프로세스 수(기본 2, 메모리가 적으면 1)")
     a = ap.parse_args()
     t0 = time.time()
     paths.ensure_dirs()
+    log(env_line())
+    log(f"자료 폴더: {paths.public()}")
     if a.relabel:
         relabel()
     log("1/7 원자료 읽기(바뀐 것만)")
@@ -67,7 +84,8 @@ def main():
         v = grid.voyages()
         an = v[v["anchored"] & ~v["excluded"] & (v["arrival_t"] < pd.Timestamp(ev.PERIODS["train"][1]))]
         gamma_s = 1.0 / an["wait_h"].mean()
-        cal = sis_pf.calibrate(tr, gamma_s, ratios=(0.0, 0.3, 0.6, 0.9, 1.2, 1.5, 2.0), kappas=(0.0, 0.5))
+        cal = sis_pf.calibrate(tr, gamma_s, ratios=(0.0, 0.3, 0.6, 0.9, 1.2, 1.5, 2.0), kappas=(0.0, 0.5),
+                               workers=max(1, a.workers))
         b = cal["best"]
         p = sis_pf.params(tr, beta_s=b["beta_ratio"] * gamma_s, kappa=b["kappa"], gamma_s=gamma_s)
         model = None
@@ -103,6 +121,7 @@ def main():
                                    "t2_choice": {str(k): v for k, v in t2_choice.items()}, "t1_choice": t1_choice})
     log("6/7 시험 기간(학습+검증으로 다시 맞춤, 한 번)")
     data_end = max(load.voyages()["berth_t"].max(), load.cntl()["t"].max())
+    log(f"   자료 끝 {data_end} → 시험 기간 {' ~ '.join(ev.test_period(data_end))}")
     res, p2, p1 = bt.final_test(d, GG, data_end, t2_choice, t1_choice, n_boot=a.n_boot)
     res.update({"t2_choice": {str(k): v for k, v in t2_choice.items()}, "t1_choice": t1_choice, "data_end": str(data_end),
                 "sis": {"beta_ratio": b["beta_ratio"], "kappa": b["kappa"], "gamma_s": gamma_s,

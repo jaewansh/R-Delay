@@ -84,9 +84,9 @@ def build(leads=LEADS, train_end: str = "2025-01-01", cap_h: float = grid.CAP_H)
     # 이력은 모든 항차로 만든다. '12시간 초과'는 도착 12시간 뒤면 확정되지만 '168시간 초과 제외'는 그때 알 수 없다.
     vv = v.copy()
     vv["hist_pos"] = vv["wait_h"] > grid.WAIT_H
-    vv["dow"] = vv["arrival_t"].dt.dayofweek
+    vv["dow"] = vv["arrival_t"].dt.day_of_week
     vv["hb"] = vv["arrival_t"].dt.hour // HOUR_BIN
-    d["arr_dow"] = d["arrival_t"].dt.dayofweek
+    d["arr_dow"] = d["arrival_t"].dt.day_of_week
     d["arr_hb"] = d["arrival_t"].dt.hour // HOUR_BIN
     d["slot_n"] = 0.0
     d["slot_pos"] = 0.0

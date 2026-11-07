@@ -45,18 +45,31 @@ def data_root() -> pathlib.Path:
 
 
 def public() -> pathlib.Path:
-    """공개 자료 폴더(derived/ portmis/ manual/). data-kit의 RDELAY_DATA_DIR와 같은 구조."""
+    """공개 자료 폴더(derived/ portmis/ manual/). data-kit의 RDELAY_DATA_DIR와 같은 구조.
+
+    주 분석(realdata/paths.py)과 같은 규칙: RDELAY_PUBLIC_DIR가 있으면 그 폴더, 없으면 RDELAY_DATA_ROOT/public_data.
+    """
+    v = os.environ.get("RDELAY_PUBLIC_DIR", "").strip()
+    if v:
+        return pathlib.Path(v).expanduser()
     p = data_root() / "public_data"
     return p if p.exists() else data_root()
 
 
 def clarksons_dir() -> pathlib.Path | None:
-    """Clarksons xlsx가 있는 폴더(없으면 None). 하위 폴더 구조가 달라도 찾는다."""
+    """Clarksons xlsx(CLK_*.xlsx)가 있는 폴더(없으면 None). A1_…·A2_… 같은 하위 폴더에 나뉘어 있어도 찾는다."""
     v = os.environ.get("RDELAY_CLARKSONS_DIR", "").strip()
-    if v and pathlib.Path(v).exists():
-        return pathlib.Path(v)
-    hits = sorted(data_root().rglob("CLK_A1_*.xlsx"))
-    return hits[0].parent.parent if hits else None
+    if v and pathlib.Path(v).expanduser().exists():
+        return pathlib.Path(v).expanduser()
+    root = data_root()
+    return root if next(root.rglob("CLK_*.xlsx"), None) is not None else None
+
+
+def write_text(path: pathlib.Path, text: str) -> None:
+    """UTF-8·LF로 쓴다. Windows에서도 줄바꿈이 CRLF로 바뀌어 git에 파일 전체 변경으로 잡히지 않게 한다."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(text)
 
 
 def ensure_dirs() -> None:

@@ -127,7 +127,7 @@ def road_reference(train_end: str) -> tuple[pd.DataFrame, list[str]]:
     tr = r[r["t"] < pd.Timestamp(train_end)]
     cov = tr.groupby("zone")["speed"].apply(lambda s: s.notna().mean())
     zones = sorted(cov[cov >= 0.8].index)
-    tr = tr[tr["zone"].isin(zones)].assign(we=tr["t"].dt.dayofweek >= 5, hr=tr["t"].dt.hour)
+    tr = tr[tr["zone"].isin(zones)].assign(we=tr["t"].dt.day_of_week >= 5, hr=tr["t"].dt.hour)
     ref = tr.groupby(["zone", "we", "hr"])["speed"].quantile(0.85).rename("ref").reset_index()
     return ref, zones
 
@@ -135,7 +135,7 @@ def road_reference(train_end: str) -> tuple[pd.DataFrame, list[str]]:
 def _road(tau: pd.DatetimeIndex, train_end: str, ratio: float = 0.6) -> pd.DataFrame:
     ref, zones = road_reference(train_end)
     r = load.road()
-    r = r[r["zone"].isin(zones)].assign(we=lambda d: d["t"].dt.dayofweek >= 5, hr=lambda d: d["t"].dt.hour)
+    r = r[r["zone"].isin(zones)].assign(we=lambda d: d["t"].dt.day_of_week >= 5, hr=lambda d: d["t"].dt.hour)
     r = r.merge(ref, on=["zone", "we", "hr"], how="left")
     r["rel"] = r["speed"] / r["ref"]
     wide = r.pivot_table(index="t", columns="zone", values="rel", aggfunc="mean")
@@ -159,9 +159,9 @@ def _calendar(tau: pd.DatetimeIndex) -> pd.DataFrame:
     kr = holidays.KR(years=sorted(set(tau.year)))
     d = pd.DataFrame(index=tau)
     d["hour"] = tau.hour
-    d["dow"] = tau.dayofweek
+    d["dow"] = tau.day_of_week
     d["month"] = tau.month
-    d["weekend"] = (tau.dayofweek >= 5).astype(float)
+    d["weekend"] = (tau.day_of_week >= 5).astype(float)
     d["holiday"] = np.array([dt.date() in kr for dt in tau], dtype=float)
     d["offday"] = np.maximum(d["weekend"], d["holiday"])
     d["h_sin"], d["h_cos"] = np.sin(2 * np.pi * tau.hour / 24), np.cos(2 * np.pi * tau.hour / 24)

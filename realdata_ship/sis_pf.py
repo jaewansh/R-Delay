@@ -147,8 +147,11 @@ def calibrate(g_train: pd.DataFrame, gamma_s: float, ratios=(0.0, 0.3, 0.6, 0.9,
     """학습 기간 우도 격자로 β̄_S(= r·γ_S)와 결합 강도 κ를 고른다."""
     from concurrent.futures import ProcessPoolExecutor
     jobs = [(g_train, r, k, gamma_s) for r in ratios for k in kappas]
-    with ProcessPoolExecutor(max_workers=workers) as ex:
-        res = list(ex.map(_grid_job, jobs))
+    if workers <= 1:  # 한 프로세스로(메모리가 적거나 다중 처리가 막힌 컴퓨터). 각 작업의 난수 시드가 같아 결과도 같다
+        res = [_grid_job(j) for j in jobs]
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as ex:
+            res = list(ex.map(_grid_job, jobs))
     best = max(res, key=lambda t: t[2])
     return {"grid": [{"beta_ratio": r, "kappa": k, "loglik": ll} for r, k, ll in res],
             "best": {"beta_ratio": best[0], "kappa": best[1], "loglik": best[2]}, "gamma_s": gamma_s}

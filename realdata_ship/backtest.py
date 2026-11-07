@@ -111,7 +111,7 @@ def fit_predict_t1(tr, te, choice, cols_sis=None, extra_scores: dict | None = No
 
 def save(name: str, obj) -> None:
     paths.ensure_dirs()
-    (paths.RESULTS / name).write_text(json.dumps(obj, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
+    paths.write_text(paths.RESULTS / name, json.dumps(obj, ensure_ascii=False, indent=1, default=float))
 
 
 def _alarm_rate_stats(y, p, rate):

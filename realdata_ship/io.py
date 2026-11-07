@@ -54,6 +54,5 @@ def cached(name: str, sources: list[pathlib.Path], build: Callable[[], pd.DataFr
             pass
     df = build()
     df.to_parquet(pq, index=False)
-    meta.write_text(json.dumps({"key": key, "rows": int(len(df)), "sources": len(sources)}, ensure_ascii=False),
-                    encoding="utf-8")
+    paths.write_text(meta, json.dumps({"key": key, "rows": int(len(df)), "sources": len(sources)}, ensure_ascii=False))
     return df

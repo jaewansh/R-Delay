@@ -153,7 +153,7 @@ python run_all.py --start 2023-01-01     # 관제정보 수집 → 대기 라벨
 <details>
 <summary><b>실자료 백테스트</b> (자료가 있을 때)</summary>
 
-원자료는 저장소에 없습니다. 위 수집 키트와 확보 가이드로 받은 공개 자료 폴더(그 아래 `public_data/`에 `portmis/`·`derived/`·`manual/`)를 저장소 루트 `.env`에 `RDELAY_DATA_ROOT=<자료 폴더>`로 적은 뒤 차례로 실행합니다. 읽은 자료와 중간 결과는 `realdata/cache/`에 쌓이며 저장소에 올리지 않습니다. 검증 규칙과 변경 이력은 [realdata/PROTOCOL.md](realdata/PROTOCOL.md)에 있습니다.
+원자료는 저장소에 없습니다. 위 수집 키트와 확보 가이드로 받은 공개 자료 폴더(그 아래 `public_data/`에 `portmis/`·`derived/`·`manual/`)를 저장소 루트 `.env`에 `RDELAY_DATA_ROOT=<자료 폴더>`로 적은 뒤 차례로 실행합니다. 노트북(Windows·Mac)에서 처음 돌릴 때의 설치·점검 순서는 [RUN_LOCAL.md](RUN_LOCAL.md)에 있습니다(`python scripts/laptop_check.py`로 자료·패키지·글꼴 점검). 읽은 자료와 중간 결과는 `realdata/cache/`에 쌓이며 저장소에 올리지 않습니다. 검증 규칙과 변경 이력은 [realdata/PROTOCOL.md](realdata/PROTOCOL.md)에 있습니다.
 
 ```bash
 python3 -m pip install -r requirements.txt -r requirements-backtest.txt
@@ -201,13 +201,15 @@ R-Delay/
 ├─ realdata/           실자료 백테스트(검증 규칙 PROTOCOL.md · 코드 · 결과 집계 results/ · 그림 reports/), 원자료는 저장소에 없음
 ├─ realdata_ship/      두 번째 분석: 선박별 하루 전 경보(PROTOCOL.md · 코드 · results/ · reports/), 원자료는 저장소에 없음
 ├─ scripts/            학습 · 미리 계산 · 검증 · 화면 캡처 · 시연 영상(demo/)
-│  └─ build_backtest.py  실자료 결과(realdata/results) → docs/data/backtest.json
+│  ├─ build_backtest.py  실자료 결과(realdata/results) → docs/data/backtest.json
+│  └─ laptop_check.py  내 컴퓨터에서 실자료 분석을 돌리기 전 점검(파이썬·패키지·자료·글꼴)
 ├─ tests/              엔진 · 실자료 백테스트 코드(가짜 자료) · backtest.json 점검(pytest) · 화면 문구·브리핑 규칙(node --test)
 ├─ data-kit/           공개 데이터 수집 키트 · 데이터 확보 가이드 · Clarksons 요청서
 ├─ image/              README 이미지
 ├─ MODEL.md            모형 정의·가정·증명
 ├─ REPORT.md           기술 보고서(문제 · 시연 장면별 결과 · 합성 검증 · 실자료 백테스트 · 로드맵 · 한계 · 출처)
 ├─ GUIDE_GITHUB.md     GitHub 업로드 · Pages 설정 · 확인 방법
+├─ RUN_LOCAL.md        내 컴퓨터(Windows·Mac)에서 실자료 분석 실행하기
 └─ .github/workflows/ci.yml   테스트 자동 실행
 ```
 

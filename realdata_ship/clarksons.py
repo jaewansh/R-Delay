@@ -31,7 +31,7 @@ def _sin(path) -> pd.DataFrame:
 def run() -> dict:
     d = paths.clarksons_dir()
     if d is None:
-        raise SystemExit("Clarksons 자료 폴더를 찾지 못했습니다(RDELAY_CLARKSONS_DIR).")
+        raise SystemExit("[중단] Clarksons 파일(CLK_*.xlsx)을 자료 폴더 아래에서 찾지 못했습니다. 저장소 루트 .env에 RDELAY_CLARKSONS_DIR=<Clarksons 폴더>를 적으세요.")
     files = {p.name: p for p in d.rglob("CLK_*.xlsx")}
     out = {}
     # 1) 부산 체류 척수 대 PORT-MIS 신항
@@ -65,7 +65,7 @@ def run() -> dict:
     out["note"] = ("선박 쪽 비용 근사: (대기 − 12시간) × 1,700TEU급 3년 정기용선료(시험 기간 평균, USD/일) ÷ 24. "
                    "선형별 차이·연료비·항비는 넣지 않았다. Clarksons Research 학술 구독 자료 — 외부 공개 금지.")
     paths.LOCAL_ONLY.mkdir(parents=True, exist_ok=True)
-    (paths.LOCAL_ONLY / "clarksons_check.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    paths.write_text(paths.LOCAL_ONLY / "clarksons_check.json", json.dumps(out, ensure_ascii=False, indent=1))
     md = ["# Clarksons 비공개 점검 (외부 공개 금지)", "",
           f"- 부산 체류 척수(Clarksons A2, 7일 평균) 대 PORT-MIS 신항 체류 척수(7일 평균): 일별 상관 {out['corr_busan_vs_newport_present']}, 월별 {out['corr_monthly_busan_vs_newport_present']} ({out['busan_period'][0]}~{out['busan_period'][1]}, {out['busan_overlap_days']}일)",
           f"- 같은 비교, 신항 정박지 대기 척수: 일별 상관 {out['corr_busan_vs_newport_wait']}",
@@ -73,7 +73,7 @@ def run() -> dict:
           f"- 12시간 초과분 대기 시간 합계(연도별): {out['excess_wait_hours_by_year']}",
           f"- 선박 쪽 대기 비용 근사(USD, 1,700TEU급 용선료 기준): {out['ship_side_cost_usd_by_year_at_1700TEU_rate']}",
           f"- 주의: {out['note']}"]
-    (paths.LOCAL_ONLY / "clarksons_check.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    paths.write_text(paths.LOCAL_ONLY / "clarksons_check.md", "\n".join(md) + "\n")
     return out
 
 
