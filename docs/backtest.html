@@ -8,10 +8,10 @@
   <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1a1a19" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261106a">
-  <link rel="stylesheet" href="assets/css/method.css?v=20261106a">
-  <link rel="stylesheet" href="assets/css/backtest.css?v=20261106a">
-  <script type="module" src="assets/js/backtest.js?v=20261106a"></script>
+  <link rel="stylesheet" href="assets/css/style.css?v=20261107a">
+  <link rel="stylesheet" href="assets/css/method.css?v=20261107a">
+  <link rel="stylesheet" href="assets/css/backtest.css?v=20261107a">
+  <script type="module" src="assets/js/backtest.js?v=20261107a"></script>
 </head>
 <body class="m-page bt-page">
 <a class="m-skip" href="#main">본문으로 건너뛰기</a>
@@ -28,7 +28,7 @@
         </div>
       </details>
     </div>
-    <p class="m-notice"><b>공개 실자료 후향 검증(실시간 운영 검증 아님)</b>입니다. 상황판의 수치와 <a href="method.html">작동 원리·검증</a> 페이지의 검증 표는 합성 데이터로 계산했고, 실제 부산신항 공개 자료로 계산한 결과는 이 페이지에 있습니다. 작동 원리·검증 페이지에 적힌 실자료 요약 숫자도 이 페이지의 결과 파일(data/backtest.json)에서 옮긴 것입니다.</p>
+    <p class="m-notice"><b>공개 실자료 후향 검증(실시간 운영 검증 아님)</b>입니다. 상황판의 수치와 <a href="method.html">작동 원리·검증</a> 페이지의 검증 표는 합성 데이터로 계산했고, 실제 부산신항 공개 자료로 계산한 결과는 이 페이지에 있습니다. 작동 원리·검증 페이지에 적힌 실자료 요약 숫자도 이 페이지의 결과 파일(data/backtest.json)에서 옮긴 것입니다. 선박마다 도착 하루 전에 보는 두 번째 분석은 <a href="backtest-ship.html">선박별 검증</a>에 따로 있습니다.</p>
     <p class="bt-meta" id="bt-meta"><span class="m-loading">결과 파일 정보를 불러오는 중…</span></p>
   </div>
 </header>
@@ -47,6 +47,7 @@
       <li><a href="#limits">한계</a></li>
       <li><a href="#sources">자료 출처</a></li>
     </ol>
+    <p class="m-toc-back"><a href="backtest-ship.html">선박별 하루 전 경보(두 번째 분석) →</a></p>
     <p class="m-toc-back"><a href="method.html">작동 원리·검증 →</a></p>
     <p class="m-toc-back"><a href="index.html">← 상황판으로</a></p>
   </nav>
@@ -229,7 +230,7 @@
   <div class="m-foot-in">
     <p>R-Delay · 2026 동남권 멀티도메인 모빌리티 비즈니스 해커톤(개인부문) 출품작 · MIT License · <a href="https://github.com/jaewansh/R-Delay">GitHub</a></p>
     <p>공개 실자료 후향 검증(실시간 운영 검증 아님)입니다. 결과는 부산신항 전체 집계값이고, 사례 그림의 12시간 초과 대기 선박만 시 단위 도착 시각과 대기 시간 구간으로 보입니다(선박 이름·호출부호·터미널 없음). 원인 판정은 모형상 배분으로 책임 소재 판단에 쓰지 않습니다.</p>
-    <p><a href="index.html">← 상황판으로</a> · <a href="method.html">작동 원리·검증</a> · <a href="#main">맨 위로 ↑</a></p>
+    <p><a href="index.html">← 상황판으로</a> · <a href="method.html">작동 원리·검증</a> · <a href="backtest-ship.html">선박별 검증(두 번째 분석)</a> · <a href="#main">맨 위로 ↑</a></p>
   </div>
 </footer>
 </body>

@@ -1,20 +1,21 @@
 {
-  "V": "20261106a",
+  "V": "20261107a",
   "files": {
     "docs/assets/css/backtest.css": "9f9f1b2e6bb05e1f7aeefe974ee7abdf32872dcdbbbf1a8cc2ea99d1c676845a",
     "docs/assets/css/board.css": "339da7bd34e8fc82481a7ce39556e0509d8cccbbbc3bb419f9e3dfd39eb02c8e",
     "docs/assets/css/method.css": "77d45c1dc8487e559009105be64cc6c002d555bc5d6ad10f43594b5c944962b2",
     "docs/assets/css/style.css": "7476313f4d28099db20dc91c6d4e4508ced5860b990b906e5333960858481fb9",
-    "docs/assets/js/app.js": "d9ac0715510e41f28e109e969978dd793c8509b788ddb76b9dd1e51402fae9ff",
-    "docs/assets/js/backtest.js": "5b1bb5b99142e7de9ccb49589fe8c9a53580b2e3d3f9a33a2a219700cfd6d932",
-    "docs/assets/js/board.js": "514d11b5cd557e3d50370c2cea60dce72162a8495c84c0b33d30233dc4bc8a88",
-    "docs/assets/js/briefing.js": "38366f70ee6ec8df174f889cf22525cd805ac91b743e547f009e59535717d608",
-    "docs/assets/js/charts.js": "2700d6a852826f2bf30bc813115b28f6621210eac85f934ddc212625f5a01e56",
-    "docs/assets/js/derive.js": "e1c067128e6d2160e0a2be0f135cd1f825751a9e5d71f15c3996031ea1fd4f21",
-    "docs/assets/js/driver.js": "5c1b0c53f0538054751c1791c84aad6c47b7788e27b22d439042fc0ab839a3fd",
+    "docs/assets/js/app.js": "87879123e7ebff97bfea5d40a5b7a0157dbd68216c2b02b849a0d1e760045360",
+    "docs/assets/js/backtest-ship.js": "354bd0692430e90413849bfb12fa380ada220dde389ef38c5acd6424a533b349",
+    "docs/assets/js/backtest.js": "6df6f82ccc82bb81e1c54b913955bd47019c4289356284a20e44a9c563fc99d8",
+    "docs/assets/js/board.js": "0124450e0cfe57103aaf68a210805e0cf07b24735500963ca65f050d2df486d8",
+    "docs/assets/js/briefing.js": "2edc2c87ac163277ff3622196a5ea5b2bc26f974dca7cd5e09412710d4aff6b0",
+    "docs/assets/js/charts.js": "52ba9619a1fe9a6ee17ea0ac6bdcc8a5e3ac6e1aa3a1c548898e8029a66bcfec",
+    "docs/assets/js/derive.js": "6598c6233141074b8baa10d1742280ca03fe066bf76c8d2e63b16b11a26b3319",
+    "docs/assets/js/driver.js": "13b06d02e5c250169b52be1c5071f68d2607982c6e64706716bcc97cf79acf9e",
     "docs/assets/js/engine-worker.js": "d058ff6a56c2fbbdff5ba8909e07ec85b85af93fd04ad4dff154cb3ce02cc9e9",
     "docs/assets/js/format.js": "e3b6610beeb68950197aa74eb599ed42d97908bfdd3f19978e17b42b8205143b",
-    "docs/assets/js/method.js": "e82820315efdb3dce6193b0ce9ca1914329b46b2f56438b44428f8c3a3e00634",
+    "docs/assets/js/method.js": "ee40501c9b736e2c7a7d612b68aeb49174c7b4568a77b5b47b5e3d6dc64c98b0",
     "docs/assets/js/validation-tables.js": "0c5c92354dd852a480de3c02b1a7c5daa42d9dff29c29850f69f72d34f280715"
   }
 }

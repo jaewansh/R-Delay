@@ -1,8 +1,8 @@
 // R-Delay 배차 브리핑 화면: 상황 띠 → 배차판(시간축 위 오늘 화물) → 브리핑 문서.
 // 판단 규칙은 derive.js, 문서 문장은 briefing.js가 만든다. 여기서는 그리기와 클릭만 다룬다.
-import { statusView, sortedCargo, classifyCargo, cargoView, nodeState, STATE_WORD, trustLines } from "./derive.js?v=20261106a";
-import { SCENARIO_CHIP, clock, clock10, fmtP, fmtRd, fmtDur, asOfText, nextUpdateText, CARGO_SHORT } from "./format.js?v=20261106a";
-import { DOC_KINDS, buildDoc, docToText, docToHTML, driverLink, cargoFacts, DEFAULT_SENDER, josa } from "./briefing.js?v=20261106a";
+import { statusView, sortedCargo, classifyCargo, cargoView, nodeState, STATE_WORD, trustLines } from "./derive.js?v=20261107a";
+import { SCENARIO_CHIP, clock, clock10, fmtP, fmtRd, fmtDur, asOfText, nextUpdateText, CARGO_SHORT } from "./format.js?v=20261107a";
+import { DOC_KINDS, buildDoc, docToText, docToHTML, driverLink, cargoFacts, DEFAULT_SENDER, josa } from "./briefing.js?v=20261107a";
 
 const $ = (id) => document.getElementById(id);
 const HOURS = 20; // 10:00 → 내일 06:00

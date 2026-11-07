@@ -19,5 +19,6 @@ data-kit/.env
 *.part
 # 실자료 백테스트: 원자료·캐시·Clarksons 계산·발표 산출물은 올리지 않는다
 realdata/cache/
+realdata_ship/cache/
 local_only/
 presentation/

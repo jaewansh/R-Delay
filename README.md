@@ -8,7 +8,7 @@
 ### 개발 기간
 - 기획·예선: 2026.10 (참가신청서·종합설계서, 합성 시제품)
 - 본선판 v2.0: 2026.10 – 2026.11 (배차 담당자 화면·브리핑 4종·기사님 화면, 본선 시연용)
-- 실자료 백테스트: 2026.11 (부산신항 공개 자료로 되돌려 본 검증, 웹 ‘실자료 검증’ 화면)
+- 실자료 백테스트: 2026.11 (부산신항 공개 자료로 되돌려 본 검증, 웹 ‘실자료 검증’ 화면 · 두 번째 분석 ‘선박별 검증’ 화면)
 
 ---
 
@@ -28,6 +28,12 @@ R-Delay는 부산신항에서 시작된 지연이 게이트·도로를 거쳐 �
 > **실제 공개 자료로 되돌려 본 결과**(공개 실자료 후향 검증, 실시간 운영 검증 아님): 평가 기간(2025-07-01 ~ 2026-10-29, 판단 시각 5,821개)에 ‘앞으로 24시간 안에 12시간 넘게 기다릴 컨테이너선이 오는가’를 맞힌 정도(PR-AUC)는 R-Delay 0.407, 지속성(지금 정박지 대기) 0.387, 기후값 0.291입니다. 기후값보다는 확실히 낫지만 지속성과는 차이가 없고, 대기 에피소드 81개 중 63개는 시작 전 72시간 안에 경보가 없었습니다. 앱의 확산 경보(P(R<sub>d</sub>&gt;1) ≥ 0.5)는 실자료에서 한 번도 울리지 않았고(P(R<sub>d</sub>&gt;1) 최대 0.0019), 스케줄 기준선에 R-Delay 상태를 더하면 확실히 나아집니다.
 >
 > → [실자료 검증 화면](https://jaewansh.github.io/R-Delay/backtest.html) · [비교표 `realdata/results/compare.md`](realdata/results/compare.md) · [기술 보고서의 해당 절](REPORT.md#검증-실제-공개-자료-백테스트)
+
+<!-- realdata-ship-readme:start -->
+> **선박별로 보면**(두 번째 분석, 선박 단위): 도착 24시간 전 위험 상위 5% 선박에 실제 12시간 초과 대기의 38.5%가 들었고, 경보 정밀도는 16.2%로 무작위(2.1%)의 7.7배였습니다(상위 5%는 시험 기간 예측 분포 기준, 미리 정한 문턱으로는 경보 4.5%·정밀도 17.4%·재현율 37.4%). 예측력은 주로 같은 선박의 이전 기항 이력, 같은 요일·시간대 슬롯 이력, 선박 크기(총톤수)에서 나왔고, 선석 대기열·번짐 지수가 더한 몫은 작았습니다. 대상 선박의 도착 시각과 터미널을 미리 안다는 낙관적 가정이 들어 있습니다.
+>
+> → [선박별 검증 화면](https://jaewansh.github.io/R-Delay/backtest-ship.html) · [비교표 `realdata_ship/results/compare.md`](realdata_ship/results/compare.md) · [기술 보고서의 해당 절](REPORT.md#두-번째-분석-선박별-하루-전-경보)
+<!-- realdata-ship-readme:end -->
 
 ---
 
@@ -61,8 +67,8 @@ R-Delay는 부산신항에서 시작된 지연이 게이트·도로를 거쳐 �
 | AI Module | 릿지 회귀 f<sub>ω</sub> — 풍속·파고·주말·장비 상태 → 전파율 사전평균(보조 모듈, 실자료 백테스트에서는 효과가 없어 끔) |
 | Briefing | 화주 안내 · 기사 지시 · 사내 보고 · 항만 협의 자동 작성, 복사·공유·인쇄·저장 |
 | Data Kit | Python — PORT-MIS 관제정보 수집, ‘선박 대기 12시간 초과’ 라벨, 자료 점검표 |
-| Backtest | Python(pandas·scikit-learn·matplotlib) — 부산신항 공개 자료 후향 검증(`realdata/`): 기준선 S0~S3, 실자료 R-Delay(해상·육상 두 층), 평가 기간 1회 계산, 웹용 집계 `docs/data/backtest.json` |
-| Test | pytest 89개(엔진 46, 실자료 백테스트 43: 가짜 자료 단위 시험·결과 파일 확인·문서 숫자 확인·실자료 누설 검사), Node test 56개(화면 문구·브리핑 규칙 38, 실자료 검증 화면 18), 합성 세계 60개 × 5개 장면 검증, 화면 파일 버전 점검, 데이터 키트 자체 시험 20개 |
+| Backtest | Python(pandas·scikit-learn·matplotlib) — 부산신항 공개 자료 후향 검증(`realdata/`): 기준선 S0~S3, 실자료 R-Delay(해상·육상 두 층), 평가 기간 1회 계산, 웹용 집계 `docs/data/backtest.json` · 두 번째 분석(`realdata_ship/`): 선박별 하루 전 경보(터미널별 선석 대기열 몬테카를로 + 하이브리드 로지스틱), `docs/data/backtest_ship.json` |
+| Test | pytest 98개(엔진 46, 실자료 백테스트 43: 가짜 자료 단위 시험·결과 파일 확인·문서 숫자 확인·실자료 누설 검사, 선박 단위 9: 단위 시험·컷오프 누설 검사), Node test 56개(화면 문구·브리핑 규칙 38, 실자료 검증 화면 18), 합성 세계 60개 × 5개 장면 검증, 화면 파일 버전 점검, 데이터 키트 자체 시험 20개 |
 | Deploy | GitHub Pages (`/docs`), GitHub Actions (CI) |
 
 ---
@@ -106,7 +112,7 @@ python3 -m http.server -d docs 8000      # http://localhost:8000 에서 열기
 
 ```bash
 python3 -m pip install -r requirements.txt
-python3 -m pytest -q                     # 엔진 46개 + 백테스트 결과 파일·문서 숫자 확인 20개(실자료 백테스트 23개는 requirements-backtest.txt 설치 시)
+python3 -m pytest -q                     # 엔진 46개 + 백테스트 결과 파일·문서 숫자 확인 20개(실자료 백테스트 23개·선박 단위 9개는 requirements-backtest.txt 설치 시)
 node --test tests/*.test.mjs             # 화면 문구·브리핑 규칙 38개 + 실자료 검증 화면 18개
 node scripts/check-assets.mjs            # 화면 파일 버전 점검
 python3 scripts/train_ai.py              # 학습형 전파율 모듈 재학습(약 2분) → docs/data/ai_model.json
@@ -164,6 +170,8 @@ python3 -m realdata.cases                            # 사례 3개 → realdata/
 python3 scripts/build_backtest.py                    # 웹용 집계 → docs/data/backtest.json
 python3 -m realdata.run_all --dry-run                # 새 자료가 들어왔을 때: 무엇이 바뀔지만 보기
 python3 -m realdata.run_all                          # 새 자료 반영을 한 번에(모형·설정 고정, 평가 기간만 늘리고 이유를 기록)
+python3 -m realdata_ship.run_all                     # 두 번째 분석(선박 단위): 격자·선박 표 → 대기열 → SIS → 검증 → 시험 → 그림·backtest_ship.json·문서 절
+python3 -m realdata_ship.run_all --relabel           # 새 관제정보가 들어왔을 때: data-kit 라벨부터 다시
 ```
 
 - 평가 기간은 한 번만 계산합니다. 다시 계산하려면 `evaluate final`에 `--rerun-reason "이유"`를 붙여야 하고, 이유가 `realdata/results/test_runs.json`에 쌓입니다.
@@ -183,12 +191,15 @@ R-Delay/
 │  ├─ analysis.html    분석 화면(경보·원인·전망·검증 요약)
 │  ├─ method.html      작동 원리·검증(수식·판정 규칙·검증 표)
 │  ├─ backtest.html    실자료 검증(부산신항 공개 자료 백테스트 결과)
+│  ├─ backtest-ship.html  선박별 검증(두 번째 분석: 선박마다 도착 하루 전 경보)
 │  ├─ assets/          화면 css·js, 글꼴(OFL), 아이콘
 │  ├─ data/            미리 계산 결과 · AI 모듈 계수 · 검증 결과
-│  │  └─ backtest.json 실자료 백테스트 결과(부산신항 전체 집계 + 사례 3개 구간 그림 자료, scripts/build_backtest.py가 만듦)
+│  │  ├─ backtest.json 실자료 백테스트 결과(부산신항 전체 집계 + 사례 3개 구간 그림 자료, scripts/build_backtest.py가 만듦)
+│  │  └─ backtest_ship.json 선박별 검증 결과(리드별 지표·요인 제거 실험, realdata_ship이 만듦)
 │  ├─ py/rdelay/       Python 엔진: sis · volume · ai · engine · queue · cargo · stats · config · api
 │  └─ sw.js            오프라인 캐시(서비스 워커)
 ├─ realdata/           실자료 백테스트(검증 규칙 PROTOCOL.md · 코드 · 결과 집계 results/ · 그림 reports/), 원자료는 저장소에 없음
+├─ realdata_ship/      두 번째 분석: 선박별 하루 전 경보(PROTOCOL.md · 코드 · results/ · reports/), 원자료는 저장소에 없음
 ├─ scripts/            학습 · 미리 계산 · 검증 · 화면 캡처 · 시연 영상(demo/)
 │  └─ build_backtest.py  실자료 결과(realdata/results) → docs/data/backtest.json
 ├─ tests/              엔진 · 실자료 백테스트 코드(가짜 자료) · backtest.json 점검(pytest) · 화면 문구·브리핑 규칙(node --test)

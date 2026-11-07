@@ -57,6 +57,10 @@ jobs:
         run: python -c "import pandas, pyarrow, sklearn, scipy, holidays, matplotlib"
       - name: Backtest unit tests (no real data)
         run: MPLBACKEND=Agg python -m pytest -q -rs tests/test_realdata_features.py tests/test_realdata_units.py tests/test_backtest_json.py
+      - name: Ship-level backtest unit tests (no real data)
+        run: MPLBACKEND=Agg python -m pytest -q -rs tests/test_realdata_ship.py
+      - name: Ship-level web data
+        run: python -c "import json; d = json.load(open('docs/data/backtest_ship.json', encoding='utf-8')); h = d['headline']; assert 0 < h['pr_auc'] < 1 and d['lead']['24']['R3_logit']; print('backtest_ship.json ok', h['pr_auc'])"
 
   data-kit:
     runs-on: ubuntu-latest

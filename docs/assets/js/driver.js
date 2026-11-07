@@ -1,7 +1,7 @@
 // 기사님 화면: 배차 담당이 보낸 링크(driver.html?s=장면&c=화물&a=1)로 연다. 큰 글씨 한 줄 + 도착 시각별 소요 띠.
-import { driverAdvice } from "./derive.js?v=20261106a";
-import { clock, fmtDurShort, hourLabel, CARGO_SHORT } from "./format.js?v=20261106a";
-import { driverHeadline, cargoFacts, CARGO_META } from "./briefing.js?v=20261106a";
+import { driverAdvice } from "./derive.js?v=20261107a";
+import { clock, fmtDurShort, hourLabel, CARGO_SHORT } from "./format.js?v=20261107a";
+import { driverHeadline, cargoFacts, CARGO_META } from "./briefing.js?v=20261107a";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));

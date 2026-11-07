@@ -3,7 +3,7 @@
 // - 결과는 부산신항 전체 집계값이다. 배 단위로 내는 것은 사례 그림의 12시간 초과 대기 선박뿐이며, 그것도 시 단위로 내린 도착 시각과
 //   대기 시간 구간(case_bands)만 있다(선박 이름·호출부호·터미널 없음). 보류해 둔 시험 기간은 화면에서 「평가 기간」으로 쓴다.
 // - DOM 없이 쓰는 순수 함수는 이름을 붙여 내보낸다(tests/backtest.test.mjs). 화면은 document가 있을 때만 그린다.
-import { svgEl, niceTicks } from "./charts.js?v=20261106a";
+import { svgEl, niceTicks } from "./charts.js?v=20261107a";
 
 const DASH = "–";
 const HOUR = 3600e3;
